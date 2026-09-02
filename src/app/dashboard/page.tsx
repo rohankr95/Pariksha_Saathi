@@ -1,16 +1,19 @@
 import Link from "next/link";
-import { Flame, Star, PlayCircle, Lightbulb, Target } from "lucide-react";
+import { Flame, Star, PlayCircle, Lightbulb, Target, Award, BookOpen } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
+import { BadgeList } from "@/components/dashboard/badge-list";
 import { requireUser } from "@/lib/require-role";
 import { prisma } from "@/lib/prisma";
-import { getT } from "@/lib/i18n/server";
+import { getSubjectWiseAccuracy } from "@/lib/queries/dashboard";
+import { getT, getServerLocale } from "@/lib/i18n/server";
 
 export default async function DashboardPage() {
   const t = await getT();
+  const locale = await getServerLocale();
   const session = await requireUser();
 
-  const [streak, lecturesWatched, attempts] = await Promise.all([
+  const [streak, lecturesWatched, attempts, subjectAccuracy] = await Promise.all([
     prisma.studentStreak.upsert({
       where: { userId: session.user.id },
       update: {},
@@ -21,8 +24,9 @@ export default async function DashboardPage() {
       where: { studentId: session.user.id, submittedAt: { not: null } },
       include: { quiz: { select: { title: true } } },
       orderBy: { submittedAt: "desc" },
-      take: 5,
+      take: 8,
     }),
+    getSubjectWiseAccuracy(session.user.id),
   ]);
 
   const avgAccuracy =
@@ -36,6 +40,8 @@ export default async function DashboardPage() {
     { label: t("dashboard.lecturesWatched"), value: lecturesWatched, icon: PlayCircle, color: "--color-section-lectures" },
     { label: t("dashboard.avgAccuracy"), value: `${avgAccuracy}%`, icon: Target, color: "--color-section-leaderboard" },
   ];
+
+  const trend = [...attempts].reverse();
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
@@ -65,11 +71,62 @@ export default async function DashboardPage() {
         })}
       </div>
 
+      <div className="mt-8 grid gap-6 lg:grid-cols-2">
+        <div>
+          <h2 className="mb-3 flex items-center gap-1.5 font-sans text-lg font-bold text-foreground">
+            <Award className="h-5 w-5 text-[var(--color-section-quiz)]" /> {t("dashboard.badgesHeading")}
+          </h2>
+          <BadgeList earned={streak.badges} />
+        </div>
+
+        <div>
+          <h2 className="mb-3 flex items-center gap-1.5 font-sans text-lg font-bold text-foreground">
+            <BookOpen className="h-5 w-5 text-[var(--color-section-leaderboard)]" /> {t("dashboard.subjectSummaryHeading")}
+          </h2>
+          {subjectAccuracy.length === 0 ? (
+            <p className="text-sm text-muted-foreground">{t("dashboard.noSubjectData")}</p>
+          ) : (
+            <Card className="space-y-3 p-4">
+              {subjectAccuracy.map((s) => (
+                <div key={s.id}>
+                  <div className="mb-1 flex items-center justify-between text-xs">
+                    <span className="font-medium text-foreground">{locale === "hi" ? s.nameHi : s.nameEn}</span>
+                    <span className="text-muted-foreground">{s.avgAccuracy}%</span>
+                  </div>
+                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-muted">
+                    <div
+                      className="h-full rounded-full bg-[var(--color-section-leaderboard)]"
+                      style={{ width: `${s.avgAccuracy}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </Card>
+          )}
+        </div>
+      </div>
+
+      {trend.length > 1 && (
+        <div className="mt-8">
+          <h2 className="mb-3 font-sans text-lg font-bold text-foreground">{t("dashboard.trendHeading")}</h2>
+          <Card className="flex items-end gap-2 p-4" style={{ height: "120px" }}>
+            {trend.map((a) => (
+              <div key={a.id} className="flex flex-1 flex-col items-center justify-end gap-1" title={`${a.accuracy ?? 0}%`}>
+                <div
+                  className="w-full rounded-t-[var(--radius-sm)] bg-[var(--color-section-quiz)]"
+                  style={{ height: `${Math.max(4, a.accuracy ?? 0)}%` }}
+                />
+              </div>
+            ))}
+          </Card>
+        </div>
+      )}
+
       <div className="mt-8">
         <h2 className="mb-3 font-sans text-lg font-bold text-foreground">{t("dashboard.recentQuizzesHeading")}</h2>
         {attempts.length > 0 ? (
           <div className="space-y-2">
-            {attempts.map((a) => (
+            {attempts.slice(0, 5).map((a) => (
               <Link
                 key={a.id}
                 href={`/quiz/${a.quizId}/result/${a.id}`}
@@ -93,8 +150,6 @@ export default async function DashboardPage() {
           />
         )}
       </div>
-
-      <p className="mt-8 text-xs text-muted-foreground">{t("dashboard.futurePhaseNote")}</p>
     </div>
   );
 }

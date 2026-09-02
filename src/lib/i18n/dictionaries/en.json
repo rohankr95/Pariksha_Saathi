@@ -84,6 +84,13 @@
   "search": {
     "comingSoonDesc": "Search across lectures, notes, and books will be added in an upcoming phase."
   },
+  "pwa": {
+    "offlineTitle": "You're offline",
+    "offlineDesc": "Check your internet connection and try again. Pages you've already visited may still open offline.",
+    "installPrompt": "Install Pariksha Saathi on your device for a better experience.",
+    "install": "Install",
+    "dismiss": "Dismiss"
+  },
   "legal": {
     "privacyTitle": "Privacy Policy",
     "privacyBody": "Pariksha Saathi collects only the minimum information needed from students — name, class, school, block, and contact details — solely to provide educational services. Mobile numbers and full names are never shown on the public leaderboard. Answer copies are accessible only to the student concerned and the assigned teacher.",

@@ -6,10 +6,25 @@
   "xp": "XP अंक",
   "lecturesWatched": "देखे गए व्याख्यान",
   "avgAccuracy": "औसत सटीकता",
+  "badgesHeading": "उपलब्धि बैज",
+  "subjectSummaryHeading": "विषयवार सारांश",
+  "noSubjectData": "अभी कोई प्रश्नोत्तरी डेटा उपलब्ध नहीं है।",
+  "trendHeading": "हाल की सटीकता प्रवृत्ति",
   "recentQuizzesHeading": "हाल की प्रश्नोत्तरी",
   "scoreLine": "{score} अंक · {accuracy}%",
   "noAttemptsTitle": "अभी तक कोई प्रश्नोत्तरी नहीं दी",
   "noAttemptsDesc": "अभ्यास शुरू करें और अपनी तैयारी जाँचें।",
   "browseQuizzes": "प्रश्नोत्तरी देखें",
-  "futurePhaseNote": "मार्क्स ट्रेंड चार्ट, बैज और चैप्टर-वार सारांश Phase 6 में जोड़े जाएँगे।"
+  "badges": {
+    "FIRST_QUIZ": "पहली प्रश्नोत्तरी",
+    "QUIZ_10": "10 प्रश्नोत्तरी पूर्ण",
+    "QUIZ_25": "25 प्रश्नोत्तरी पूर्ण",
+    "STREAK_3": "3-दिन स्ट्रीक",
+    "STREAK_7": "7-दिन स्ट्रीक",
+    "STREAK_30": "30-दिन स्ट्रीक",
+    "XP_100": "100 XP",
+    "XP_500": "500 XP",
+    "XP_1000": "1000 XP",
+    "PERFECT_SCORE": "पूर्ण अंक"
+  }
 }
