@@ -175,6 +175,16 @@ feature all work identically.) Set `CRON_SECRET` in production — the route
 runs unauthenticated only when it's unset, which is fine for local dev but
 not for a public deployment.
 
+`GET /api/cron/doubt-reminders` (added Phase 5) works the same way for
+`DoubtBooking` rows — 24h and 1h before `slotStart`, gated by
+`reminderSent24h`/`reminderSent1h` — but should run every ~15 minutes rather
+than daily, since a 1-hour-out reminder window is much narrower than a
+7-day one:
+
+```bash
+curl -H "Authorization: Bearer $CRON_SECRET" https://your-domain/api/cron/doubt-reminders
+```
+
 ## Career interest quiz (Phase 3)
 
 `/career/quiz` is a 10-question, entirely client-side quiz
@@ -244,20 +254,64 @@ before handing back a stored `{ path, url, sizeBytes }`.
   Only `displayName`/school/class are ever shown; students can opt out
   (`onLeaderboard`) from `/leaderboard` itself.
 
+## Class Request, Doubt Class Scheduler & Answer Copy Checking (Phase 5)
+
+- **Class Request** (`/class-request`, `src/app/class-request/`) — a student
+  submits a subject/chapter/preferred-teacher request; `submitClassRequest`
+  first checks `findSimilarOpenRequest` (case-insensitive chapter match) and,
+  if a matching open request already exists, upvotes it instead of creating a
+  duplicate — the feed (`getOpenClassRequestFeed`) is ordered by upvotes so
+  popular asks surface naturally. Admin (`/admin/class-requests`) triages by
+  status with a "ट्रेंडिंग" badge at ≥5 upvotes and emails the student on any
+  status change.
+- **Doubt Class Scheduler** (`/doubt-class`, `src/app/doubt-class/`) — the
+  concurrency-sensitive piece:
+  - Teachers publish weekly availability rules (weekday/time/slot
+    length/capacity/mode) plus one-off blackout dates from
+    `/admin/doubt-classes/availability`.
+  - `src/lib/doubt-slots.ts` computes real bookable slots 21 days out from
+    those rules, minus blackout dates, minus a 30-minute minimum-notice
+    window, minus already-booked counts per exact slot — never trusting
+    anything the client sends about what's "open".
+  - **Booking is transaction-safe.** `bookSlot` (`src/app/doubt-class/actions.ts`)
+    re-derives the slot server-side, then re-checks capacity and inserts
+    inside a `Prisma.TransactionIsolationLevel.Serializable` transaction,
+    backed by a `@@unique([teacherId, slotStart, studentId])` constraint —
+    so one student can't double-book a slot, but multiple students *can*
+    share a group-capacity slot, and a race on the last seat fails cleanly
+    with "यह स्लॉट अभी-अभी बुक हो गया" rather than double-booking anyone.
+  - A shared `.ics` calendar file (`src/lib/ics.ts`, hand-written VEVENT
+    generation, no dependency) is emailed to both student and teacher on
+    booking; `GET /api/cron/doubt-reminders` sends 24h/1h reminder emails
+    (wire it to a scheduler — see Deployment).
+  - Cancellation enforces a 2-hour cutoff for students (teachers can cancel
+    any time but must give a reason); teachers mark ATTENDED/NO_SHOW with
+    notes from `/admin/doubt-classes`; students rate ATTENDED sessions from
+    `/doubt-class/my-bookings`.
+- **Answer Copy Checking** (`/answer-copies`, `src/app/answer-copies/`) — a
+  student uploads a PDF/JPG/PNG (≤15MB, validated server-side in
+  `/api/answer-copies/upload`) against a subject + teacher, capped at
+  `ANSWER_COPY_WEEKLY_LIMIT` (3) submissions per rolling 7 days
+  (`countRecentSubmissions`). The teacher's queue
+  (`/admin/answer-copies`) moves a copy SUBMITTED → UNDER_EVALUATION →
+  CHECKED, optionally attaching an annotated file and marks/remarks; the
+  student is emailed once CHECKED. Super Admin sees a cross-teacher overview
+  (pending-per-teacher counts, average turnaround time, recent activity).
+
 ## What's stubbed vs. built
 
-Phases 1–4 deliver the schema, auth, design system, home page, and nine
-full modules (Lectures, Notes, Books, Stories, Exam Dates, Career Roadmap,
-Olympiad, Quiz, Leaderboard) — public browsing with real filters/pagination,
-subscriptions/interest registration, and full teacher admin CRUD, backed by
-real file uploads, email reminders, server-side scoring, and the database —
-not placeholders.
+Phases 1–5 deliver the schema, auth, design system, home page, and all
+twelve public modules (Lectures, Notes, Books, Stories, Exam Dates, Career
+Roadmap, Olympiad, Quiz, Leaderboard, Class Request, Doubt Class Scheduler,
+Answer Copy Checking) — public browsing with real filters/pagination,
+subscriptions/interest registration/bookings, and full teacher admin CRUD,
+backed by real file uploads, email reminders/notifications, server-side
+scoring, transaction-safe booking, and the database — not placeholders.
 
-The remaining three public module routes and three admin module pages
-already exist and are reachable through real navigation, but show a
-"coming soon" placeholder until their phase (see below) adds the actual
-CRUD. `Prisma Client` is already generated against the complete data
-model, so later phases plug straight in without any schema changes.
+Phase 6 (student dashboard depth, streaks/XP/badges, PWA, dark-mode polish,
+analytics, audit log, accessibility pass, performance tuning, Docker
+deployment) is what remains. `Prisma Client` is already generated against
+the complete data model, so it plugs straight in without any schema changes.
 
 ---
 
@@ -268,8 +322,8 @@ model, so later phases plug straight in without any schema changes.
 | 1 | Project setup, DB schema, auth, role-based routing, admin shell, design system, full home page |
 | 2 | Lectures, Notes, Books, Motivational Stories (+ their admin CRUD) |
 | 3 | Exam Dates with reminders, Career Roadmap, Olympiad |
-| **4 (this phase)** | Quiz engine, results, Leaderboard |
-| 5 | Class Request, Doubt Class Scheduler (+ email/.ics), Answer Copy Checking |
+| 4 | Quiz engine, results, Leaderboard |
+| **5 (this phase)** | Class Request, Doubt Class Scheduler (+ email/.ics), Answer Copy Checking |
 | 6 | Student dashboard depth, streaks/XP/badges, PWA, dark-mode polish, analytics, audit log, accessibility pass, performance tuning, Docker deployment |
 
 ---
