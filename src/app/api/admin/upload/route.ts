@@ -15,6 +15,8 @@ const KIND_RULES: Record<string, { folder: string; maxBytes: number; mimeTypes: 
     maxBytes: 5 * 1024 * 1024,
     mimeTypes: ["image/png", "image/jpeg", "image/webp"],
   },
+  "exam-notification": { folder: "exams", maxBytes: 10 * 1024 * 1024, mimeTypes: ["application/pdf"] },
+  "olympiad-syllabus": { folder: "olympiads", maxBytes: 10 * 1024 * 1024, mimeTypes: ["application/pdf"] },
 };
 
 export async function POST(req: NextRequest) {

@@ -8,11 +8,13 @@ lecture, note, book, story, exam date, roadmap and quiz question is managed
 from an admin panel by teachers, with no coding required.
 
 This repo is being built **phase by phase** (see [Build Order](#build-order)
-below). This README reflects **Phase 1 + Phase 2**: project setup, database
-schema, authentication, role-based routing, the design system, the full home
-page, and four complete content modules — Lectures, Notes, Books, and
-Motivational Stories — each with real public browsing/filtering and full
-teacher admin CRUD (including file uploads).
+below). This README reflects **Phases 1–3**: project setup, database schema,
+authentication, role-based routing, the design system, the full home page;
+Lectures, Notes, Books and Motivational Stories with real public
+browsing/filtering and full teacher admin CRUD (including file uploads); and
+Exam Dates (with email reminders), Career Roadmap (with an interest quiz),
+and Olympiad — each with real public pages, subscriptions/interest
+registration, and admin CRUD.
 
 ---
 
@@ -148,6 +150,41 @@ Notable pieces:
   unpublished + `isSubmission: true` and show up highlighted at the top of the
   admin list for moderation.
 
+## Email & scheduled reminders (Phase 3)
+
+`src/lib/email.ts` abstracts sending behind `EMAIL_DRIVER` (`smtp` |
+`resend`), each rendered through a shared Hindi-first HTML template
+(`renderNotification`). If the selected driver's credentials aren't
+configured, it **falls back to logging the email to the console** instead of
+failing — so the reminder pipeline runs and is testable locally without any
+real SMTP/API setup.
+
+`GET /api/cron/exam-reminders` finds every `ExamSubscription` whose exam's
+`applyEnd` is ≤7 or ≤1 days away and the matching flag
+(`reminderSent7d`/`reminderSent1d`) hasn't been sent yet, emails the student,
+and marks the flag so it's never sent twice. It's a plain HTTP route — wire
+it to any scheduler that can do a daily `curl`:
+
+```bash
+curl -H "Authorization: Bearer $CRON_SECRET" https://your-domain/api/cron/exam-reminders
+```
+
+(Linux cron, a GitHub Actions scheduled workflow, or your host's own cron
+feature all work identically.) Set `CRON_SECRET` in production — the route
+runs unauthenticated only when it's unset, which is fine for local dev but
+not for a public deployment.
+
+## Career interest quiz (Phase 3)
+
+`/career/quiz` is a 10-question, entirely client-side quiz
+(`src/lib/career-quiz.ts` + `src/components/career/interest-quiz.tsx`) that
+scores answers against career categories, then redirects to
+`/career?suggested=<top 3 categories>`. The `/career` page matches those
+against published `CareerRoadmap.title`s (case-insensitive `contains`) and
+shows them in a "सुझाए गए" section — so it degrades gracefully to "no exact
+match yet" rather than breaking when the admin hasn't published every
+category the quiz can suggest.
+
 ## Auth & role-based access
 
 - `src/lib/auth.config.ts` — edge-safe config (used by `src/proxy.ts`,
@@ -180,12 +217,13 @@ before handing back a stored `{ path, url, sizeBytes }`.
 
 ## What's stubbed vs. built
 
-Phase 1 + 2 deliver the schema, auth, design system, home page, and four
-full content modules (Lectures, Notes, Books, Stories) — public browsing
-with real filters/pagination and full teacher admin CRUD, backed by real
-file uploads and the database, not placeholders.
+Phases 1–3 deliver the schema, auth, design system, home page, and seven
+full modules (Lectures, Notes, Books, Stories, Exam Dates, Career Roadmap,
+Olympiad) — public browsing with real filters/pagination, subscriptions/
+interest registration, and full teacher admin CRUD, backed by real file
+uploads, email reminders, and the database — not placeholders.
 
-The remaining eight public module routes and eight admin module pages
+The remaining five public module routes and five admin module pages
 already exist and are reachable through real navigation, but show a
 "coming soon" placeholder until their phase (see below) adds the actual
 CRUD. `Prisma Client` is already generated against the complete data
@@ -198,8 +236,8 @@ model, so later phases plug straight in without any schema changes.
 | Phase | Scope |
 |---|---|
 | 1 | Project setup, DB schema, auth, role-based routing, admin shell, design system, full home page |
-| **2 (this phase)** | Lectures, Notes, Books, Motivational Stories (+ their admin CRUD) |
-| 3 | Exam Dates with reminders, Career Roadmap, Olympiad |
+| 2 | Lectures, Notes, Books, Motivational Stories (+ their admin CRUD) |
+| **3 (this phase)** | Exam Dates with reminders, Career Roadmap, Olympiad |
 | 4 | Quiz engine, results, Leaderboard |
 | 5 | Class Request, Doubt Class Scheduler (+ email/.ics), Answer Copy Checking |
 | 6 | Student dashboard depth, streaks/XP/badges, PWA, dark-mode polish, analytics, audit log, accessibility pass, performance tuning, Docker deployment |
