@@ -8,9 +8,11 @@ lecture, note, book, story, exam date, roadmap and quiz question is managed
 from an admin panel by teachers, with no coding required.
 
 This repo is being built **phase by phase** (see [Build Order](#build-order)
-below). This README reflects **Phase 1**: project setup, database schema,
-authentication, role-based routing, the design system, and the full home
-page.
+below). This README reflects **Phase 1 + Phase 2**: project setup, database
+schema, authentication, role-based routing, the design system, the full home
+page, and four complete content modules — Lectures, Notes, Books, and
+Motivational Stories — each with real public browsing/filtering and full
+teacher admin CRUD (including file uploads).
 
 ---
 
@@ -117,6 +119,35 @@ colour (`--color-section-*`), defined once in `src/lib/sections.ts` and
 `src/lib/admin-nav.ts` and reused everywhere (home grid, admin sidebar,
 personalised strip) so the mapping never drifts.
 
+## Content modules (Phase 2)
+
+Each of the four modules follows the same shape:
+
+- `src/lib/queries/<module>.ts` — public, published-only queries (filters + pagination)
+- `src/lib/queries/admin-<module>.ts` — admin queries (includes drafts)
+- `src/app/admin/<module>/actions.ts` — server actions: create, update, soft-delete
+  (`deletedAt`, with the record kept for a restore window), publish/unpublish, reorder
+- `src/app/admin/<module>/{page,new/page,[id]/edit/page}.tsx` — list + forms
+- `src/app/<module>/page.tsx` (+ `[id]/page.tsx` for Lectures/Stories) — public pages
+- `src/components/admin/<module>-form.tsx` — the shared create/edit form
+
+Notable pieces:
+
+- **Lectures** — YouTube ID parsing/thumbnailing (`src/lib/youtube.ts`), a
+  `youtube-nocookie.com` embed with an "Open in YouTube" fallback, watch-progress
+  tracking per student, view counting, and a broken-link report queue surfaced on
+  the admin list.
+- **Notes** — PDF upload, a `GET /notes/[id]/download` route that increments the
+  download counter server-side then redirects to the file (works with no client
+  JS), and a `NoteVersion` history record written whenever a file is replaced.
+- **Books** — supports either an uploaded PDF *or* a linked external `sourceUrl`
+  (at least one required), with a mandatory copyright/source-cleared checkbox
+  before a book can be saved.
+- **Stories** — logged-in students can submit their own story at `/stories/submit`
+  (guarded server-side, not just hidden in the UI); submissions land as
+  unpublished + `isSubmission: true` and show up highlighted at the top of the
+  admin list for moderation.
+
 ## Auth & role-based access
 
 - `src/lib/auth.config.ts` — edge-safe config (used by `src/proxy.ts`,
@@ -131,15 +162,34 @@ personalised strip) so the mapping never drifts.
   the server inside every protected page/server action — middleware alone
   is never trusted as the only gate.
 
-## What's stubbed vs. built in Phase 1
+## File storage
 
-Phase 1 delivers the schema, auth, design system and home page in full.
-Every public module route (`/lectures`, `/notes`, `/books`, …) and every
-admin module page already exists and is reachable through real navigation —
-but shows a "coming soon" placeholder until its phase (see below) adds the
-actual CRUD, listings, and filters. This is intentional: `Prisma
-Client is already generated against the complete data model, so later
-phases plug straight in without any schema changes.
+`src/lib/storage.ts` abstracts uploads behind `STORAGE_DRIVER` (`local` |
+`s3`) so the app is portable without code changes:
+
+- **local** (default): writes under `LOCAL_UPLOAD_DIR` (outside `public/`,
+  since it needs to persist across deploys/restarts on a VPS) and serves
+  files through `GET /api/files/[...path]` (path-traversal guarded,
+  cache-control headers set).
+- **s3**: uses `@aws-sdk/client-s3` against any S3-compatible endpoint
+  (Supabase Storage, Cloudflare R2, AWS S3) — set `S3_*` env vars.
+
+Uploads go through the role-gated `POST /api/admin/upload` route (teacher/
+super-admin only), which validates mime type and a per-kind size limit
+before handing back a stored `{ path, url, sizeBytes }`.
+
+## What's stubbed vs. built
+
+Phase 1 + 2 deliver the schema, auth, design system, home page, and four
+full content modules (Lectures, Notes, Books, Stories) — public browsing
+with real filters/pagination and full teacher admin CRUD, backed by real
+file uploads and the database, not placeholders.
+
+The remaining eight public module routes and eight admin module pages
+already exist and are reachable through real navigation, but show a
+"coming soon" placeholder until their phase (see below) adds the actual
+CRUD. `Prisma Client` is already generated against the complete data
+model, so later phases plug straight in without any schema changes.
 
 ---
 
@@ -147,8 +197,8 @@ phases plug straight in without any schema changes.
 
 | Phase | Scope |
 |---|---|
-| **1 (this phase)** | Project setup, DB schema, auth, role-based routing, admin shell, design system, full home page |
-| 2 | Lectures, Notes, Books, Motivational Stories (+ their admin CRUD) |
+| 1 | Project setup, DB schema, auth, role-based routing, admin shell, design system, full home page |
+| **2 (this phase)** | Lectures, Notes, Books, Motivational Stories (+ their admin CRUD) |
 | 3 | Exam Dates with reminders, Career Roadmap, Olympiad |
 | 4 | Quiz engine, results, Leaderboard |
 | 5 | Class Request, Doubt Class Scheduler (+ email/.ics), Answer Copy Checking |
