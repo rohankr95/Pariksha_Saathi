@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getLeaderboard } from "@/lib/queries/leaderboard";
 
 export async function getHomeStats() {
   const [students, lectures, doubtsResolved, quizAttempts] = await Promise.all([
@@ -29,33 +30,15 @@ export async function getFeaturedStory() {
 }
 
 export async function getLeaderboardPreview() {
-  const grouped = await prisma.quizAttempt.groupBy({
-    by: ["studentId"],
-    where: { submittedAt: { not: null } },
-    _sum: { score: true },
-    _avg: { accuracy: true },
-    orderBy: { _sum: { score: "desc" } },
-    take: 3,
-  });
-
-  if (grouped.length === 0) return [];
-
-  const students = await prisma.user.findMany({
-    where: { id: { in: grouped.map((g) => g.studentId) }, onLeaderboard: true },
-    select: { id: true, displayName: true, name: true, school: true },
-  });
-  const byId = new Map(students.map((s) => [s.id, s]));
-
-  return grouped
-    .filter((g) => byId.has(g.studentId))
-    .map((g, i) => ({
-      rank: i + 1,
-      studentId: g.studentId,
-      name: byId.get(g.studentId)?.displayName || byId.get(g.studentId)?.name || "विद्यार्थी",
-      school: byId.get(g.studentId)?.school ?? "",
-      points: g._sum.score ?? 0,
-      accuracy: Math.round(g._avg.accuracy ?? 0),
-    }));
+  const entries = await getLeaderboard({ period: "ALL_TIME" });
+  return entries.slice(0, 3).map((e) => ({
+    rank: e.rank,
+    studentId: e.studentId,
+    name: e.displayName,
+    school: e.school,
+    points: e.points,
+    accuracy: e.accuracy,
+  }));
 }
 
 export async function getNearestExamDeadline() {

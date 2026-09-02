@@ -8,13 +8,14 @@ lecture, note, book, story, exam date, roadmap and quiz question is managed
 from an admin panel by teachers, with no coding required.
 
 This repo is being built **phase by phase** (see [Build Order](#build-order)
-below). This README reflects **Phases 1–3**: project setup, database schema,
+below). This README reflects **Phases 1–4**: project setup, database schema,
 authentication, role-based routing, the design system, the full home page;
 Lectures, Notes, Books and Motivational Stories with real public
-browsing/filtering and full teacher admin CRUD (including file uploads); and
+browsing/filtering and full teacher admin CRUD (including file uploads);
 Exam Dates (with email reminders), Career Roadmap (with an interest quiz),
 and Olympiad — each with real public pages, subscriptions/interest
-registration, and admin CRUD.
+registration, and admin CRUD; and a full Quiz engine (server-scored,
+shuffled, timed, autosaved) with results and a live Leaderboard.
 
 ---
 
@@ -215,15 +216,44 @@ Uploads go through the role-gated `POST /api/admin/upload` route (teacher/
 super-admin only), which validates mime type and a per-kind size limit
 before handing back a stored `{ path, url, sizeBytes }`.
 
+## Quiz engine & anti-cheating (Phase 4)
+
+- `src/lib/quiz-scoring.ts` — pure, side-effect-free scoring for all five
+  question types (MCQ single/multiple, true/false, assertion-reason,
+  numeric), plus a Fisher–Yates `shuffle()`.
+- **Server-side scoring only.** The correct answer never reaches the client
+  before submission: `startAttempt` shuffles each question's option order
+  once and stores it on the `QuizAttempt` row; the take page
+  (`src/lib/build-client-questions.ts`) strips `correctAnswer` and reorders
+  option *text* per that shuffle before sending anything to the browser. A
+  student's click is mapped back from the shuffled position to the original
+  option index client-side, and only that index is ever persisted — so the
+  server always scores in the original numbering without needing to expose it.
+- **Autosave & resume.** Every answer/mark-for-review is written to
+  `QuizAttempt.answersJson` via a server action on selection. Reloading or
+  reconnecting mid-attempt just re-fetches that same row — there's no
+  separate "resume" code path to keep in sync.
+- **Anti-cheat basics:** per-question option shuffle, a tab-switch counter
+  (`visibilitychange` → `recordTabSwitch`), and a countdown computed from the
+  server-stored `startedAt` (client tampering with the displayed clock can't
+  move the real deadline — submission time is still checked server-side).
+- **Leaderboard** (`src/lib/queries/leaderboard.ts`) is computed live via
+  `groupBy` over `QuizAttempt` rather than a materialized/cron-refreshed
+  table — simpler to keep correct, and fast enough at this scale. Ranking:
+  total score → accuracy → average time (documented on the page itself).
+  Only `displayName`/school/class are ever shown; students can opt out
+  (`onLeaderboard`) from `/leaderboard` itself.
+
 ## What's stubbed vs. built
 
-Phases 1–3 deliver the schema, auth, design system, home page, and seven
+Phases 1–4 deliver the schema, auth, design system, home page, and nine
 full modules (Lectures, Notes, Books, Stories, Exam Dates, Career Roadmap,
-Olympiad) — public browsing with real filters/pagination, subscriptions/
-interest registration, and full teacher admin CRUD, backed by real file
-uploads, email reminders, and the database — not placeholders.
+Olympiad, Quiz, Leaderboard) — public browsing with real filters/pagination,
+subscriptions/interest registration, and full teacher admin CRUD, backed by
+real file uploads, email reminders, server-side scoring, and the database —
+not placeholders.
 
-The remaining five public module routes and five admin module pages
+The remaining three public module routes and three admin module pages
 already exist and are reachable through real navigation, but show a
 "coming soon" placeholder until their phase (see below) adds the actual
 CRUD. `Prisma Client` is already generated against the complete data
@@ -237,8 +267,8 @@ model, so later phases plug straight in without any schema changes.
 |---|---|
 | 1 | Project setup, DB schema, auth, role-based routing, admin shell, design system, full home page |
 | 2 | Lectures, Notes, Books, Motivational Stories (+ their admin CRUD) |
-| **3 (this phase)** | Exam Dates with reminders, Career Roadmap, Olympiad |
-| 4 | Quiz engine, results, Leaderboard |
+| 3 | Exam Dates with reminders, Career Roadmap, Olympiad |
+| **4 (this phase)** | Quiz engine, results, Leaderboard |
 | 5 | Class Request, Doubt Class Scheduler (+ email/.ics), Answer Copy Checking |
 | 6 | Student dashboard depth, streaks/XP/badges, PWA, dark-mode polish, analytics, audit log, accessibility pass, performance tuning, Docker deployment |
 

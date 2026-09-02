@@ -15,7 +15,14 @@ export function FileUploadField({
   onChange,
   required,
 }: {
-  kind: "note-file" | "book-file" | "book-cover" | "story-photo" | "exam-notification" | "olympiad-syllabus";
+  kind:
+    | "note-file"
+    | "book-file"
+    | "book-cover"
+    | "story-photo"
+    | "exam-notification"
+    | "olympiad-syllabus"
+    | "question-image";
   accept: string;
   label: string;
   value: UploadedFile | null;
