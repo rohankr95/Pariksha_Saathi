@@ -1,0 +1,199 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Design tokens — Pariksha Saathi
+   Bright, youthful, high-contrast palette for a rural/semi-urban student
+   audience on low-end phones. See DESIGN_TOKENS.md for the documented
+   rationale and contrast checks.
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Brand */
+  --ps-indigo-50: #eef1ff;
+  --ps-indigo-100: #e0e4ff;
+  --ps-indigo-500: #4338ca;
+  --ps-indigo-600: #372ea8;
+  --ps-indigo-700: #2c2485;
+  --ps-indigo-900: #1e1a5c;
+
+  --ps-saffron-50: #fff7e6;
+  --ps-saffron-100: #ffedc2;
+  --ps-saffron-400: #ffb020;
+  --ps-saffron-500: #f59300;
+  --ps-saffron-600: #cc7a00;
+
+  --ps-green-500: #1a9c5e;
+  --ps-green-600: #16824f;
+  --ps-coral-500: #ef5f5f;
+  --ps-coral-600: #dd4444;
+  --ps-violet-500: #8353e0;
+  --ps-violet-600: #6e3fc7;
+  --ps-sky-500: #0ea5c4;
+  --ps-rose-500: #e0559a;
+
+  /* Neutrals */
+  --ps-ink-950: #14162b;
+  --ps-ink-900: #1c1f3b;
+  --ps-ink-700: #3b3f63;
+  --ps-ink-500: #6b6f95;
+  --ps-ink-300: #a9adc9;
+  --ps-ink-100: #e6e7f2;
+  --ps-ink-50: #f4f5fb;
+  --ps-white: #ffffff;
+
+  /* Semantic (light) */
+  --background: var(--ps-white);
+  --foreground: var(--ps-ink-950);
+  --surface: var(--ps-white);
+  --surface-muted: var(--ps-ink-50);
+  --border: var(--ps-ink-100);
+  --primary: var(--ps-indigo-500);
+  --primary-foreground: var(--ps-white);
+  --accent: var(--ps-saffron-500);
+  --accent-foreground: var(--ps-ink-950);
+  --success: var(--ps-green-500);
+  --muted-foreground: var(--ps-ink-500);
+  --ring: var(--ps-indigo-500);
+
+  /* Radii / shadows / spacing scale used across cards & buttons */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --shadow-card: 0 1px 2px rgba(20, 22, 43, 0.04), 0 8px 24px rgba(20, 22, 43, 0.06);
+  --shadow-card-hover: 0 4px 12px rgba(20, 22, 43, 0.08), 0 16px 32px rgba(20, 22, 43, 0.1);
+}
+
+[data-theme="dark"] {
+  --background: var(--ps-ink-950);
+  --foreground: var(--ps-ink-50);
+  --surface: var(--ps-ink-900);
+  --surface-muted: #23264a;
+  --border: #2c2f54;
+  --primary: #6f7bf0;
+  --primary-foreground: var(--ps-ink-950);
+  --accent: var(--ps-saffron-400);
+  --accent-foreground: var(--ps-ink-950);
+  --success: #34c98a;
+  --muted-foreground: var(--ps-ink-300);
+  --ring: #6f7bf0;
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.4), 0 16px 32px rgba(0, 0, 0, 0.45);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background: var(--ps-ink-950);
+    --foreground: var(--ps-ink-50);
+    --surface: var(--ps-ink-900);
+    --surface-muted: #23264a;
+    --border: #2c2f54;
+    --primary: #6f7bf0;
+    --primary-foreground: var(--ps-ink-950);
+    --accent: var(--ps-saffron-400);
+    --accent-foreground: var(--ps-ink-950);
+    --success: #34c98a;
+    --muted-foreground: var(--ps-ink-300);
+    --ring: #6f7bf0;
+    --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
+    --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.4), 0 16px 32px rgba(0, 0, 0, 0.45);
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-ring: var(--ring);
+
+  --color-section-lectures: var(--ps-indigo-500);
+  --color-section-notes: var(--ps-sky-500);
+  --color-section-books: var(--ps-violet-500);
+  --color-section-stories: var(--ps-saffron-500);
+  --color-section-examdates: var(--ps-coral-500);
+  --color-section-career: var(--ps-green-500);
+  --color-section-classrequest: var(--ps-rose-500);
+  --color-section-doubtclass: #2f8fd6;
+  --color-section-olympiad: #c9922f;
+  --color-section-quiz: #7c5cf0;
+  --color-section-leaderboard: #d99a1b;
+  --color-section-answercopies: #37a06b;
+
+  --font-sans: var(--font-poppins), var(--font-noto-devanagari), ui-sans-serif, sans-serif;
+  --font-body: var(--font-inter), var(--font-noto-devanagari), ui-sans-serif, sans-serif;
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+
+  --shadow-card: var(--shadow-card);
+  --shadow-card-hover: var(--shadow-card-hover);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html {
+    color-scheme: light;
+  }
+  html[data-theme="dark"] {
+    color-scheme: dark;
+  }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-body);
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+  }
+  :focus-visible {
+    outline: 3px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer utilities {
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    padding: 0.75rem 1.25rem;
+    border-radius: 0 0 var(--radius-md) 0;
+  }
+  .skip-link:focus {
+    left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

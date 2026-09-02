@@ -1,0 +1,93 @@
+{
+  "site": {
+    "name": "Pariksha Saathi",
+    "tagline": "Every student's companion — from preparation to success",
+    "district": "District Administration, Surajpur",
+    "department": "District Education Department, Surajpur, Chhattisgarh"
+  },
+  "nav": {
+    "home": "Home",
+    "lectures": "Lectures",
+    "notes": "Notes",
+    "books": "Books",
+    "stories": "Motivational Stories",
+    "examDates": "Exam Dates",
+    "career": "Career Roadmap",
+    "classRequest": "Class Request",
+    "doubtClass": "Doubt Class",
+    "olympiad": "Olympiad",
+    "quiz": "Quiz",
+    "leaderboard": "Leaderboard",
+    "answerCopies": "Answer Copy Checking",
+    "dashboard": "My Dashboard",
+    "profile": "Profile",
+    "admin": "Admin Panel",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout"
+  },
+  "home": {
+    "greeting": "Hi {name}! What shall we study today?",
+    "greetingGuest": "Welcome!",
+    "classLabel": "Class {class}",
+    "searchPlaceholder": "Search lectures, notes, books...",
+    "ctaStudy": "Start Studying",
+    "ctaDoubt": "Ask a Doubt",
+    "sectionsTitle": "Everything you need",
+    "statsStudents": "Students registered",
+    "statsLectures": "Lectures available",
+    "statsDoubts": "Doubts resolved",
+    "statsQuizzes": "Quizzes attempted",
+    "featuredStory": "Featured Story",
+    "topLeaderboard": "Top Performers",
+    "viewAll": "View all"
+  },
+  "sections": {
+    "lectures": { "title": "Lectures", "desc": "Subject-wise video lessons for Class 10 & 12" },
+    "notes": { "title": "Notes", "desc": "Chapter-wise downloadable notes" },
+    "books": { "title": "Books", "desc": "NCERT and reference book library" },
+    "stories": { "title": "Motivational Stories", "desc": "Stories of IAS officers, toppers and local achievers" },
+    "examDates": { "title": "Exam Dates", "desc": "Important dates for board & entrance exams" },
+    "career": { "title": "Career Roadmap", "desc": "Chart your career path" },
+    "classRequest": { "title": "Class Request", "desc": "Request a class on any topic" },
+    "doubtClass": { "title": "Doubt Class", "desc": "Talk directly to a teacher" },
+    "olympiad": { "title": "Olympiad", "desc": "National & state-level olympiad info" },
+    "quiz": { "title": "Quiz", "desc": "Practice and test your preparation" },
+    "leaderboard": { "title": "Leaderboard", "desc": "Top students of the district" },
+    "answerCopies": { "title": "Answer Copy Checking", "desc": "Get your answer sheet evaluated" }
+  },
+  "auth": {
+    "loginTitle": "Login",
+    "registerTitle": "Create a new account",
+    "email": "Email",
+    "password": "Password",
+    "name": "Full Name",
+    "mobile": "Mobile Number",
+    "classLevel": "Class",
+    "school": "School Name",
+    "block": "Block",
+    "submit": "Submit",
+    "loginCta": "Login",
+    "registerCta": "Register",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "invalidCredentials": "Incorrect email or password"
+  },
+  "common": {
+    "loading": "Loading...",
+    "noData": "No information available yet",
+    "tryAgain": "Try again",
+    "comingSoon": "Coming soon",
+    "language": "हिंदी"
+  },
+  "footer": {
+    "helpline": "Helpline",
+    "address": "Address",
+    "lastUpdated": "Last updated",
+    "policies": "Website Policies",
+    "accessibility": "Accessibility Statement",
+    "disclaimer": "Disclaimer",
+    "privacy": "Privacy Policy",
+    "copyright": "© District Administration, Surajpur. All rights reserved."
+  }
+}

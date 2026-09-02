@@ -1,0 +1,670 @@
+// Pariksha Saathi — Prisma schema
+// PostgreSQL, designed to be portable across Supabase / Neon / any managed Postgres.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Enums
+// ─────────────────────────────────────────────────────────────────────────
+
+enum Role {
+  STUDENT
+  TEACHER
+  SUPER_ADMIN
+}
+
+enum ClassLevel {
+  CLASS_9
+  CLASS_10
+  CLASS_11
+  CLASS_12
+}
+
+enum Language {
+  HINDI
+  ENGLISH
+  CHHATTISGARHI
+}
+
+enum BookCategory {
+  NCERT
+  SCERT_CGBSE
+  REFERENCE
+  COMPETITIVE
+  PREVIOUS_YEAR_PAPER
+  MODEL_ANSWER
+}
+
+enum ExamStatus {
+  UPCOMING
+  ONGOING
+  CLOSED
+}
+
+enum ClassRequestStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  ACCEPTED
+  SCHEDULED
+  COMPLETED
+  DECLINED
+}
+
+enum ClassRequestMode {
+  ONLINE
+  OFFLINE
+}
+
+enum BookingMode {
+  MEET
+  PHONE
+  IN_PERSON
+}
+
+enum BookingStatus {
+  BOOKED
+  CANCELLED
+  RESCHEDULED
+  ATTENDED
+  NO_SHOW
+}
+
+enum QuestionType {
+  MCQ_SINGLE
+  MCQ_MULTIPLE
+  TRUE_FALSE
+  ASSERTION_REASON
+  NUMERIC
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum AnswerCopyStatus {
+  SUBMITTED
+  ASSIGNED
+  UNDER_EVALUATION
+  CHECKED
+  RETURNED
+}
+
+enum LeaderboardPeriod {
+  WEEKLY
+  MONTHLY
+  ALL_TIME
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Users & Auth
+// ─────────────────────────────────────────────────────────────────────────
+
+model User {
+  id           String  @id @default(cuid())
+  name         String
+  email        String  @unique
+  mobile       String? @unique
+  passwordHash String
+  role         Role    @default(STUDENT)
+
+  // student fields
+  classLevel    ClassLevel?
+  stream        String?
+  school        String?
+  block         String?
+  displayName   String? // public, non-identifying name for leaderboard
+  avatarKey     String? // preset avatar identifier
+  onLeaderboard Boolean     @default(true)
+
+  // teacher fields
+  subjects Subject[] @relation("TeacherSubjects")
+
+  isActive        Boolean   @default(true)
+  emailVerifiedAt DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // relations
+  createdLectures        Lecture[]               @relation("LectureCreator")
+  createdNotes           Note[]                  @relation("NoteCreator")
+  createdQuizzes         Quiz[]                  @relation("QuizCreator")
+  examSubscriptions      ExamSubscription[]
+  classRequests          ClassRequest[]          @relation("StudentRequests")
+  teacherRequests        ClassRequest[]          @relation("PreferredTeacher")
+  availability           TeacherAvailability[]
+  availabilityExceptions AvailabilityException[]
+  studentBookings        DoubtBooking[]          @relation("StudentBookings")
+  teacherBookings        DoubtBooking[]          @relation("TeacherBookings")
+  olympiadInterests      OlympiadInterest[]
+  quizAttempts           QuizAttempt[]
+  studentAnswerCopies    AnswerCopy[]            @relation("StudentAnswerCopies")
+  teacherAnswerCopies    AnswerCopy[]            @relation("TeacherAnswerCopies")
+  auditLogs              AuditLog[]
+  streak                 StudentStreak?
+
+  @@index([role])
+  @@index([classLevel])
+  @@index([school])
+  @@index([block])
+}
+
+model StudentStreak {
+  id            String    @id @default(cuid())
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String    @unique
+  currentStreak Int       @default(0)
+  longestStreak Int       @default(0)
+  xp            Int       @default(0)
+  level         Int       @default(1)
+  lastActiveAt  DateTime?
+  badges        String[]  @default([])
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Curriculum
+// ─────────────────────────────────────────────────────────────────────────
+
+model Subject {
+  id           String     @id @default(cuid())
+  nameHi       String
+  nameEn       String
+  classLevel   ClassLevel
+  icon         String?
+  colorKey     String?
+  displayOrder Int        @default(0)
+  isActive     Boolean    @default(true)
+
+  chapters      Chapter[]
+  lectures      Lecture[]
+  notes         Note[]
+  books         Book[]
+  quizzes       Quiz[]
+  classRequests ClassRequest[]
+  teachers      User[]         @relation("TeacherSubjects")
+  answerCopies  AnswerCopy[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([classLevel])
+}
+
+model Chapter {
+  id           String  @id @default(cuid())
+  subject      Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  subjectId    String
+  nameHi       String
+  nameEn       String
+  displayOrder Int     @default(0)
+
+  lectures Lecture[]
+  notes    Note[]
+  quizzes  Quiz[]
+
+  @@index([subjectId])
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Content modules
+// ─────────────────────────────────────────────────────────────────────────
+
+model Playlist {
+  id         String     @id @default(cuid())
+  title      String
+  classLevel ClassLevel
+  lectures   Lecture[]
+  createdAt  DateTime   @default(now())
+}
+
+model Lecture {
+  id           String     @id @default(cuid())
+  title        String
+  description  String?
+  youtubeUrl   String
+  thumbnailUrl String?
+  durationSec  Int?
+  subject      Subject    @relation(fields: [subjectId], references: [id])
+  subjectId    String
+  chapter      Chapter?   @relation(fields: [chapterId], references: [id])
+  chapterId    String?
+  classLevel   ClassLevel
+  tags         String[]   @default([])
+  language     Language   @default(HINDI)
+  playlist     Playlist?  @relation(fields: [playlistId], references: [id])
+  playlistId   String?
+  displayOrder Int        @default(0)
+  views        Int        @default(0)
+  isPublished  Boolean    @default(false)
+  deletedAt    DateTime?
+  createdBy    User       @relation("LectureCreator", fields: [createdById], references: [id])
+  createdById  String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  brokenLinkReports BrokenLinkReport[]
+  watchProgress     LectureWatchProgress[]
+
+  @@index([subjectId])
+  @@index([chapterId])
+  @@index([classLevel])
+  @@index([isPublished])
+}
+
+model LectureWatchProgress {
+  id        String   @id @default(cuid())
+  lecture   Lecture  @relation(fields: [lectureId], references: [id], onDelete: Cascade)
+  lectureId String
+  userId    String
+  watched   Boolean  @default(false)
+  updatedAt DateTime @updatedAt
+
+  @@unique([lectureId, userId])
+}
+
+model BrokenLinkReport {
+  id         String   @id @default(cuid())
+  lecture    Lecture  @relation(fields: [lectureId], references: [id], onDelete: Cascade)
+  lectureId  String
+  reporterId String?
+  note       String?
+  resolved   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model Note {
+  id            String     @id @default(cuid())
+  title         String
+  subject       Subject    @relation(fields: [subjectId], references: [id])
+  subjectId     String
+  chapter       Chapter?   @relation(fields: [chapterId], references: [id])
+  chapterId     String?
+  classLevel    ClassLevel
+  fileUrl       String
+  fileSizeBytes Int
+  language      Language   @default(HINDI)
+  tags          String[]   @default([])
+  downloads     Int        @default(0)
+  displayOrder  Int        @default(0)
+  isPublished   Boolean    @default(false)
+  deletedAt     DateTime?
+  createdBy     User       @relation("NoteCreator", fields: [createdById], references: [id])
+  createdById   String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  versions NoteVersion[]
+
+  @@index([subjectId])
+  @@index([chapterId])
+  @@index([classLevel])
+  @@index([isPublished])
+}
+
+model NoteVersion {
+  id        String   @id @default(cuid())
+  note      Note     @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  noteId    String
+  fileUrl   String
+  createdAt DateTime @default(now())
+}
+
+model Book {
+  id               String       @id @default(cuid())
+  title            String
+  category         BookCategory
+  classLevel       ClassLevel
+  subject          Subject?     @relation(fields: [subjectId], references: [id])
+  subjectId        String?
+  board            String?
+  medium           Language     @default(HINDI)
+  coverUrl         String?
+  fileUrl          String?
+  sourceUrl        String?
+  edition          String?
+  fileSizeBytes    Int?
+  copyrightCleared Boolean      @default(false)
+  isPublished      Boolean      @default(false)
+  deletedAt        DateTime?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  @@index([classLevel])
+  @@index([category])
+}
+
+model Story {
+  id            String    @id @default(cuid())
+  title         String
+  personName    String
+  designation   String?
+  photoUrl      String?
+  videoUrl      String?
+  body          String?
+  district      String?
+  block         String?
+  tags          String[]  @default([])
+  isFeatured    Boolean   @default(false)
+  isPublished   Boolean   @default(false)
+  isSubmission  Boolean   @default(false)
+  submittedById String?
+  deletedAt     DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([isPublished])
+  @@index([isFeatured])
+}
+
+model Exam {
+  id              String       @id @default(cuid())
+  name            String
+  body            String
+  category        String
+  applyStart      DateTime?
+  applyEnd        DateTime?
+  examDate        DateTime?
+  resultDate      DateTime?
+  officialUrl     String?
+  notificationUrl String?
+  classes         ClassLevel[]
+  status          ExamStatus   @default(UPCOMING)
+  isPublished     Boolean      @default(false)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  subscriptions ExamSubscription[]
+
+  @@index([status])
+  @@index([applyEnd])
+}
+
+model ExamSubscription {
+  id             String   @id @default(cuid())
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String
+  exam           Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  examId         String
+  reminderSent7d Boolean  @default(false)
+  reminderSent1d Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  @@unique([userId, examId])
+}
+
+model CareerRoadmap {
+  id             String   @id @default(cuid())
+  title          String
+  stream         String
+  overview       String
+  eligibility    String?
+  stepsJson      Json
+  exams          String[] @default([])
+  institutesJson Json?
+  salaryRange    String?
+  scholarships   String?
+  isPublished    Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([isPublished])
+}
+
+model ClassRequest {
+  id                 String             @id @default(cuid())
+  student            User               @relation("StudentRequests", fields: [studentId], references: [id])
+  studentId          String
+  subject            Subject            @relation(fields: [subjectId], references: [id])
+  subjectId          String
+  chapter            String?
+  classLevel         ClassLevel
+  preferredTeacher   User?              @relation("PreferredTeacher", fields: [preferredTeacherId], references: [id])
+  preferredTeacherId String?
+  mode               ClassRequestMode   @default(ONLINE)
+  preferredTime      String?
+  description        String?
+  urgency            String             @default("normal")
+  status             ClassRequestStatus @default(SUBMITTED)
+  adminRemark        String?
+  upvotes            Int                @default(0)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  @@index([status])
+  @@index([subjectId])
+}
+
+model TeacherAvailability {
+  id          String      @id @default(cuid())
+  teacher     User        @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId   String
+  weekday     Int // 0=Sunday .. 6=Saturday
+  startTime   String // "16:00"
+  endTime     String // "18:00"
+  slotMinutes Int         @default(30)
+  capacity    Int         @default(1)
+  mode        BookingMode @default(MEET)
+  meetingLink String?
+  validFrom   DateTime?
+  validTo     DateTime?
+  createdAt   DateTime    @default(now())
+
+  @@index([teacherId])
+}
+
+model AvailabilityException {
+  id        String   @id @default(cuid())
+  teacher   User     @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId String
+  date      DateTime
+  isBlocked Boolean  @default(true)
+  reason    String?
+
+  @@index([teacherId, date])
+}
+
+model DoubtBooking {
+  id            String        @id @default(cuid())
+  student       User          @relation("StudentBookings", fields: [studentId], references: [id])
+  studentId     String
+  teacher       User          @relation("TeacherBookings", fields: [teacherId], references: [id])
+  teacherId     String
+  slotStart     DateTime
+  slotEnd       DateTime
+  topic         String
+  description   String?
+  attachmentUrl String?
+  mode          BookingMode   @default(MEET)
+  meetingLink   String?
+  status        BookingStatus @default(BOOKED)
+  cancelReason  String?
+  rating        Int?
+  teacherNotes  String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@unique([teacherId, slotStart])
+  @@index([studentId])
+  @@index([status])
+}
+
+model Olympiad {
+  id                String       @id @default(cuid())
+  name              String
+  body              String
+  eligibleClasses   ClassLevel[]
+  syllabusUrl       String?
+  regStart          DateTime?
+  regEnd            DateTime?
+  fee               String?
+  pattern           String?
+  officialUrl       String?
+  previousPapersUrl String?
+  isPublished       Boolean      @default(false)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  interests OlympiadInterest[]
+
+  @@index([isPublished])
+}
+
+model OlympiadInterest {
+  id         String   @id @default(cuid())
+  student    User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId  String
+  olympiad   Olympiad @relation(fields: [olympiadId], references: [id], onDelete: Cascade)
+  olympiadId String
+  createdAt  DateTime @default(now())
+
+  @@unique([studentId, olympiadId])
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Quiz engine
+// ─────────────────────────────────────────────────────────────────────────
+
+model Quiz {
+  id            String     @id @default(cuid())
+  title         String
+  subject       Subject    @relation(fields: [subjectId], references: [id])
+  subjectId     String
+  chapter       Chapter?   @relation(fields: [chapterId], references: [id])
+  chapterId     String?
+  classLevel    ClassLevel
+  difficulty    Difficulty @default(MEDIUM)
+  timeLimitMin  Int        @default(20)
+  marksPerQ     Float      @default(1)
+  negativeMarks Float      @default(0)
+  startAt       DateTime?
+  endAt         DateTime?
+  maxAttempts   Int        @default(1)
+  isPublished   Boolean    @default(false)
+  createdBy     User       @relation("QuizCreator", fields: [createdById], references: [id])
+  createdById   String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  questions Question[]
+  attempts  QuizAttempt[]
+
+  @@index([subjectId])
+  @@index([classLevel])
+  @@index([isPublished])
+}
+
+model Question {
+  id            String       @id @default(cuid())
+  quiz          Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  quizId        String
+  type          QuestionType @default(MCQ_SINGLE)
+  textHi        String
+  textEn        String?
+  imageUrl      String?
+  optionsJson   Json?
+  correctAnswer Json
+  explanation   String?
+  marks         Float        @default(1)
+  difficulty    Difficulty   @default(MEDIUM)
+  displayOrder  Int          @default(0)
+
+  @@index([quizId])
+}
+
+model QuizAttempt {
+  id           String    @id @default(cuid())
+  quiz         Quiz      @relation(fields: [quizId], references: [id])
+  quizId       String
+  student      User      @relation(fields: [studentId], references: [id])
+  studentId    String
+  startedAt    DateTime  @default(now())
+  submittedAt  DateTime?
+  score        Float?
+  accuracy     Float?
+  timeTakenSec Int?
+  answersJson  Json?
+  tabSwitches  Int       @default(0)
+
+  @@index([quizId])
+  @@index([studentId])
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Answer copy checking
+// ─────────────────────────────────────────────────────────────────────────
+
+model AnswerCopy {
+  id             String           @id @default(cuid())
+  student        User             @relation("StudentAnswerCopies", fields: [studentId], references: [id])
+  studentId      String
+  teacher        User             @relation("TeacherAnswerCopies", fields: [teacherId], references: [id])
+  teacherId      String
+  subject        Subject          @relation(fields: [subjectId], references: [id])
+  subjectId      String
+  classLevel     ClassLevel
+  paperName      String
+  fileUrl        String
+  status         AnswerCopyStatus @default(SUBMITTED)
+  marksAwarded   Float?
+  totalMarks     Float?
+  remarks        String?
+  checkedFileUrl String?
+  submittedAt    DateTime         @default(now())
+  checkedAt      DateTime?
+
+  @@index([studentId])
+  @@index([teacherId])
+  @@index([status])
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Leaderboard, announcements, audit
+// ─────────────────────────────────────────────────────────────────────────
+
+model LeaderboardStat {
+  id          String            @id @default(cuid())
+  studentId   String
+  period      LeaderboardPeriod
+  subjectId   String?
+  totalPoints Float             @default(0)
+  accuracy    Float             @default(0)
+  avgTimeSec  Float             @default(0)
+  rank        Int?
+  computedAt  DateTime          @default(now())
+
+  @@unique([studentId, period, subjectId])
+  @@index([period, subjectId])
+}
+
+model Announcement {
+  id        String    @id @default(cuid())
+  textHi    String
+  textEn    String?
+  link      String?
+  expiresAt DateTime?
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+  action    String
+  entity    String
+  entityId  String?
+  metaJson  Json?
+  ip        String?
+  createdAt DateTime @default(now())
+
+  @@index([entity, entityId])
+  @@index([userId])
+}
