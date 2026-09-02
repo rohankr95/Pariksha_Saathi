@@ -490,6 +490,7 @@ async function main() {
       totalMarks: 80,
       remarks: "अच्छा प्रयास, मानचित्र कार्य में सुधार करें।",
       checkedFileUrl: "/uploads/answer-copies/sample-1-checked.pdf",
+      submittedAt: days(-3),
       checkedAt: days(-1),
     },
   });

@@ -1,8 +1,15 @@
+export type EmailAttachment = {
+  filename: string;
+  content: string; // utf-8 text content (e.g. an .ics file)
+  contentType: string;
+};
+
 export type EmailMessage = {
   to: string;
   subject: string;
   html: string;
   text: string;
+  attachments?: EmailAttachment[];
 };
 
 const FROM = process.env.EMAIL_FROM || "Pariksha Saathi <no-reply@surajpur.nic.in>";
@@ -51,6 +58,10 @@ async function sendViaResend(msg: EmailMessage) {
       subject: msg.subject,
       html: msg.html,
       text: msg.text,
+      attachments: msg.attachments?.map((a) => ({
+        filename: a.filename,
+        content: Buffer.from(a.content, "utf-8").toString("base64"),
+      })),
     }),
   });
   if (!res.ok) {
@@ -74,12 +85,20 @@ async function sendViaSmtp(msg: EmailMessage) {
     subject: msg.subject,
     html: msg.html,
     text: msg.text,
+    attachments: msg.attachments?.map((a) => ({
+      filename: a.filename,
+      content: a.content,
+      contentType: a.contentType,
+    })),
   });
 }
 
 function logToConsole(msg: EmailMessage, reason: string) {
+  const attachmentNote = msg.attachments?.length
+    ? `\n[attachments: ${msg.attachments.map((a) => a.filename).join(", ")}]`
+    : "";
   console.log(
-    `\n[EMAIL:console] (${reason}) →  ${msg.to}\nSubject: ${msg.subject}\n${msg.text}\n`
+    `\n[EMAIL:console] (${reason}) →  ${msg.to}\nSubject: ${msg.subject}\n${msg.text}${attachmentNote}\n`
   );
 }
 

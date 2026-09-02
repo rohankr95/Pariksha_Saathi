@@ -435,6 +435,7 @@ model ClassRequest {
   status             ClassRequestStatus @default(SUBMITTED)
   adminRemark        String?
   upvotes            Int                @default(0)
+  upvoterIds         String[]           @default([])
   createdAt          DateTime           @default(now())
   updatedAt          DateTime           @updatedAt
 
@@ -472,26 +473,32 @@ model AvailabilityException {
 }
 
 model DoubtBooking {
-  id            String        @id @default(cuid())
-  student       User          @relation("StudentBookings", fields: [studentId], references: [id])
-  studentId     String
-  teacher       User          @relation("TeacherBookings", fields: [teacherId], references: [id])
-  teacherId     String
-  slotStart     DateTime
-  slotEnd       DateTime
-  topic         String
-  description   String?
-  attachmentUrl String?
-  mode          BookingMode   @default(MEET)
-  meetingLink   String?
-  status        BookingStatus @default(BOOKED)
-  cancelReason  String?
-  rating        Int?
-  teacherNotes  String?
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id              String        @id @default(cuid())
+  student         User          @relation("StudentBookings", fields: [studentId], references: [id])
+  studentId       String
+  teacher         User          @relation("TeacherBookings", fields: [teacherId], references: [id])
+  teacherId       String
+  slotStart       DateTime
+  slotEnd         DateTime
+  topic           String
+  description     String?
+  attachmentUrl   String?
+  mode            BookingMode   @default(MEET)
+  meetingLink     String?
+  status          BookingStatus @default(BOOKED)
+  cancelReason    String?
+  rating          Int?
+  teacherNotes    String?
+  reminderSent24h Boolean       @default(false)
+  reminderSent1h  Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
 
-  @@unique([teacherId, slotStart])
+  // One student can't double-book the same slot; multiple students CAN share
+  // a slot up to TeacherAvailability.capacity (checked inside a Serializable
+  // transaction at booking time — see src/app/doubt-class/actions.ts).
+  @@unique([teacherId, slotStart, studentId])
+  @@index([teacherId, slotStart])
   @@index([studentId])
   @@index([status])
 }
