@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Trophy } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
+import { getT } from "@/lib/i18n/server";
 
 type Story = {
   id: string;
@@ -12,7 +13,8 @@ type Story = {
   tags: string[];
 };
 
-export function FeaturedStory({ story, title }: { story: Story | null; title: string }) {
+export async function FeaturedStory({ story, title }: { story: Story | null; title: string }) {
+  const t = await getT();
   return (
     <div>
       <h2 className="mb-4 font-sans text-xl font-bold text-foreground sm:text-2xl">{title}</h2>
@@ -36,8 +38,8 @@ export function FeaturedStory({ story, title }: { story: Story | null; title: st
       ) : (
         <EmptyState
           icon={Trophy}
-          title="जल्द ही एक प्रेरक कहानी जोड़ी जाएगी"
-          description="शिक्षक और छात्र जल्द ही अपनी सफलता की कहानियाँ साझा करेंगे।"
+          title={t("stories.featured.emptyTitle")}
+          description={t("stories.featured.emptyDesc")}
         />
       )}
     </div>

@@ -1,0 +1,58 @@
+{
+  "public": {
+    "title": "Notes",
+    "subtitle": "Downloadable chapter-wise notes",
+    "mostDownloaded": "Most Downloaded",
+    "downloadsCount": "{count} downloads",
+    "searchPlaceholder": "Search notes...",
+    "empty": {
+      "title": "No notes found",
+      "description": "Try changing the filters."
+    },
+    "preview": "Preview",
+    "download": "Download"
+  },
+  "language": {
+    "hindi": "Hindi",
+    "english": "English",
+    "chhattisgarhi": "Chhattisgarhi"
+  },
+  "admin": {
+    "listTitle": "Notes",
+    "totalCount": "{count} notes total",
+    "searchPlaceholder": "Search notes...",
+    "addLabel": "New Note",
+    "empty": {
+      "title": "No notes found",
+      "description": "Add a new note."
+    },
+    "table": {
+      "title": "Title",
+      "subject": "Subject",
+      "sizeDownloads": "Size / Downloads",
+      "status": "Status",
+      "order": "Order",
+      "actions": "Actions"
+    },
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this note?",
+    "newTitle": "Add New Note",
+    "editTitle": "Edit Note",
+    "form": {
+      "title": "Title",
+      "classLevel": "Class",
+      "language": "Language",
+      "subject": "Subject",
+      "chapter": "Chapter",
+      "none": "— None —",
+      "tags": "Tags",
+      "pdfFile": "PDF File",
+      "publishNow": "Publish immediately",
+      "save": "Save Changes",
+      "add": "Add Note"
+    }
+  }
+}

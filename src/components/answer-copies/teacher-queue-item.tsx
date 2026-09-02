@@ -6,8 +6,9 @@ import { Input, Label } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { CopyUploadField, type UploadedFile } from "@/components/answer-copies/copy-upload-field";
-import { ANSWER_COPY_STATUS_LABEL, ANSWER_COPY_STATUS_COLOR } from "@/lib/answer-copy-status";
+import { ANSWER_COPY_STATUS_COLOR } from "@/lib/answer-copy-status";
 import { startEvaluation, submitEvaluation, type SubmitEvaluationState } from "@/app/answer-copies/actions";
+import { useLocale } from "@/lib/i18n/locale-provider";
 import type { AnswerCopyStatus } from "@prisma/client";
 
 type Copy = {
@@ -28,6 +29,7 @@ export function TeacherQueueItem({ copy }: { copy: Copy }) {
   const [state, formAction, submitting] = useActionState(boundAction, initialState);
   const [file, setFile] = useState<UploadedFile | null>(null);
   const [fileName, setFileName] = useState<string | undefined>();
+  const { t } = useLocale();
 
   return (
     <Card className="p-4">
@@ -35,10 +37,10 @@ export function TeacherQueueItem({ copy }: { copy: Copy }) {
         <div>
           <p className="text-sm font-semibold text-foreground">{copy.paperName}</p>
           <p className="text-xs text-muted-foreground">
-            {copy.student.name} · कक्षा {copy.student.classLevel ?? "—"} · {copy.subject.nameHi}
+            {copy.student.name} · {t("answerCopies.teacherQueue.classLabel")} {copy.student.classLevel ?? "—"} · {copy.subject.nameHi}
           </p>
           <a href={copy.fileUrl} target="_blank" rel="noreferrer" className="text-xs font-medium text-primary hover:underline">
-            मूल फाइल देखें
+            {t("answerCopies.teacherQueue.viewOriginal")}
           </a>
         </div>
         <span
@@ -48,35 +50,35 @@ export function TeacherQueueItem({ copy }: { copy: Copy }) {
             color: `var(${ANSWER_COPY_STATUS_COLOR[copy.status]})`,
           }}
         >
-          {ANSWER_COPY_STATUS_LABEL[copy.status]}
+          {t(`answerCopies.status.${copy.status}`)}
         </span>
       </div>
 
       {copy.status !== "UNDER_EVALUATION" ? (
         <div className="mt-3 border-t border-border pt-3">
           <Button size="sm" disabled={pending} onClick={() => startTransition(() => startEvaluation(copy.id))}>
-            मूल्यांकन शुरू करें
+            {t("answerCopies.teacherQueue.startEvaluation")}
           </Button>
         </div>
       ) : (
         <form action={formAction} className="mt-3 space-y-3 border-t border-border pt-3">
           <div className="grid grid-cols-2 gap-2.5">
             <div className="space-y-1">
-              <Label htmlFor={`marks-${copy.id}`} className="text-xs">प्राप्त अंक</Label>
+              <Label htmlFor={`marks-${copy.id}`} className="text-xs">{t("answerCopies.teacherQueue.marksAwarded")}</Label>
               <Input id={`marks-${copy.id}`} name="marksAwarded" type="number" min={0} step="any" required />
             </div>
             <div className="space-y-1">
-              <Label htmlFor={`total-${copy.id}`} className="text-xs">कुल अंक</Label>
+              <Label htmlFor={`total-${copy.id}`} className="text-xs">{t("answerCopies.teacherQueue.totalMarks")}</Label>
               <Input id={`total-${copy.id}`} name="totalMarks" type="number" min={1} step="any" required />
             </div>
           </div>
           <div className="space-y-1">
-            <Label htmlFor={`remarks-${copy.id}`} className="text-xs">टिप्पणी (वैकल्पिक)</Label>
+            <Label htmlFor={`remarks-${copy.id}`} className="text-xs">{t("answerCopies.teacherQueue.remarks")}</Label>
             <Textarea id={`remarks-${copy.id}`} name="remarks" rows={2} maxLength={1000} />
           </div>
           <CopyUploadField
             kind="answer-copy-checked"
-            label="जाँची गई फाइल (वैकल्पिक)"
+            label={t("answerCopies.teacherQueue.checkedFileLabel")}
             value={file}
             fileName={fileName}
             onChange={(f, name) => {
@@ -89,7 +91,7 @@ export function TeacherQueueItem({ copy }: { copy: Copy }) {
           {state.error && <p className="text-xs text-[var(--color-section-examdates)]">{state.error}</p>}
 
           <Button type="submit" size="sm" disabled={submitting}>
-            {submitting ? "सहेजा जा रहा है..." : "मूल्यांकन सबमिट करें"}
+            {submitting ? t("answerCopies.teacherQueue.saving") : t("answerCopies.teacherQueue.submitEvaluation")}
           </Button>
         </form>
       )}

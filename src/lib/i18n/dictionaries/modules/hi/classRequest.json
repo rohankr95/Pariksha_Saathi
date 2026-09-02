@@ -1,0 +1,68 @@
+{
+  "meta": { "title": "कक्षा अनुरोध | परीक्षा साथी" },
+  "page": {
+    "title": "कक्षा अनुरोध",
+    "subtitle": "अपनी पसंदीदा कक्षा का अनुरोध करें",
+    "loginPrompt": "कक्षा अनुरोध भेजने के लिए विद्यार्थी के रूप में लॉगिन करें"
+  },
+  "form": {
+    "heading": "नया अनुरोध भेजें",
+    "mergedSuccess": "यह विषय पहले से किसी अन्य विद्यार्थी द्वारा अनुरोधित है — आपकी रुचि जोड़ दी गई है!",
+    "success": "आपका अनुरोध सफलतापूर्वक भेज दिया गया है।",
+    "subject": "विषय",
+    "classLevel": "कक्षा",
+    "chapter": "अध्याय / विषयवस्तु",
+    "chapterPlaceholder": "जैसे: त्रिकोणमिति",
+    "preferredTeacher": "पसंदीदा शिक्षक",
+    "anyTeacherOption": "कोई भी",
+    "mode": "माध्यम",
+    "online": "ऑनलाइन",
+    "offline": "ऑफलाइन",
+    "preferredTime": "पसंदीदा समय",
+    "preferredTimePlaceholder": "जैसे: शाम 4-6 बजे",
+    "description": "विवरण",
+    "descriptionPlaceholder": "किस विषय में कठिनाई हो रही है?",
+    "urgency": "तात्कालिकता",
+    "urgencyLow": "कम",
+    "urgencyNormal": "सामान्य",
+    "urgencyHigh": "अधिक",
+    "submitting": "भेजा जा रहा है...",
+    "submit": "अनुरोध भेजें"
+  },
+  "anyTeacherLabel": "कोई भी शिक्षक",
+  "myRequests": {
+    "heading": "मेरे अनुरोध",
+    "emptyTitle": "अभी कोई अनुरोध नहीं",
+    "emptyDesc": "ऊपर फॉर्म भरकर अपना पहला अनुरोध भेजें।",
+    "supportCount": "{count} समर्थन"
+  },
+  "feed": {
+    "heading": "अन्य विद्यार्थियों के अनुरोध",
+    "hint": "क्या आपको भी यही अध्याय चाहिए? नया अनुरोध बनाने के बजाय समर्थन करें।"
+  },
+  "status": {
+    "SUBMITTED": "भेजा गया",
+    "UNDER_REVIEW": "समीक्षा में",
+    "ACCEPTED": "स्वीकृत",
+    "SCHEDULED": "निर्धारित",
+    "COMPLETED": "पूर्ण",
+    "DECLINED": "अस्वीकृत"
+  },
+  "admin": {
+    "title": "कक्षा अनुरोध",
+    "totalRequests": "कुल {count} अनुरोध",
+    "allStatuses": "सभी स्थितियाँ",
+    "applyFilter": "फ़िल्टर लागू करें",
+    "empty": "कोई अनुरोध नहीं मिला",
+    "trending": "ट्रेंडिंग",
+    "supportCount": "{count} समर्थन",
+    "teacherLabel": "शिक्षक",
+    "anyTeacherOption": "कोई भी",
+    "remarkPlaceholder": "टिप्पणी (वैकल्पिक)",
+    "update": "अपडेट करें"
+  },
+  "errors": {
+    "studentOnly": "केवल विद्यार्थी अनुरोध भेज सकते हैं",
+    "invalid": "अमान्य जानकारी"
+  }
+}

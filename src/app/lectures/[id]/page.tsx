@@ -9,6 +9,7 @@ import { LectureCard } from "@/components/lectures/lecture-card";
 import { WatchedToggle } from "@/components/lectures/watched-toggle";
 import { ReportBrokenLinkButton } from "@/components/lectures/report-broken-link-button";
 import { ViewTracker } from "@/components/lectures/view-tracker";
+import { getT } from "@/lib/i18n/server";
 
 export default async function LectureDetailPage({
   params,
@@ -18,6 +19,7 @@ export default async function LectureDetailPage({
   const { id } = await params;
   const [lecture, session] = await Promise.all([getLectureById(id), auth()]);
   if (!lecture) notFound();
+  const t = await getT();
 
   const [related, watchedIds] = await Promise.all([
     getRelatedLectures(lecture.subjectId, lecture.id),
@@ -43,7 +45,7 @@ export default async function LectureDetailPage({
               />
             ) : (
               <div className="flex h-full items-center justify-center text-white/70">
-                वीडियो लोड नहीं हो सका
+                {t("lectures.public.detail.videoUnavailable")}
               </div>
             )}
           </div>
@@ -55,7 +57,7 @@ export default async function LectureDetailPage({
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
             >
-              <ExternalLink className="h-4 w-4" /> YouTube पर खोलें (धीमे इंटरनेट के लिए)
+              <ExternalLink className="h-4 w-4" /> {t("lectures.public.detail.openOnYoutube")}
             </a>
             <span className="text-muted-foreground">·</span>
             <ReportBrokenLinkButton lectureId={lecture.id} />
@@ -67,11 +69,12 @@ export default async function LectureDetailPage({
               <User className="h-4 w-4" /> {lecture.createdBy.name}
             </span>
             <span className="flex items-center gap-1">
-              <Eye className="h-4 w-4" /> {lecture.views} बार देखा गया
+              <Eye className="h-4 w-4" /> {t("lectures.public.detail.views", { count: lecture.views })}
             </span>
             {lecture.durationSec && (
               <span className="flex items-center gap-1">
-                <Clock className="h-4 w-4" /> {Math.round(lecture.durationSec / 60)} मिनट
+                <Clock className="h-4 w-4" />{" "}
+                {t("lectures.public.detail.durationMinutes", { count: Math.round(lecture.durationSec / 60) })}
               </span>
             )}
           </div>
@@ -99,7 +102,7 @@ export default async function LectureDetailPage({
           {lecture.playlist && lecture.playlist.lectures.length > 1 && (
             <div className="mt-8">
               <h2 className="mb-3 font-sans text-lg font-bold text-foreground">
-                प्लेलिस्ट: {lecture.playlist.title}
+                {t("lectures.public.detail.playlistLabel", { title: lecture.playlist.title })}
               </h2>
               <div className="space-y-2">
                 {lecture.playlist.lectures.map((pl, i) => (
@@ -121,7 +124,7 @@ export default async function LectureDetailPage({
         </div>
 
         <aside>
-          <h2 className="mb-3 font-sans text-lg font-bold text-foreground">संबंधित व्याख्यान</h2>
+          <h2 className="mb-3 font-sans text-lg font-bold text-foreground">{t("lectures.public.detail.relatedTitle")}</h2>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-1">
             {related.map((r) => (
               <LectureCard key={r.id} lecture={{ ...r, subject: lecture.subject, chapter: null }} />

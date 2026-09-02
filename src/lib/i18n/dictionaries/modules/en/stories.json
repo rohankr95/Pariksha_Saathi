@@ -1,0 +1,79 @@
+{
+  "public": {
+    "title": "Motivational Stories",
+    "desc": "Stories of IAS officers, toppers, and local achievers",
+    "submitCta": "Submit Your Story",
+    "filterAll": "All",
+    "filterApply": "Apply Filter",
+    "emptyTitle": "No stories found",
+    "emptyDesc": "New stories will be added soon.",
+    "loginRequired": {
+      "title": "Log in to submit a story",
+      "desc": "Please log in to your account first to share your success story.",
+      "cta": "Log In"
+    },
+    "submit": {
+      "title": "Submit Your Story",
+      "subtitle": "Your story will be published after review",
+      "successMessage": "Thank you! Your story has been submitted successfully and is pending review.",
+      "titleLabel": "Title",
+      "titlePlaceholder": "My Success Story",
+      "bodyLabel": "Your Story",
+      "bodyPlaceholder": "Write about your journey, struggles, and success...",
+      "submitting": "Submitting...",
+      "submitCta": "Submit Story"
+    }
+  },
+  "featured": {
+    "emptyTitle": "A motivational story will be added soon",
+    "emptyDesc": "Teachers and students will soon share their success stories."
+  },
+  "card": {
+    "featuredBadge": "Featured"
+  },
+  "admin": {
+    "listTitle": "Motivational Stories",
+    "totalCount": "{count} stories in total",
+    "pendingSubmissions": "{count} student submissions pending review",
+    "searchPlaceholder": "Search stories...",
+    "addLabel": "New Story",
+    "emptyTitle": "No stories found",
+    "emptyDesc": "Add a new story.",
+    "table": {
+      "title": "Title",
+      "person": "Person",
+      "featured": "Featured",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "studentSubmissionBadge": "Student Submission",
+    "markFeatured": "Mark as featured",
+    "unmarkFeatured": "Remove from featured",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirmDelete": "Are you sure you want to delete this story?",
+    "newTitle": "Add New Story",
+    "editTitle": "Edit Story",
+    "form": {
+      "title": "Title",
+      "personName": "Person's Name",
+      "designation": "Designation / Achievement",
+      "designationPlaceholder": "IAS, 2021 batch",
+      "district": "District",
+      "defaultDistrict": "Surajpur",
+      "block": "Block",
+      "photo": "Photo",
+      "videoUrl": "YouTube Link (optional)",
+      "body": "Story (Article)",
+      "tags": "Tags",
+      "showOnHome": "Show as featured on home page",
+      "publishNow": "Publish immediately",
+      "saveChanges": "Save Changes",
+      "addStory": "Add Story"
+    }
+  },
+  "errors": {
+    "invalidData": "Invalid data"
+  },
+  "defaultPersonName": "Student"
+}

@@ -9,12 +9,12 @@ import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LeaderboardVisibilityToggle } from "@/components/leaderboard/visibility-toggle";
+import { getT } from "@/lib/i18n/server";
 import type { ClassLevel, LeaderboardPeriod } from "@prisma/client";
 
 export const metadata = { title: "शीर्ष प्रदर्शन | परीक्षा साथी" };
 
 const TOP_N = 50;
-const PERIOD_LABEL: Record<LeaderboardPeriod, string> = { WEEKLY: "साप्ताहिक", MONTHLY: "मासिक", ALL_TIME: "सर्वकालिक" };
 
 export default async function LeaderboardPage({
   searchParams,
@@ -29,6 +29,12 @@ export default async function LeaderboardPage({
     classLevel: sp.classLevel as ClassLevel | undefined,
     school: sp.school,
     block: sp.block,
+  };
+  const t = await getT();
+  const PERIOD_LABEL: Record<LeaderboardPeriod, string> = {
+    WEEKLY: t("leaderboard.period.WEEKLY"),
+    MONTHLY: t("leaderboard.period.MONTHLY"),
+    ALL_TIME: t("leaderboard.period.ALL_TIME"),
   };
 
   const [entries, subjects, { schools, blocks }, session] = await Promise.all([
@@ -53,8 +59,8 @@ export default async function LeaderboardPage({
           <Crown className="h-6 w-6" />
         </span>
         <div>
-          <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">शीर्ष प्रदर्शन</h1>
-          <p className="text-sm text-muted-foreground">जिले के सर्वश्रेष्ठ विद्यार्थी</p>
+          <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">{t("leaderboard.public.title")}</h1>
+          <p className="text-sm text-muted-foreground">{t("leaderboard.public.subtitle")}</p>
         </div>
       </div>
 
@@ -76,7 +82,7 @@ export default async function LeaderboardPage({
       <form action="/leaderboard" className="mb-6 flex flex-wrap gap-2.5">
         <input type="hidden" name="period" value={period} />
         <Select name="subjectId" defaultValue={filters.subjectId ?? ""} className="max-w-[180px]">
-          <option value="">सभी विषय</option>
+          <option value="">{t("leaderboard.public.allSubjects")}</option>
           {subjects.map((s) => (
             <option key={s.id} value={s.id}>
               {s.nameHi}
@@ -84,7 +90,7 @@ export default async function LeaderboardPage({
           ))}
         </Select>
         <Select name="classLevel" defaultValue={filters.classLevel ?? ""} className="max-w-[150px]">
-          <option value="">सभी कक्षाएँ</option>
+          <option value="">{t("leaderboard.public.allClasses")}</option>
           {(Object.keys(CLASS_LEVEL_LABEL) as ClassLevel[]).map((c) => (
             <option key={c} value={c}>
               {CLASS_LEVEL_LABEL[c]}
@@ -92,7 +98,7 @@ export default async function LeaderboardPage({
           ))}
         </Select>
         <Select name="block" defaultValue={filters.block ?? ""} className="max-w-[160px]">
-          <option value="">सभी विकासखंड</option>
+          <option value="">{t("leaderboard.public.allBlocks")}</option>
           {blocks.map((b) => (
             <option key={b} value={b}>
               {b}
@@ -100,7 +106,7 @@ export default async function LeaderboardPage({
           ))}
         </Select>
         <Select name="school" defaultValue={filters.school ?? ""} className="max-w-[220px]">
-          <option value="">सभी विद्यालय</option>
+          <option value="">{t("leaderboard.public.allSchools")}</option>
           {schools.map((s) => (
             <option key={s} value={s}>
               {s}
@@ -108,29 +114,29 @@ export default async function LeaderboardPage({
           ))}
         </Select>
         <Button type="submit" size="sm" variant="outline">
-          फ़िल्टर लागू करें
+          {t("leaderboard.public.applyFilters")}
         </Button>
       </form>
 
       {top.length > 0 ? (
         <Card className="divide-y divide-border p-0">
           {top.map((entry) => (
-            <LeaderboardRow key={entry.studentId} entry={entry} highlight={entry.studentId === myId} isWeekly={period === "WEEKLY"} />
+            <LeaderboardRow key={entry.studentId} entry={entry} highlight={entry.studentId === myId} isWeekly={period === "WEEKLY"} t={t} />
           ))}
           {myEntry && !myInTop && (
             <>
               <div className="bg-surface-muted px-4 py-1.5 text-center text-[11px] text-muted-foreground">⋯</div>
-              <LeaderboardRow entry={myEntry} highlight isWeekly={period === "WEEKLY"} />
+              <LeaderboardRow entry={myEntry} highlight isWeekly={period === "WEEKLY"} t={t} />
             </>
           )}
         </Card>
       ) : (
-        <EmptyState icon={Crown} title="अभी कोई रैंकिंग उपलब्ध नहीं है" description="प्रश्नोत्तरी में भाग लें और सूची में सबसे ऊपर आएँ!" />
+        <EmptyState icon={Crown} title={t("leaderboard.public.empty")} description={t("leaderboard.public.emptyDesc")} />
       )}
 
       <p className="mt-4 flex items-start gap-1.5 text-xs text-muted-foreground">
         <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-        रैंकिंग कुल अंकों पर आधारित है; बराबरी होने पर सटीकता, फिर औसत समय के आधार पर क्रम तय होता है। पूरा नाम व मोबाइल नंबर कभी सार्वजनिक नहीं किए जाते।
+        {t("leaderboard.public.rankingNote")}
       </p>
 
       {session?.user?.role === "STUDENT" && (
@@ -144,10 +150,12 @@ function LeaderboardRow({
   entry,
   highlight,
   isWeekly,
+  t,
 }: {
   entry: { rank: number; displayName: string; school: string; classLevel: string | null; points: number; accuracy: number; quizzesAttempted: number };
   highlight: boolean;
   isWeekly: boolean;
+  t: (key: string, vars?: Record<string, string | number>) => string;
 }) {
   const badges = getBadges(entry, entry.rank, isWeekly);
   const rankColor = entry.rank === 1 ? "text-[#d99a1b]" : entry.rank === 2 ? "text-[#8a8f9c]" : entry.rank === 3 ? "text-[#b1712c]" : "text-muted-foreground";
@@ -166,7 +174,9 @@ function LeaderboardRow({
       </div>
       <div className="shrink-0 text-right">
         <p className="text-sm font-bold text-primary">{entry.points}</p>
-        <p className="text-[11px] text-muted-foreground">{entry.quizzesAttempted} प्रयास · {entry.accuracy}%</p>
+        <p className="text-[11px] text-muted-foreground">
+          {t("leaderboard.public.attemptsAndAccuracy", { attempts: entry.quizzesAttempted, accuracy: entry.accuracy })}
+        </p>
       </div>
     </div>
   );

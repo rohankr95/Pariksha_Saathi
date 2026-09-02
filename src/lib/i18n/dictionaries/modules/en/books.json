@@ -1,0 +1,79 @@
+{
+  "public": {
+    "title": "Books",
+    "subtitle": "Library of NCERT and reference books",
+    "empty": {
+      "title": "No books found",
+      "description": "Try changing the filters."
+    },
+    "externalSource": "External Source",
+    "download": "Download",
+    "source": "Source"
+  },
+  "filter": {
+    "searchPlaceholder": "Search books...",
+    "allCategories": "All Categories",
+    "allClasses": "All Classes",
+    "allSubjects": "All Subjects",
+    "allMediums": "All Mediums",
+    "apply": "Apply Filters"
+  },
+  "category": {
+    "NCERT": "NCERT",
+    "SCERT_CGBSE": "SCERT / CGBSE Chhattisgarh",
+    "REFERENCE": "Reference Books",
+    "COMPETITIVE": "Competitive Exams",
+    "PREVIOUS_YEAR_PAPER": "Previous Year Papers",
+    "MODEL_ANSWER": "Model Answer Sheets"
+  },
+  "language": {
+    "hindi": "Hindi",
+    "english": "English",
+    "chhattisgarhi": "Chhattisgarhi"
+  },
+  "admin": {
+    "listTitle": "Books",
+    "totalCount": "{count} books total",
+    "searchPlaceholder": "Search books...",
+    "addLabel": "New Book",
+    "empty": {
+      "title": "No books found",
+      "description": "Add a new book."
+    },
+    "table": {
+      "title": "Title",
+      "category": "Category",
+      "copyright": "Copyright",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "copyrightClear": "Clear",
+    "copyrightPending": "Review Pending",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this book?",
+    "newTitle": "Add New Book",
+    "editTitle": "Edit Book",
+    "form": {
+      "title": "Title",
+      "category": "Category",
+      "classLevel": "Class",
+      "subjectOptional": "Subject (optional)",
+      "none": "— None —",
+      "medium": "Medium",
+      "board": "Board / Publisher",
+      "boardPlaceholder": "CBSE/NCERT",
+      "edition": "Edition / Year",
+      "editionPlaceholder": "2024-25",
+      "coverImage": "Cover Image (optional)",
+      "pdfUpload": "Upload PDF (or provide a source URL below)",
+      "sourceUrl": "Official Source URL",
+      "sourceUrlPlaceholder": "https://ncert.nic.in/...",
+      "sourceHint": "If you don't upload a PDF, this book will link to an external official source. At least one (file or source) is required.",
+      "copyrightConfirm": "I confirm that this content is under an open license or has permission to be published",
+      "publishNow": "Publish immediately",
+      "save": "Save Changes",
+      "add": "Add Book"
+    }
+  }
+}

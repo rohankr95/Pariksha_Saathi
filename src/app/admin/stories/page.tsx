@@ -8,12 +8,14 @@ import { ConfirmSubmitButton } from "@/components/admin/confirm-submit-button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { toggleStoryPublish, toggleStoryFeatured, deleteStory } from "./actions";
+import { getT } from "@/lib/i18n/server";
 
 export default async function AdminStoriesPage({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
+  const t = await getT();
   const sp = await searchParams;
   const page = sp.page ? Number(sp.page) : 1;
   const { items, total, totalPages } = await getAdminStories({ q: sp.q, page });
@@ -22,32 +24,32 @@ export default async function AdminStoriesPage({
   return (
     <div>
       <div className="mb-6">
-        <h1 className="font-sans text-2xl font-bold text-foreground">प्रेरक कहानियाँ</h1>
+        <h1 className="font-sans text-2xl font-bold text-foreground">{t("stories.admin.listTitle")}</h1>
         <p className="text-sm text-muted-foreground">
-          कुल {total} कहानियाँ
-          {pendingCount > 0 && ` · ${pendingCount} छात्र सबमिशन समीक्षा हेतु लंबित`}
+          {t("stories.admin.totalCount", { count: total })}
+          {pendingCount > 0 && ` · ${t("stories.admin.pendingSubmissions", { count: pendingCount })}`}
         </p>
       </div>
 
       <AdminListToolbar
-        searchPlaceholder="कहानियाँ खोजें..."
+        searchPlaceholder={t("stories.admin.searchPlaceholder")}
         defaultSearch={sp.q}
         addHref="/admin/stories/new"
-        addLabel="नई कहानी"
+        addLabel={t("stories.admin.addLabel")}
       />
 
       {items.length === 0 ? (
-        <EmptyState icon={Trophy} title="कोई कहानी नहीं मिली" description="नई कहानी जोड़ें।" />
+        <EmptyState icon={Trophy} title={t("stories.admin.emptyTitle")} description={t("stories.admin.emptyDesc")} />
       ) : (
         <div className="overflow-hidden rounded-[var(--radius-lg)] border border-border">
           <table className="w-full text-sm">
             <thead className="bg-surface-muted text-left text-xs text-muted-foreground">
               <tr>
-                <th className="p-3">शीर्षक</th>
-                <th className="p-3">व्यक्ति</th>
-                <th className="p-3">विशेष</th>
-                <th className="p-3">स्थिति</th>
-                <th className="p-3 text-right">कार्रवाई</th>
+                <th className="p-3">{t("stories.admin.table.title")}</th>
+                <th className="p-3">{t("stories.admin.table.person")}</th>
+                <th className="p-3">{t("stories.admin.table.featured")}</th>
+                <th className="p-3">{t("stories.admin.table.status")}</th>
+                <th className="p-3 text-right">{t("stories.admin.table.actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -57,7 +59,7 @@ export default async function AdminStoriesPage({
                     {story.title}
                     {story.isSubmission && (
                       <Badge variant="accent" className="ml-2 text-[10px]">
-                        छात्र सबमिशन
+                        {t("stories.admin.studentSubmissionBadge")}
                       </Badge>
                     )}
                   </td>
@@ -66,7 +68,7 @@ export default async function AdminStoriesPage({
                     <form action={toggleStoryFeatured.bind(null, story.id, !story.isFeatured)}>
                       <button
                         type="submit"
-                        aria-label={story.isFeatured ? "विशेष हटाएँ" : "विशेष बनाएँ"}
+                        aria-label={story.isFeatured ? t("stories.admin.unmarkFeatured") : t("stories.admin.markFeatured")}
                         className="rounded p-1 hover:bg-surface-muted"
                       >
                         <Star
@@ -86,12 +88,12 @@ export default async function AdminStoriesPage({
                       <Link
                         href={`/admin/stories/${story.id}/edit`}
                         className="rounded-[var(--radius-sm)] p-1.5 text-muted-foreground hover:bg-surface-muted hover:text-primary"
-                        aria-label="संपादित करें"
+                        aria-label={t("stories.admin.edit")}
                       >
                         <Pencil className="h-4 w-4" />
                       </Link>
                       <form action={deleteStory.bind(null, story.id)}>
-                        <ConfirmSubmitButton confirmMessage="क्या आप वाकई इस कहानी को हटाना चाहते हैं?" aria-label="हटाएँ">
+                        <ConfirmSubmitButton confirmMessage={t("stories.admin.confirmDelete")} aria-label={t("stories.admin.delete")}>
                           <Trash2 className="h-4 w-4" />
                         </ConfirmSubmitButton>
                       </form>

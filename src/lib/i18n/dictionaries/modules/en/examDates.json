@@ -1,0 +1,63 @@
+{
+  "meta": { "title": "Exam Dates | Pariksha Saathi" },
+  "page": {
+    "title": "Exam Dates",
+    "subtitle": "Important dates for board and entrance exams",
+    "urgentHeading": "Application deadlines approaching (next 30 days)",
+    "daysRemaining": "{count} days left",
+    "allClasses": "All classes",
+    "allCategories": "All categories",
+    "applyFilter": "Apply Filter",
+    "empty": "No exam dates found",
+    "emptyDesc": "Try changing your filters."
+  },
+  "card": {
+    "apply": "Apply: ",
+    "exam": "Exam: ",
+    "urgent": "{count} days left to apply!",
+    "officialSite": "Official Website",
+    "notification": "Notification"
+  },
+  "subscribe": {
+    "on": "You'll be reminded",
+    "off": "Remind me"
+  },
+  "status": {
+    "UPCOMING": "Upcoming",
+    "ONGOING": "Ongoing",
+    "CLOSED": "Closed"
+  },
+  "admin": {
+    "title": "Exam Dates",
+    "totalExams": "{count} exams total",
+    "searchPlaceholder": "Search exams...",
+    "addLabel": "New Exam",
+    "empty": "No exams found",
+    "emptyDesc": "Add a new exam.",
+    "colExam": "Exam",
+    "colApplyEnd": "Application Deadline",
+    "colStatus": "Status (auto)",
+    "colPublish": "Published",
+    "colActions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this exam?",
+    "newTitle": "Add New Exam",
+    "editTitle": "Edit Exam"
+  },
+  "form": {
+    "name": "Exam Name",
+    "body": "Conducting Body",
+    "category": "Category",
+    "applyStart": "Application Start",
+    "applyEnd": "Application Deadline",
+    "examDate": "Exam Date",
+    "resultDate": "Result Date",
+    "officialUrl": "Official Website",
+    "notificationPdf": "Notification PDF (optional)",
+    "applicableClasses": "Applicable Classes",
+    "publishNow": "Publish immediately",
+    "save": "Save Changes",
+    "add": "Add Exam"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "brandName": "Pariksha Saathi Admin",
+  "menu": "Menu",
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Summary of the Pariksha Saathi portal for Surajpur district",
+    "pendingClassRequests": "Pending Class Requests",
+    "doubtClassesToday": "Doubt Classes Today",
+    "answerCopiesPending": "Answer Copies Pending Review",
+    "newRegistrations": "New Registrations (7 days)",
+    "brokenLinkReports": "Broken Link Reports",
+    "totalTeachers": "Active Teachers",
+    "totalStudents": "Active Students"
+  },
+  "comingSoon": {
+    "title": "Full management for this module is coming soon",
+    "desc": "This phase only has the database structure and navigation ready. Full CRUD will be added in an upcoming phase."
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "public": {
+    "title": "नोट्स",
+    "subtitle": "अध्यायवार डाउनलोड करने योग्य नोट्स",
+    "mostDownloaded": "सबसे अधिक डाउनलोड किए गए",
+    "downloadsCount": "{count} डाउनलोड",
+    "searchPlaceholder": "नोट्स खोजें...",
+    "empty": {
+      "title": "कोई नोट्स नहीं मिले",
+      "description": "फ़िल्टर बदलकर पुनः प्रयास करें।"
+    },
+    "preview": "पूर्वावलोकन",
+    "download": "डाउनलोड"
+  },
+  "language": {
+    "hindi": "हिंदी",
+    "english": "English",
+    "chhattisgarhi": "छत्तीसगढ़ी"
+  },
+  "admin": {
+    "listTitle": "नोट्स",
+    "totalCount": "कुल {count} नोट्स",
+    "searchPlaceholder": "नोट्स खोजें...",
+    "addLabel": "नया नोट",
+    "empty": {
+      "title": "कोई नोट्स नहीं मिले",
+      "description": "नया नोट जोड़ें।"
+    },
+    "table": {
+      "title": "शीर्षक",
+      "subject": "विषय",
+      "sizeDownloads": "आकार / डाउनलोड",
+      "status": "स्थिति",
+      "order": "क्रम",
+      "actions": "कार्रवाई"
+    },
+    "moveUp": "ऊपर ले जाएँ",
+    "moveDown": "नीचे ले जाएँ",
+    "edit": "संपादित करें",
+    "delete": "हटाएँ",
+    "deleteConfirm": "क्या आप वाकई इस नोट को हटाना चाहते हैं?",
+    "newTitle": "नया नोट जोड़ें",
+    "editTitle": "नोट संपादित करें",
+    "form": {
+      "title": "शीर्षक",
+      "classLevel": "कक्षा",
+      "language": "भाषा",
+      "subject": "विषय",
+      "chapter": "अध्याय",
+      "none": "— कोई नहीं —",
+      "tags": "टैग",
+      "pdfFile": "PDF फाइल",
+      "publishNow": "तुरंत प्रकाशित करें",
+      "save": "बदलाव सहेजें",
+      "add": "नोट जोड़ें"
+    }
+  }
+}

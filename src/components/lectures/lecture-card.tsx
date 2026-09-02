@@ -3,6 +3,7 @@ import { PlayCircle, Eye } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { LectureThumbnail } from "@/components/lectures/thumbnail";
+import { getT } from "@/lib/i18n/server";
 
 type LectureCardData = {
   id: string;
@@ -22,7 +23,8 @@ function formatDuration(sec: number | null) {
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
-export function LectureCard({ lecture, watched }: { lecture: LectureCardData; watched?: boolean }) {
+export async function LectureCard({ lecture, watched }: { lecture: LectureCardData; watched?: boolean }) {
+  const t = await getT();
   return (
     <Link href={`/lectures/${lecture.id}`}>
       <Card className="group h-full overflow-hidden transition-shadow hover:shadow-[var(--shadow-card-hover)]">
@@ -38,7 +40,7 @@ export function LectureCard({ lecture, watched }: { lecture: LectureCardData; wa
           )}
           {watched && (
             <span className="absolute left-1.5 top-1.5 rounded-full bg-success px-2 py-0.5 text-[10px] font-semibold text-white">
-              देखा गया ✓
+              {t("lectures.public.card.watchedBadge")}
             </span>
           )}
         </div>

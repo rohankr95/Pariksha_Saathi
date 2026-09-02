@@ -1,0 +1,65 @@
+{
+  "meta": { "title": "Career Roadmap | Pariksha Saathi", "quizTitle": "Interest Quiz | Pariksha Saathi" },
+  "page": {
+    "title": "Career Roadmap",
+    "subtitle": "Chart your career path",
+    "takeQuiz": "Take Interest Quiz",
+    "suggestedHeading": "Suggested for you",
+    "allStreams": "All streams",
+    "applyFilter": "Apply Filter",
+    "empty": "No roadmap found",
+    "emptyDesc": "More roadmaps will be added soon."
+  },
+  "card": {
+    "viewFull": "View Full Roadmap"
+  },
+  "detail": {
+    "eligibility": "Eligibility: ",
+    "stepsHeading": "Step-by-Step Path",
+    "salaryRange": "Average Salary Range",
+    "scholarships": "Scholarship Options",
+    "wantToKnowMore": "Want to know more about this career?",
+    "talkToCounsellor": "Talk to a Counsellor"
+  },
+  "quiz": {
+    "title": "Career Interest Quiz",
+    "subtitle": "Based on 10 simple questions, we'll suggest the career roadmaps best suited to you",
+    "questionOf": "Question {current} / {total}",
+    "previousQuestion": "Previous Question"
+  },
+  "admin": {
+    "title": "Career Roadmaps",
+    "totalRoadmaps": "{count} roadmaps total",
+    "searchPlaceholder": "Search roadmaps...",
+    "addLabel": "New Roadmap",
+    "empty": "No roadmap found",
+    "emptyDesc": "Add a new roadmap.",
+    "colTitle": "Title",
+    "colStream": "Stream",
+    "colStatus": "Status",
+    "colActions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this roadmap?",
+    "newTitle": "Add New Roadmap",
+    "editTitle": "Edit Roadmap"
+  },
+  "form": {
+    "title": "Career Name",
+    "titlePlaceholder": "Engineering",
+    "stream": "Stream",
+    "overview": "Overview",
+    "eligibility": "Eligibility",
+    "exams": "Entrance Exams (comma-separated)",
+    "salaryRange": "Average Salary Range",
+    "scholarships": "Scholarship Options",
+    "publishNow": "Publish immediately",
+    "save": "Save Changes",
+    "add": "Add Roadmap",
+    "stepsHeading": "Step-by-Step Path",
+    "stepTitlePlaceholder": "Step title (e.g. Class 10)",
+    "stepDetailPlaceholder": "Detail",
+    "removeStep": "Remove step",
+    "addStep": "Add Step"
+  }
+}

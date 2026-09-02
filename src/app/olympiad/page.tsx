@@ -3,10 +3,12 @@ import { auth } from "@/lib/auth";
 import { getOlympiads, getInterestedOlympiadIds } from "@/lib/queries/olympiads";
 import { OlympiadCard } from "@/components/olympiad/olympiad-card";
 import { EmptyState } from "@/components/ui/empty-state";
+import { getT } from "@/lib/i18n/server";
 
 export const metadata = { title: "ओलंपियाड | परीक्षा साथी" };
 
 export default async function OlympiadPage() {
+  const t = await getT();
   const session = await auth();
   const [items, interestedIds] = await Promise.all([
     getOlympiads(),
@@ -20,8 +22,8 @@ export default async function OlympiadPage() {
           <Medal className="h-6 w-6" />
         </span>
         <div>
-          <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">ओलंपियाड</h1>
-          <p className="text-sm text-muted-foreground">राष्ट्रीय व राज्य स्तरीय ओलंपियाड जानकारी</p>
+          <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">{t("olympiad.page.title")}</h1>
+          <p className="text-sm text-muted-foreground">{t("olympiad.page.subtitle")}</p>
         </div>
       </div>
 
@@ -37,7 +39,7 @@ export default async function OlympiadPage() {
           ))}
         </div>
       ) : (
-        <EmptyState icon={Medal} title="कोई ओलंपियाड उपलब्ध नहीं है" description="जल्द ही जानकारी जोड़ी जाएगी।" />
+        <EmptyState icon={Medal} title={t("olympiad.page.empty")} description={t("olympiad.page.emptyDesc")} />
       )}
     </div>
   );

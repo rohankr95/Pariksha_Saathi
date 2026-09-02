@@ -78,7 +78,21 @@
     "noData": "No information available yet",
     "tryAgain": "Try again",
     "comingSoon": "Coming soon",
+    "comingSoonTitle": "This feature is coming soon",
     "language": "हिंदी"
+  },
+  "search": {
+    "comingSoonDesc": "Search across lectures, notes, and books will be added in an upcoming phase."
+  },
+  "legal": {
+    "privacyTitle": "Privacy Policy",
+    "privacyBody": "Pariksha Saathi collects only the minimum information needed from students — name, class, school, block, and contact details — solely to provide educational services. Mobile numbers and full names are never shown on the public leaderboard. Answer copies are accessible only to the student concerned and the assigned teacher.",
+    "disclaimerTitle": "Disclaimer",
+    "disclaimerBody": "Content on this portal is managed by teachers on behalf of the District Education Department, Surajpur. External links and reference material are provided for convenience only.",
+    "accessibilityTitle": "Accessibility Statement",
+    "accessibilityBody": "This portal is built to conform to GIGW 3.0 and WCAG 2.1 AA standards — including keyboard navigation, screen reader support, sufficient color contrast, and text resizing. Please report any accessibility issue to the helpline.",
+    "helpTitle": "Help",
+    "helpBody": "For any assistance, contact the helpline number {number}."
   },
   "footer": {
     "helpline": "Helpline",

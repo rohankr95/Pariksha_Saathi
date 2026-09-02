@@ -1,0 +1,15 @@
+{
+  "greeting": "नमस्ते {name}! 👋",
+  "subtitle": "आपकी तैयारी का सारांश",
+  "streak": "स्ट्रीक",
+  "streakDays": "{count} दिन",
+  "xp": "XP अंक",
+  "lecturesWatched": "देखे गए व्याख्यान",
+  "avgAccuracy": "औसत सटीकता",
+  "recentQuizzesHeading": "हाल की प्रश्नोत्तरी",
+  "scoreLine": "{score} अंक · {accuracy}%",
+  "noAttemptsTitle": "अभी तक कोई प्रश्नोत्तरी नहीं दी",
+  "noAttemptsDesc": "अभ्यास शुरू करें और अपनी तैयारी जाँचें।",
+  "browseQuizzes": "प्रश्नोत्तरी देखें",
+  "futurePhaseNote": "मार्क्स ट्रेंड चार्ट, बैज और चैप्टर-वार सारांश Phase 6 में जोड़े जाएँगे।"
+}

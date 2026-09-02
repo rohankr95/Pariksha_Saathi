@@ -8,9 +8,11 @@ import {
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { TeacherQueueItem } from "@/components/answer-copies/teacher-queue-item";
-import { ANSWER_COPY_STATUS_LABEL, ANSWER_COPY_STATUS_COLOR } from "@/lib/answer-copy-status";
+import { ANSWER_COPY_STATUS_COLOR } from "@/lib/answer-copy-status";
+import { getT } from "@/lib/i18n/server";
 
 export default async function AdminAnswerCopiesPage() {
+  const t = await getT();
   const session = await requireRole(["TEACHER", "SUPER_ADMIN"]);
 
   if (session.user.role === "TEACHER") {
@@ -21,11 +23,11 @@ export default async function AdminAnswerCopiesPage() {
 
     return (
       <div>
-        <h1 className="mb-6 font-sans text-2xl font-bold text-foreground">उत्तरपुस्तिका जाँच — मेरी सूची</h1>
+        <h1 className="mb-6 font-sans text-2xl font-bold text-foreground">{t("answerCopies.teacherQueue.myListTitle")}</h1>
 
-        <h2 className="mb-3 font-sans text-lg font-semibold text-foreground">लंबित</h2>
+        <h2 className="mb-3 font-sans text-lg font-semibold text-foreground">{t("answerCopies.teacherQueue.pendingHeading")}</h2>
         {queue.length === 0 ? (
-          <EmptyState icon={FileCheck2} title="अभी कोई लंबित उत्तरपुस्तिका नहीं है" />
+          <EmptyState icon={FileCheck2} title={t("answerCopies.teacherQueue.emptyPending")} />
         ) : (
           <div className="space-y-3">
             {queue.map((c) => (
@@ -34,9 +36,9 @@ export default async function AdminAnswerCopiesPage() {
           </div>
         )}
 
-        <h2 className="mb-3 mt-8 font-sans text-lg font-semibold text-foreground">हाल की जाँची गई</h2>
+        <h2 className="mb-3 mt-8 font-sans text-lg font-semibold text-foreground">{t("answerCopies.teacherQueue.recentCheckedHeading")}</h2>
         {checked.length === 0 ? (
-          <p className="text-sm text-muted-foreground">अभी कोई जाँची गई उत्तरपुस्तिका नहीं है।</p>
+          <p className="text-sm text-muted-foreground">{t("answerCopies.teacherQueue.emptyChecked")}</p>
         ) : (
           <div className="space-y-2">
             {checked.map((c) => (
@@ -63,29 +65,31 @@ export default async function AdminAnswerCopiesPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="font-sans text-2xl font-bold text-foreground">उत्तरपुस्तिका जाँच — अवलोकन</h1>
+        <h1 className="font-sans text-2xl font-bold text-foreground">{t("answerCopies.admin.overviewTitle")}</h1>
         <p className="text-sm text-muted-foreground">
-          औसत निपटान समय: {turnaroundHours !== null ? `${turnaroundHours.toFixed(1)} घंटे` : "—"}
+          {t("answerCopies.admin.avgTurnaround", { value: turnaroundHours !== null ? `${turnaroundHours.toFixed(1)}h` : "—" })}
         </p>
       </div>
 
-      <h2 className="mb-3 font-sans text-lg font-semibold text-foreground">शिक्षकवार लंबित</h2>
+      <h2 className="mb-3 font-sans text-lg font-semibold text-foreground">{t("answerCopies.admin.byTeacherHeading")}</h2>
       {pending.length === 0 ? (
-        <p className="mb-8 text-sm text-muted-foreground">कोई लंबित उत्तरपुस्तिका नहीं है।</p>
+        <p className="mb-8 text-sm text-muted-foreground">{t("answerCopies.admin.noPending")}</p>
       ) : (
         <div className="mb-8 grid gap-2.5 sm:grid-cols-2">
           {pending.map((p) => (
             <Card key={p.teacherId} className="flex items-center justify-between p-3 text-sm">
               <span className="font-medium text-foreground">{p.teacherName}</span>
-              <span className="font-semibold text-[var(--color-section-answercopies)]">{p.count} लंबित</span>
+              <span className="font-semibold text-[var(--color-section-answercopies)]">
+                {t("answerCopies.admin.pendingCount", { count: p.count })}
+              </span>
             </Card>
           ))}
         </div>
       )}
 
-      <h2 className="mb-3 font-sans text-lg font-semibold text-foreground">हाल की गतिविधि</h2>
+      <h2 className="mb-3 font-sans text-lg font-semibold text-foreground">{t("answerCopies.admin.recentActivityHeading")}</h2>
       {recent.length === 0 ? (
-        <EmptyState icon={FileCheck2} title="अभी कोई उत्तरपुस्तिका जमा नहीं हुई है" />
+        <EmptyState icon={FileCheck2} title={t("answerCopies.admin.emptyRecent")} />
       ) : (
         <div className="space-y-2">
           {recent.map((c) => (
@@ -103,7 +107,7 @@ export default async function AdminAnswerCopiesPage() {
                   color: `var(${ANSWER_COPY_STATUS_COLOR[c.status]})`,
                 }}
               >
-                {ANSWER_COPY_STATUS_LABEL[c.status]}
+                {t(`answerCopies.status.${c.status}`)}
               </span>
             </Card>
           ))}

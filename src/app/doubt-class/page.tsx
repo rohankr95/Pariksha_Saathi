@@ -7,6 +7,7 @@ import { Select } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
+import { getT } from "@/lib/i18n/server";
 
 export const metadata = { title: "शंका समाधान | परीक्षा साथी" };
 
@@ -15,6 +16,7 @@ export default async function DoubtClassPage({
 }: {
   searchParams: Promise<{ subjectId?: string }>;
 }) {
+  const t = await getT();
   const session = await auth();
   const { subjectId } = await searchParams;
 
@@ -31,14 +33,14 @@ export default async function DoubtClassPage({
             <MessageCircleQuestion className="h-6 w-6" />
           </span>
           <div>
-            <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">शंका समाधान</h1>
-            <p className="text-sm text-muted-foreground">शिक्षक चुनें और अपनी सुविधा अनुसार स्लॉट बुक करें</p>
+            <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">{t("doubtClass.browse.title")}</h1>
+            <p className="text-sm text-muted-foreground">{t("doubtClass.browse.subtitle")}</p>
           </div>
         </div>
         {isStudent && (
           <Link href="/doubt-class/my-bookings">
             <Button variant="outline" size="sm">
-              <CalendarClock className="h-4 w-4" /> मेरी बुकिंग
+              <CalendarClock className="h-4 w-4" /> {t("doubtClass.browse.myBookings")}
             </Button>
           </Link>
         )}
@@ -46,11 +48,11 @@ export default async function DoubtClassPage({
           <div className="flex gap-2">
             <Link href="/doubt-class/my-bookings">
               <Button variant="outline" size="sm">
-                <CalendarClock className="h-4 w-4" /> मेरी कक्षाएँ
+                <CalendarClock className="h-4 w-4" /> {t("doubtClass.browse.myClasses")}
               </Button>
             </Link>
             <Link href="/admin/doubt-classes/availability">
-              <Button size="sm">उपलब्धता प्रबंधित करें</Button>
+              <Button size="sm">{t("doubtClass.browse.manageAvailability")}</Button>
             </Link>
           </div>
         )}
@@ -58,7 +60,7 @@ export default async function DoubtClassPage({
 
       <form className="mb-6">
         <Select name="subjectId" defaultValue={subjectId ?? ""} className="max-w-xs">
-          <option value="">सभी विषय</option>
+          <option value="">{t("doubtClass.browse.allSubjects")}</option>
           {subjects.map((s) => (
             <option key={s.id} value={s.id}>
               {s.nameHi}
@@ -70,18 +72,18 @@ export default async function DoubtClassPage({
       {teachers.length === 0 ? (
         <EmptyState
           icon={MessageCircleQuestion}
-          title="इस विषय हेतु अभी कोई शिक्षक उपलब्ध नहीं है"
-          description="कृपया दूसरा विषय चुनें या बाद में पुनः प्रयास करें।"
+          title={t("doubtClass.browse.emptyTitle")}
+          description={t("doubtClass.browse.emptyDesc")}
         />
       ) : (
         <div className="grid gap-3 sm:grid-cols-2">
-          {teachers.map((t) => (
-            <Link key={t.id} href={`/doubt-class/${t.id}`}>
+          {teachers.map((teacher) => (
+            <Link key={teacher.id} href={`/doubt-class/${teacher.id}`}>
               <Card className="flex items-center justify-between gap-3 p-4 transition-shadow hover:shadow-[var(--shadow-card-hover)]">
                 <div>
-                  <p className="font-semibold text-foreground">{t.name}</p>
+                  <p className="font-semibold text-foreground">{teacher.name}</p>
                   <p className="text-xs text-muted-foreground">
-                    {t.subjects.map((s) => s.nameHi).join(", ") || "सामान्य"}
+                    {teacher.subjects.map((s) => s.nameHi).join(", ") || t("doubtClass.browse.generalSubject")}
                   </p>
                 </div>
                 <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />

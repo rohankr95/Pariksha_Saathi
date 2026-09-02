@@ -6,6 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { FileUploadField, type UploadedFile } from "@/components/admin/file-upload-field";
 import { CLASS_LEVEL_LABEL } from "@/lib/queries/curriculum";
+import { useLocale } from "@/lib/i18n/locale-provider";
 import type { ClassLevel } from "@prisma/client";
 
 const CATEGORY_SUGGESTIONS = ["Board Exam", "Entrance Exam", "Scholarship Exam", "Competitive Exam"];
@@ -39,21 +40,22 @@ export function ExamForm({
   const [notification, setNotification] = useState<UploadedFile | null>(
     initial?.notificationUrl ? { path: initial.notificationUrl, url: initial.notificationUrl, sizeBytes: 0 } : null
   );
+  const { t } = useLocale();
 
   return (
     <form action={action} className="max-w-2xl space-y-5">
       <div className="space-y-1.5">
-        <Label htmlFor="name">परीक्षा का नाम</Label>
+        <Label htmlFor="name">{t("examDates.form.name")}</Label>
         <Input id="name" name="name" required defaultValue={initial?.name} />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <Label htmlFor="body">आयोजक निकाय</Label>
+          <Label htmlFor="body">{t("examDates.form.body")}</Label>
           <Input id="body" name="body" required defaultValue={initial?.body} placeholder="CGBSE" />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="category">श्रेणी</Label>
+          <Label htmlFor="category">{t("examDates.form.category")}</Label>
           <Input id="category" name="category" required list="category-suggestions" defaultValue={initial?.category} />
           <datalist id="category-suggestions">
             {CATEGORY_SUGGESTIONS.map((c) => (
@@ -65,39 +67,39 @@ export function ExamForm({
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <Label htmlFor="applyStart">आवेदन प्रारंभ</Label>
+          <Label htmlFor="applyStart">{t("examDates.form.applyStart")}</Label>
           <Input id="applyStart" name="applyStart" type="date" defaultValue={toDateInputValue(initial?.applyStart ?? null)} />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="applyEnd">आवेदन अंतिम तिथि</Label>
+          <Label htmlFor="applyEnd">{t("examDates.form.applyEnd")}</Label>
           <Input id="applyEnd" name="applyEnd" type="date" defaultValue={toDateInputValue(initial?.applyEnd ?? null)} />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="examDate">परीक्षा तिथि</Label>
+          <Label htmlFor="examDate">{t("examDates.form.examDate")}</Label>
           <Input id="examDate" name="examDate" type="date" defaultValue={toDateInputValue(initial?.examDate ?? null)} />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="resultDate">परिणाम तिथि</Label>
+          <Label htmlFor="resultDate">{t("examDates.form.resultDate")}</Label>
           <Input id="resultDate" name="resultDate" type="date" defaultValue={toDateInputValue(initial?.resultDate ?? null)} />
         </div>
       </div>
 
       <div className="space-y-1.5">
-        <Label htmlFor="officialUrl">आधिकारिक वेबसाइट</Label>
+        <Label htmlFor="officialUrl">{t("examDates.form.officialUrl")}</Label>
         <Input id="officialUrl" name="officialUrl" type="url" defaultValue={initial?.officialUrl ?? ""} />
       </div>
 
       <FileUploadField
         kind="exam-notification"
         accept="application/pdf"
-        label="अधिसूचना PDF (वैकल्पिक)"
+        label={t("examDates.form.notificationPdf")}
         value={notification}
         onChange={setNotification}
       />
       <input type="hidden" name="notificationUrl" value={notification?.url ?? ""} />
 
       <div className="space-y-1.5">
-        <Label>लागू कक्षाएँ</Label>
+        <Label>{t("examDates.form.applicableClasses")}</Label>
         <div className="flex flex-wrap gap-3">
           {(Object.keys(CLASS_LEVEL_LABEL) as ClassLevel[]).map((c) => (
             <label key={c} className="flex items-center gap-1.5 text-sm">
@@ -110,11 +112,11 @@ export function ExamForm({
 
       <label className="flex items-center gap-2 text-sm">
         <Checkbox name="isPublished" defaultChecked={initial?.isPublished ?? false} />
-        तुरंत प्रकाशित करें
+        {t("examDates.form.publishNow")}
       </label>
 
       <Button type="submit" size="lg">
-        {initial ? "बदलाव सहेजें" : "परीक्षा जोड़ें"}
+        {initial ? t("examDates.form.save") : t("examDates.form.add")}
       </Button>
     </form>
   );

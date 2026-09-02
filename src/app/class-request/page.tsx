@@ -7,10 +7,12 @@ import { ClassRequestForm } from "@/components/class-request/class-request-form"
 import { MyRequestsList } from "@/components/class-request/my-requests-list";
 import { RequestFeed } from "@/components/class-request/request-feed";
 import { EmptyState } from "@/components/ui/empty-state";
+import { getT } from "@/lib/i18n/server";
 
 export const metadata = { title: "कक्षा अनुरोध | परीक्षा साथी" };
 
 export default async function ClassRequestPage() {
+  const t = await getT();
   const session = await auth();
   const [subjects, teachers] = await Promise.all([
     getSubjects(),
@@ -34,13 +36,13 @@ export default async function ClassRequestPage() {
           <HandHelping className="h-6 w-6" />
         </span>
         <div>
-          <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">कक्षा अनुरोध</h1>
-          <p className="text-sm text-muted-foreground">अपनी पसंदीदा कक्षा का अनुरोध करें</p>
+          <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">{t("classRequest.page.title")}</h1>
+          <p className="text-sm text-muted-foreground">{t("classRequest.page.subtitle")}</p>
         </div>
       </div>
 
       {!isStudent ? (
-        <EmptyState icon={HandHelping} title="कक्षा अनुरोध भेजने के लिए विद्यार्थी के रूप में लॉगिन करें" />
+        <EmptyState icon={HandHelping} title={t("classRequest.page.loginPrompt")} />
       ) : (
         <div className="grid gap-8 lg:grid-cols-2">
           <div className="space-y-8">

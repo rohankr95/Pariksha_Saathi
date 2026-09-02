@@ -1,0 +1,79 @@
+{
+  "public": {
+    "title": "प्रेरक कहानियाँ",
+    "desc": "IAS, टॉपर्स और स्थानीय उपलब्धियों की कहानियाँ",
+    "submitCta": "अपनी कहानी भेजें",
+    "filterAll": "सभी",
+    "filterApply": "फ़िल्टर लागू करें",
+    "emptyTitle": "कोई कहानी नहीं मिली",
+    "emptyDesc": "जल्द ही नई कहानियाँ जोड़ी जाएँगी।",
+    "loginRequired": {
+      "title": "कहानी भेजने के लिए लॉगिन करें",
+      "desc": "अपनी सफलता की कहानी साझा करने के लिए पहले अपने खाते से लॉगिन करें।",
+      "cta": "लॉगिन करें"
+    },
+    "submit": {
+      "title": "अपनी कहानी भेजें",
+      "subtitle": "आपकी कहानी समीक्षा के बाद प्रकाशित की जाएगी",
+      "successMessage": "धन्यवाद! आपकी कहानी सफलतापूर्वक भेज दी गई है और समीक्षा के लिए लंबित है।",
+      "titleLabel": "शीर्षक",
+      "titlePlaceholder": "मेरी सफलता की कहानी",
+      "bodyLabel": "आपकी कहानी",
+      "bodyPlaceholder": "अपनी यात्रा, संघर्ष और सफलता के बारे में लिखें...",
+      "submitting": "भेजा जा रहा है...",
+      "submitCta": "कहानी भेजें"
+    }
+  },
+  "featured": {
+    "emptyTitle": "जल्द ही एक प्रेरक कहानी जोड़ी जाएगी",
+    "emptyDesc": "शिक्षक और छात्र जल्द ही अपनी सफलता की कहानियाँ साझा करेंगे।"
+  },
+  "card": {
+    "featuredBadge": "विशेष"
+  },
+  "admin": {
+    "listTitle": "प्रेरक कहानियाँ",
+    "totalCount": "कुल {count} कहानियाँ",
+    "pendingSubmissions": "{count} छात्र सबमिशन समीक्षा हेतु लंबित",
+    "searchPlaceholder": "कहानियाँ खोजें...",
+    "addLabel": "नई कहानी",
+    "emptyTitle": "कोई कहानी नहीं मिली",
+    "emptyDesc": "नई कहानी जोड़ें।",
+    "table": {
+      "title": "शीर्षक",
+      "person": "व्यक्ति",
+      "featured": "विशेष",
+      "status": "स्थिति",
+      "actions": "कार्रवाई"
+    },
+    "studentSubmissionBadge": "छात्र सबमिशन",
+    "markFeatured": "विशेष बनाएँ",
+    "unmarkFeatured": "विशेष हटाएँ",
+    "edit": "संपादित करें",
+    "delete": "हटाएँ",
+    "confirmDelete": "क्या आप वाकई इस कहानी को हटाना चाहते हैं?",
+    "newTitle": "नई कहानी जोड़ें",
+    "editTitle": "कहानी संपादित करें",
+    "form": {
+      "title": "शीर्षक",
+      "personName": "व्यक्ति का नाम",
+      "designation": "पद / उपलब्धि",
+      "designationPlaceholder": "IAS, 2021 बैच",
+      "district": "जिला",
+      "defaultDistrict": "सूरजपुर",
+      "block": "विकासखंड",
+      "photo": "फोटो",
+      "videoUrl": "YouTube लिंक (वैकल्पिक)",
+      "body": "कहानी (लेख)",
+      "tags": "टैग",
+      "showOnHome": "होम पेज पर विशेष रूप से दिखाएँ",
+      "publishNow": "तुरंत प्रकाशित करें",
+      "saveChanges": "बदलाव सहेजें",
+      "addStory": "कहानी जोड़ें"
+    }
+  },
+  "errors": {
+    "invalidData": "अमान्य जानकारी"
+  },
+  "defaultPersonName": "विद्यार्थी"
+}

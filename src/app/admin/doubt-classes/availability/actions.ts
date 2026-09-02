@@ -4,6 +4,7 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/require-role";
+import { getT } from "@/lib/i18n/server";
 
 const availabilitySchema = z.object({
   weekday: z.coerce.number().int().min(0).max(6),
@@ -28,7 +29,8 @@ export async function createAvailability(formData: FormData) {
   });
 
   if (data.startTime >= data.endTime) {
-    throw new Error("अंतिम समय प्रारंभ समय के बाद होना चाहिए");
+    const t = await getT();
+    throw new Error(t("doubtClass.errors.endAfterStart"));
   }
 
   await prisma.teacherAvailability.create({

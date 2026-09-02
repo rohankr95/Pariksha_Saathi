@@ -1,0 +1,38 @@
+{
+  "period": {
+    "WEEKLY": "Weekly",
+    "MONTHLY": "Monthly",
+    "ALL_TIME": "All Time"
+  },
+  "public": {
+    "title": "Leaderboard",
+    "subtitle": "Top students of the district",
+    "allSubjects": "All Subjects",
+    "allClasses": "All Classes",
+    "allBlocks": "All Blocks",
+    "allSchools": "All Schools",
+    "applyFilters": "Apply Filters",
+    "empty": "No rankings available yet",
+    "emptyDesc": "Take a quiz and climb to the top of the list!",
+    "rankingNote": "Rankings are based on total points; ties are broken by accuracy, then by average time. Full names and mobile numbers are never made public.",
+    "attemptsAndAccuracy": "{attempts} attempts · {accuracy}%",
+    "visibleMessage": "Your ranking is shown in the public list",
+    "hiddenMessage": "You are hidden from the public list",
+    "hideMe": "Hide from list",
+    "showMe": "Show on list"
+  },
+  "admin": {
+    "title": "Leaderboard",
+    "activeStudents": "{count} active students across the district",
+    "exportCsv": "Export CSV",
+    "apply": "Apply",
+    "empty": "No data available yet",
+    "colRank": "Rank",
+    "colName": "Name",
+    "colSchool": "School",
+    "colClass": "Class",
+    "colPoints": "Points",
+    "colAccuracy": "Accuracy",
+    "colAttempts": "Attempts"
+  }
+}

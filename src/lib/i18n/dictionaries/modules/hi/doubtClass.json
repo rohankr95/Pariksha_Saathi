@@ -1,0 +1,123 @@
+{
+  "meta": { "browseTitle": "शंका समाधान | परीक्षा साथी", "myBookingsTitle": "मेरी बुकिंग | परीक्षा साथी" },
+  "browse": {
+    "myBookings": "मेरी बुकिंग",
+    "myClasses": "मेरी कक्षाएँ",
+    "manageAvailability": "उपलब्धता प्रबंधित करें",
+    "title": "शंका समाधान",
+    "subtitle": "शिक्षक चुनें और अपनी सुविधा अनुसार स्लॉट बुक करें",
+    "allSubjects": "सभी विषय",
+    "generalSubject": "सामान्य",
+    "emptyTitle": "इस विषय हेतु अभी कोई शिक्षक उपलब्ध नहीं है",
+    "emptyDesc": "कृपया दूसरा विषय चुनें या बाद में पुनः प्रयास करें।"
+  },
+  "teacherPage": {
+    "backLink": "शंका समाधान",
+    "generalSubject": "सामान्य"
+  },
+  "booking": {
+    "successTitle": "आपकी शंका समाधान कक्षा बुक हो गई है!",
+    "successDesc": "विवरण आपके ईमेल पर भेज दिया गया है (कैलेंडर आमंत्रण सहित)।",
+    "noSlots": "इस शिक्षक के पास आगामी दिनों में कोई उपलब्ध स्लॉट नहीं है।",
+    "seatsLeft": "{count} सीट शेष",
+    "topic": "विषय / प्रश्न",
+    "topicPlaceholder": "जैसे: त्रिकोणमिति के सूत्र समझना",
+    "description": "विवरण (वैकल्पिक)",
+    "descriptionPlaceholder": "अपनी शंका विस्तार से लिखें",
+    "booking": "बुक हो रहा है...",
+    "submit": "स्लॉट बुक करें"
+  },
+  "myBookings": {
+    "title": "मेरी बुकिंग",
+    "titleTeacher": "मेरी कक्षाएँ",
+    "emptyTitle": "अभी कोई बुकिंग नहीं है",
+    "emptyDescStudent": "किसी शिक्षक को चुनकर स्लॉट बुक करें।",
+    "emptyDescTeacher": "विद्यार्थी आपकी उपलब्धता अनुसार स्लॉट बुक कर सकेंगे।"
+  },
+  "studentCard": {
+    "openMeetingLink": "मीटिंग लिंक खोलें",
+    "confirmCancel": "क्या आप वाकई इस बुकिंग को रद्द करना चाहते हैं?",
+    "cancelFailed": "रद्द नहीं हो सका",
+    "rating": "रेटिंग:",
+    "starLabel": "{n} स्टार",
+    "cancel": "रद्द करें"
+  },
+  "teacherCard": {
+    "upcomingHeading": "आगामी कक्षाएँ",
+    "noUpcoming": "कोई आगामी कक्षा नहीं है।",
+    "pastHeading": "पूर्व कक्षाएँ",
+    "noPast": "अभी कोई पूर्व कक्षा नहीं है।",
+    "classLabel": "कक्षा",
+    "cancel": "रद्द करें",
+    "cancelReasonPlaceholder": "रद्द करने का कारण",
+    "cancelReasonRequired": "रद्द करने का कारण आवश्यक है",
+    "cancelFailed": "रद्द नहीं हो सका",
+    "confirm": "पुष्टि करें",
+    "back": "वापस",
+    "attended": "उपस्थित",
+    "noShow": "अनुपस्थित",
+    "remarkPlaceholder": "टिप्पणी (वैकल्पिक)",
+    "update": "अद्यतन करें",
+    "record": "दर्ज करें"
+  },
+  "admin": {
+    "myClassesTitle": "शंका समाधान — मेरी कक्षाएँ",
+    "manageAvailability": "मेरी उपलब्धता प्रबंधित करें",
+    "emptyBookingsTitle": "अभी कोई बुकिंग नहीं है",
+    "emptyBookingsDesc": "पहले अपनी उपलब्धता सेट करें।",
+    "allBookingsTitle": "शंका समाधान — सभी बुकिंग",
+    "activeTeachersCount": "{teachers} सक्रिय शिक्षक · {bookings} आगामी बुकिंग",
+    "emptyUpcoming": "अभी कोई आगामी बुकिंग नहीं है"
+  },
+  "availability": {
+    "backLink": "शंका समाधान",
+    "title": "मेरी उपलब्धता",
+    "weeklyHeading": "साप्ताहिक समय-सारणी",
+    "slotDurationLabel": "{minutes} मिनट स्लॉट",
+    "capacityLabel": "क्षमता {count}",
+    "removeConfirm": "क्या आप वाकई इसे हटाना चाहते हैं?",
+    "remove": "हटाएँ",
+    "noRules": "अभी कोई समय-सारणी सेट नहीं की गई है।",
+    "addSlotHeading": "नया स्लॉट जोड़ें",
+    "modeOnline": "ऑनलाइन (Meet)",
+    "modePhone": "फोन कॉल",
+    "modeInPerson": "व्यक्तिगत रूप से",
+    "startTime": "प्रारंभ समय",
+    "endTime": "अंतिम समय",
+    "slotMinutes": "स्लॉट अवधि (मिनट)",
+    "capacity": "क्षमता (एक साथ विद्यार्थी)",
+    "meetingLink": "मीटिंग लिंक (वैकल्पिक)",
+    "add": "जोड़ें",
+    "blackoutHeading": "अवकाश तिथियाँ",
+    "noBlackout": "कोई अवकाश तिथि निर्धारित नहीं है।",
+    "addBlackoutHeading": "अवकाश तिथि जोड़ें",
+    "date": "तिथि",
+    "reason": "कारण (वैकल्पिक)",
+    "reasonPlaceholder": "जैसे: अवकाश, प्रशिक्षण"
+  },
+  "weekday": {
+    "0": "रविवार", "1": "सोमवार", "2": "मंगलवार", "3": "बुधवार", "4": "गुरुवार", "5": "शुक्रवार", "6": "शनिवार"
+  },
+  "bookingMode": {
+    "MEET": "ऑनलाइन (Google Meet)",
+    "PHONE": "फोन कॉल",
+    "IN_PERSON": "व्यक्तिगत रूप से"
+  },
+  "status": {
+    "BOOKED": "निर्धारित",
+    "CANCELLED": "रद्द",
+    "RESCHEDULED": "पुनर्निर्धारित",
+    "ATTENDED": "पूर्ण",
+    "NO_SHOW": "अनुपस्थित"
+  },
+  "errors": {
+    "studentOnly": "केवल विद्यार्थी बुकिंग कर सकते हैं",
+    "invalid": "अमान्य जानकारी",
+    "invalidTime": "अमान्य समय",
+    "slotUnavailable": "यह स्लॉट अब उपलब्ध नहीं है, कृपया दूसरा चुनें",
+    "slotJustBooked": "यह स्लॉट अभी-अभी बुक हो गया, कृपया दूसरा स्लॉट चुनें",
+    "cancelCutoff": "रद्द करने की समय सीमा ({hours} घंटे पूर्व) समाप्त हो चुकी है",
+    "cancelReasonRequired": "रद्द करने का कारण आवश्यक है",
+    "endAfterStart": "अंतिम समय प्रारंभ समय के बाद होना चाहिए"
+  }
+}

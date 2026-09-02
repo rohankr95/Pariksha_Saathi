@@ -1,0 +1,79 @@
+{
+  "public": {
+    "title": "पुस्तकें",
+    "subtitle": "NCERT और संदर्भ पुस्तकों का पुस्तकालय",
+    "empty": {
+      "title": "कोई पुस्तक नहीं मिली",
+      "description": "फ़िल्टर बदलकर पुनः प्रयास करें।"
+    },
+    "externalSource": "बाहरी स्रोत",
+    "download": "डाउनलोड",
+    "source": "स्रोत"
+  },
+  "filter": {
+    "searchPlaceholder": "पुस्तक खोजें...",
+    "allCategories": "सभी श्रेणियाँ",
+    "allClasses": "सभी कक्षाएँ",
+    "allSubjects": "सभी विषय",
+    "allMediums": "सभी माध्यम",
+    "apply": "फ़िल्टर लागू करें"
+  },
+  "category": {
+    "NCERT": "NCERT",
+    "SCERT_CGBSE": "SCERT / CGBSE छत्तीसगढ़",
+    "REFERENCE": "संदर्भ पुस्तकें",
+    "COMPETITIVE": "प्रतियोगी परीक्षा",
+    "PREVIOUS_YEAR_PAPER": "पिछले वर्ष के प्रश्नपत्र",
+    "MODEL_ANSWER": "मॉडल उत्तर पत्र"
+  },
+  "language": {
+    "hindi": "हिंदी",
+    "english": "English",
+    "chhattisgarhi": "छत्तीसगढ़ी"
+  },
+  "admin": {
+    "listTitle": "पुस्तकें",
+    "totalCount": "कुल {count} पुस्तकें",
+    "searchPlaceholder": "पुस्तकें खोजें...",
+    "addLabel": "नई पुस्तक",
+    "empty": {
+      "title": "कोई पुस्तक नहीं मिली",
+      "description": "नई पुस्तक जोड़ें।"
+    },
+    "table": {
+      "title": "शीर्षक",
+      "category": "श्रेणी",
+      "copyright": "कॉपीराइट",
+      "status": "स्थिति",
+      "actions": "कार्रवाई"
+    },
+    "copyrightClear": "स्पष्ट",
+    "copyrightPending": "जाँच लंबित",
+    "edit": "संपादित करें",
+    "delete": "हटाएँ",
+    "deleteConfirm": "क्या आप वाकई इस पुस्तक को हटाना चाहते हैं?",
+    "newTitle": "नई पुस्तक जोड़ें",
+    "editTitle": "पुस्तक संपादित करें",
+    "form": {
+      "title": "शीर्षक",
+      "category": "श्रेणी",
+      "classLevel": "कक्षा",
+      "subjectOptional": "विषय (वैकल्पिक)",
+      "none": "— कोई नहीं —",
+      "medium": "माध्यम",
+      "board": "बोर्ड / प्रकाशक",
+      "boardPlaceholder": "CBSE/NCERT",
+      "edition": "संस्करण / वर्ष",
+      "editionPlaceholder": "2024-25",
+      "coverImage": "कवर छवि (वैकल्पिक)",
+      "pdfUpload": "PDF अपलोड करें (या नीचे स्रोत URL दें)",
+      "sourceUrl": "आधिकारिक स्रोत URL",
+      "sourceUrlPlaceholder": "https://ncert.nic.in/...",
+      "sourceHint": "PDF अपलोड न करने पर, यह पुस्तक बाहरी आधिकारिक स्रोत से लिंक होगी। कम से कम एक (फाइल या स्रोत) आवश्यक है।",
+      "copyrightConfirm": "मैं पुष्टि करता/करती हूँ कि यह सामग्री खुले लाइसेंस के अंतर्गत है या प्रकाशित करने की अनुमति प्राप्त है",
+      "publishNow": "तुरंत प्रकाशित करें",
+      "save": "बदलाव सहेजें",
+      "add": "पुस्तक जोड़ें"
+    }
+  }
+}

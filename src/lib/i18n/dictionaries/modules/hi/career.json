@@ -1,0 +1,65 @@
+{
+  "meta": { "title": "करियर रोडमैप | परीक्षा साथी", "quizTitle": "रुचि परीक्षण | परीक्षा साथी" },
+  "page": {
+    "title": "करियर रोडमैप",
+    "subtitle": "अपने करियर का रास्ता चुनें",
+    "takeQuiz": "रुचि परीक्षण लें",
+    "suggestedHeading": "आपके लिए सुझाए गए",
+    "allStreams": "सभी स्ट्रीम",
+    "applyFilter": "फ़िल्टर लागू करें",
+    "empty": "कोई रोडमैप नहीं मिला",
+    "emptyDesc": "जल्द ही और रोडमैप जोड़े जाएँगे।"
+  },
+  "card": {
+    "viewFull": "पूरा रोडमैप देखें"
+  },
+  "detail": {
+    "eligibility": "पात्रता: ",
+    "stepsHeading": "चरण-दर-चरण मार्ग",
+    "salaryRange": "औसत वेतन सीमा",
+    "scholarships": "छात्रवृत्ति विकल्प",
+    "wantToKnowMore": "इस करियर के बारे में और जानना चाहते हैं?",
+    "talkToCounsellor": "काउंसलर से बात करें"
+  },
+  "quiz": {
+    "title": "करियर रुचि परीक्षण",
+    "subtitle": "10 सरल प्रश्नों के आधार पर आपके लिए सबसे उपयुक्त करियर रोडमैप सुझाए जाएँगे",
+    "questionOf": "प्रश्न {current} / {total}",
+    "previousQuestion": "पिछला प्रश्न"
+  },
+  "admin": {
+    "title": "करियर रोडमैप",
+    "totalRoadmaps": "कुल {count} रोडमैप",
+    "searchPlaceholder": "रोडमैप खोजें...",
+    "addLabel": "नया रोडमैप",
+    "empty": "कोई रोडमैप नहीं मिला",
+    "emptyDesc": "नया रोडमैप जोड़ें।",
+    "colTitle": "शीर्षक",
+    "colStream": "स्ट्रीम",
+    "colStatus": "स्थिति",
+    "colActions": "कार्रवाई",
+    "edit": "संपादित करें",
+    "delete": "हटाएँ",
+    "deleteConfirm": "क्या आप वाकई इस रोडमैप को हटाना चाहते हैं?",
+    "newTitle": "नया रोडमैप जोड़ें",
+    "editTitle": "रोडमैप संपादित करें"
+  },
+  "form": {
+    "title": "करियर का नाम",
+    "titlePlaceholder": "इंजीनियरिंग",
+    "stream": "स्ट्रीम",
+    "overview": "परिचय",
+    "eligibility": "पात्रता",
+    "exams": "प्रवेश परीक्षाएँ (कॉमा से अलग करें)",
+    "salaryRange": "औसत वेतन सीमा",
+    "scholarships": "छात्रवृत्ति विकल्प",
+    "publishNow": "तुरंत प्रकाशित करें",
+    "save": "बदलाव सहेजें",
+    "add": "रोडमैप जोड़ें",
+    "stepsHeading": "चरण-दर-चरण मार्ग",
+    "stepTitlePlaceholder": "चरण का शीर्षक (जैसे: कक्षा 10)",
+    "stepDetailPlaceholder": "विवरण",
+    "removeStep": "चरण हटाएँ",
+    "addStep": "चरण जोड़ें"
+  }
+}

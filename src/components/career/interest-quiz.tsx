@@ -6,11 +6,13 @@ import { Compass } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CAREER_QUIZ } from "@/lib/career-quiz";
+import { useLocale } from "@/lib/i18n/locale-provider";
 
 export function InterestQuiz() {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [scores, setScores] = useState<Record<string, number>>({});
+  const { t } = useLocale();
 
   function answer(categories: string[]) {
     const next = { ...scores };
@@ -36,7 +38,7 @@ export function InterestQuiz() {
     <Card className="mx-auto max-w-lg p-6">
       <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
         <Compass className="h-4 w-4 text-[var(--color-section-career)]" />
-        प्रश्न {step + 1} / {CAREER_QUIZ.length}
+        {t("career.quiz.questionOf", { current: step + 1, total: CAREER_QUIZ.length })}
       </div>
       <div className="mb-6 h-1.5 w-full overflow-hidden rounded-full bg-surface-muted">
         <div
@@ -61,7 +63,7 @@ export function InterestQuiz() {
 
       {step > 0 && (
         <Button variant="ghost" size="sm" className="mt-4" onClick={() => setStep(step - 1)}>
-          पिछला प्रश्न
+          {t("career.quiz.previousQuestion")}
         </Button>
       )}
     </Card>

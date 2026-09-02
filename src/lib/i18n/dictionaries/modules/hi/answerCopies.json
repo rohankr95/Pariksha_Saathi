@@ -1,0 +1,74 @@
+{
+  "meta": { "title": "उत्तरपुस्तिका जाँच | परीक्षा साथी" },
+  "page": {
+    "title": "उत्तरपुस्तिका जाँच",
+    "subtitle": "अपनी उत्तरपुस्तिका शिक्षक से जँचवाएँ",
+    "loginPrompt": "उत्तरपुस्तिका जमा करने के लिए विद्यार्थी के रूप में लॉगिन करें",
+    "myCopiesHeading": "मेरी उत्तरपुस्तिकाएँ",
+    "noCopies": "अभी कोई उत्तरपुस्तिका जमा नहीं की गई है।"
+  },
+  "form": {
+    "weeklyLimitReached": "आपने इस सप्ताह की अधिकतम सीमा तक उत्तरपुस्तिकाएँ जमा कर दी हैं। कृपया अगले सप्ताह पुनः प्रयास करें।",
+    "heading": "उत्तरपुस्तिका जमा करें",
+    "remaining": "इस सप्ताह {count} जमा करने की सीमा शेष है",
+    "success": "आपकी उत्तरपुस्तिका सफलतापूर्वक जमा कर दी गई है।",
+    "subject": "विषय",
+    "classLevel": "कक्षा",
+    "teacher": "शिक्षक",
+    "noTeacherForSubject": "इस विषय हेतु कोई शिक्षक उपलब्ध नहीं",
+    "paperName": "प्रश्नपत्र / परीक्षा का नाम",
+    "paperNamePlaceholder": "जैसे: अर्धवार्षिक परीक्षा — गणित",
+    "fileLabel": "उत्तरपुस्तिका फाइल",
+    "submitting": "जमा हो रहा है...",
+    "submit": "जमा करें"
+  },
+  "upload": {
+    "failed": "अपलोड विफल",
+    "remove": "हटाएँ",
+    "uploading": "अपलोड हो रहा है...",
+    "choose": "फाइल चुनें (PDF, JPG, PNG · अधिकतम 15MB)"
+  },
+  "myCopy": {
+    "marks": "अंक: {awarded} / {total}",
+    "viewChecked": "जाँची गई फाइल देखें"
+  },
+  "status": {
+    "SUBMITTED": "जमा किया गया",
+    "ASSIGNED": "आबंटित",
+    "UNDER_EVALUATION": "मूल्यांकन जारी",
+    "CHECKED": "जांचा गया",
+    "RETURNED": "वापस भेजा गया"
+  },
+  "teacherQueue": {
+    "myListTitle": "उत्तरपुस्तिका जाँच — मेरी सूची",
+    "pendingHeading": "लंबित",
+    "emptyPending": "अभी कोई लंबित उत्तरपुस्तिका नहीं है",
+    "recentCheckedHeading": "हाल की जाँची गई",
+    "emptyChecked": "अभी कोई जाँची गई उत्तरपुस्तिका नहीं है।",
+    "classLabel": "कक्षा",
+    "viewOriginal": "मूल फाइल देखें",
+    "startEvaluation": "मूल्यांकन शुरू करें",
+    "marksAwarded": "प्राप्त अंक",
+    "totalMarks": "कुल अंक",
+    "remarks": "टिप्पणी (वैकल्पिक)",
+    "checkedFileLabel": "जाँची गई फाइल (वैकल्पिक)",
+    "saving": "सहेजा जा रहा है...",
+    "submitEvaluation": "मूल्यांकन सबमिट करें"
+  },
+  "admin": {
+    "overviewTitle": "उत्तरपुस्तिका जाँच — अवलोकन",
+    "avgTurnaround": "औसत निपटान समय: {value}",
+    "byTeacherHeading": "शिक्षकवार लंबित",
+    "noPending": "कोई लंबित उत्तरपुस्तिका नहीं है।",
+    "pendingCount": "{count} लंबित",
+    "recentActivityHeading": "हाल की गतिविधि",
+    "emptyRecent": "अभी कोई उत्तरपुस्तिका जमा नहीं हुई है।"
+  },
+  "errors": {
+    "studentOnly": "केवल विद्यार्थी उत्तरपुस्तिका जमा कर सकते हैं",
+    "invalid": "अमान्य जानकारी",
+    "weeklyLimit": "आप एक सप्ताह में अधिकतम {limit} उत्तरपुस्तिकाएँ जमा कर सकते हैं",
+    "unauthorized": "अनधिकृत",
+    "marksExceedTotal": "प्राप्त अंक कुल अंकों से अधिक नहीं हो सकते"
+  }
+}

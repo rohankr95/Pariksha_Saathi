@@ -6,6 +6,7 @@ import { AdminPagination } from "@/components/admin/pagination";
 import { PublishToggle } from "@/components/admin/publish-toggle";
 import { ConfirmSubmitButton } from "@/components/admin/confirm-submit-button";
 import { EmptyState } from "@/components/ui/empty-state";
+import { getT } from "@/lib/i18n/server";
 import { toggleRoadmapPublish, deleteRoadmap } from "./actions";
 
 export default async function AdminRoadmapsPage({
@@ -13,6 +14,7 @@ export default async function AdminRoadmapsPage({
 }: {
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
+  const t = await getT();
   const sp = await searchParams;
   const page = sp.page ? Number(sp.page) : 1;
   const { items, total, totalPages } = await getAdminRoadmaps({ q: sp.q, page });
@@ -20,28 +22,28 @@ export default async function AdminRoadmapsPage({
   return (
     <div>
       <div className="mb-6">
-        <h1 className="font-sans text-2xl font-bold text-foreground">करियर रोडमैप</h1>
-        <p className="text-sm text-muted-foreground">कुल {total} रोडमैप</p>
+        <h1 className="font-sans text-2xl font-bold text-foreground">{t("career.admin.title")}</h1>
+        <p className="text-sm text-muted-foreground">{t("career.admin.totalRoadmaps", { count: total })}</p>
       </div>
 
       <AdminListToolbar
-        searchPlaceholder="रोडमैप खोजें..."
+        searchPlaceholder={t("career.admin.searchPlaceholder")}
         defaultSearch={sp.q}
         addHref="/admin/career-roadmaps/new"
-        addLabel="नया रोडमैप"
+        addLabel={t("career.admin.addLabel")}
       />
 
       {items.length === 0 ? (
-        <EmptyState icon={Compass} title="कोई रोडमैप नहीं मिला" description="नया रोडमैप जोड़ें।" />
+        <EmptyState icon={Compass} title={t("career.admin.empty")} description={t("career.admin.emptyDesc")} />
       ) : (
         <div className="overflow-hidden rounded-[var(--radius-lg)] border border-border">
           <table className="w-full text-sm">
             <thead className="bg-surface-muted text-left text-xs text-muted-foreground">
               <tr>
-                <th className="p-3">शीर्षक</th>
-                <th className="p-3">स्ट्रीम</th>
-                <th className="p-3">स्थिति</th>
-                <th className="p-3 text-right">कार्रवाई</th>
+                <th className="p-3">{t("career.admin.colTitle")}</th>
+                <th className="p-3">{t("career.admin.colStream")}</th>
+                <th className="p-3">{t("career.admin.colStatus")}</th>
+                <th className="p-3 text-right">{t("career.admin.colActions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -60,12 +62,12 @@ export default async function AdminRoadmapsPage({
                       <Link
                         href={`/admin/career-roadmaps/${roadmap.id}/edit`}
                         className="rounded-[var(--radius-sm)] p-1.5 text-muted-foreground hover:bg-surface-muted hover:text-primary"
-                        aria-label="संपादित करें"
+                        aria-label={t("career.admin.edit")}
                       >
                         <Pencil className="h-4 w-4" />
                       </Link>
                       <form action={deleteRoadmap.bind(null, roadmap.id)}>
-                        <ConfirmSubmitButton confirmMessage="क्या आप वाकई इस रोडमैप को हटाना चाहते हैं?" aria-label="हटाएँ">
+                        <ConfirmSubmitButton confirmMessage={t("career.admin.deleteConfirm")} aria-label={t("career.admin.delete")}>
                           <Trash2 className="h-4 w-4" />
                         </ConfirmSubmitButton>
                       </form>

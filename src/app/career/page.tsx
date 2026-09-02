@@ -5,6 +5,7 @@ import { RoadmapCard } from "@/components/career/roadmap-card";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
+import { getT } from "@/lib/i18n/server";
 
 export const metadata = { title: "करियर रोडमैप | परीक्षा साथी" };
 
@@ -13,6 +14,7 @@ export default async function CareerPage({
 }: {
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
+  const t = await getT();
   const sp = await searchParams;
   const suggested = sp.suggested ? sp.suggested.split(",").filter(Boolean) : [];
 
@@ -30,20 +32,20 @@ export default async function CareerPage({
             <Compass className="h-6 w-6" />
           </span>
           <div>
-            <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">करियर रोडमैप</h1>
-            <p className="text-sm text-muted-foreground">अपने करियर का रास्ता चुनें</p>
+            <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">{t("career.page.title")}</h1>
+            <p className="text-sm text-muted-foreground">{t("career.page.subtitle")}</p>
           </div>
         </div>
         <Button asChild variant="accent" size="sm">
           <Link href="/career/quiz">
-            <Sparkles className="h-4 w-4" /> रुचि परीक्षण लें
+            <Sparkles className="h-4 w-4" /> {t("career.page.takeQuiz")}
           </Link>
         </Button>
       </div>
 
       {suggestedRoadmaps.length > 0 && (
         <div className="mb-8">
-          <p className="mb-3 text-sm font-semibold text-foreground">आपके लिए सुझाए गए</p>
+          <p className="mb-3 text-sm font-semibold text-foreground">{t("career.page.suggestedHeading")}</p>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {suggestedRoadmaps.map((r) => (
               <RoadmapCard key={r.id} roadmap={r} />
@@ -54,7 +56,7 @@ export default async function CareerPage({
 
       <form action="/career" className="mb-6 flex gap-2.5">
         <Select name="stream" defaultValue={sp.stream ?? ""} className="max-w-[220px]">
-          <option value="">सभी स्ट्रीम</option>
+          <option value="">{t("career.page.allStreams")}</option>
           {streams.map((s) => (
             <option key={s} value={s}>
               {s}
@@ -62,7 +64,7 @@ export default async function CareerPage({
           ))}
         </Select>
         <Button type="submit" size="sm" variant="outline">
-          फ़िल्टर लागू करें
+          {t("career.page.applyFilter")}
         </Button>
       </form>
 
@@ -73,7 +75,7 @@ export default async function CareerPage({
           ))}
         </div>
       ) : (
-        <EmptyState icon={Compass} title="कोई रोडमैप नहीं मिला" description="जल्द ही और रोडमैप जोड़े जाएँगे।" />
+        <EmptyState icon={Compass} title={t("career.page.empty")} description={t("career.page.emptyDesc")} />
       )}
     </div>
   );

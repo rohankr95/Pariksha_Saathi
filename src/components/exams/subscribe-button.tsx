@@ -3,10 +3,12 @@
 import { useState, useTransition } from "react";
 import { Bell, BellRing } from "lucide-react";
 import { subscribeToExam, unsubscribeFromExam } from "@/app/exam-dates/actions";
+import { useLocale } from "@/lib/i18n/locale-provider";
 
 export function SubscribeButton({ examId, initialSubscribed }: { examId: string; initialSubscribed: boolean }) {
   const [subscribed, setSubscribed] = useState(initialSubscribed);
   const [pending, startTransition] = useTransition();
+  const { t } = useLocale();
 
   return (
     <button
@@ -28,7 +30,7 @@ export function SubscribeButton({ examId, initialSubscribed }: { examId: string;
       }
     >
       {subscribed ? <BellRing className="h-3.5 w-3.5" /> : <Bell className="h-3.5 w-3.5" />}
-      {subscribed ? "याद दिलाया जाएगा" : "याद दिलाएँ"}
+      {subscribed ? t("examDates.subscribe.on") : t("examDates.subscribe.off")}
     </button>
   );
 }

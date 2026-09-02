@@ -1,7 +1,8 @@
 import { ListChecks } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
-import { CLASS_REQUEST_STATUS_LABEL, CLASS_REQUEST_STATUS_COLOR } from "@/lib/class-request-status";
+import { CLASS_REQUEST_STATUS_COLOR } from "@/lib/class-request-status";
+import { getT } from "@/lib/i18n/server";
 import type { ClassRequestStatus } from "@prisma/client";
 
 type RequestData = {
@@ -14,12 +15,18 @@ type RequestData = {
   preferredTeacher: { name: string } | null;
 };
 
-export function MyRequestsList({ requests }: { requests: RequestData[] }) {
+export async function MyRequestsList({ requests }: { requests: RequestData[] }) {
+  const t = await getT();
+
   return (
     <div>
-      <h2 className="mb-4 font-sans text-lg font-semibold text-foreground">मेरे अनुरोध</h2>
+      <h2 className="mb-4 font-sans text-lg font-semibold text-foreground">{t("classRequest.myRequests.heading")}</h2>
       {requests.length === 0 ? (
-        <EmptyState icon={ListChecks} title="अभी कोई अनुरोध नहीं" description="ऊपर फॉर्म भरकर अपना पहला अनुरोध भेजें।" />
+        <EmptyState
+          icon={ListChecks}
+          title={t("classRequest.myRequests.emptyTitle")}
+          description={t("classRequest.myRequests.emptyDesc")}
+        />
       ) : (
         <div className="space-y-3">
           {requests.map((r) => (
@@ -31,7 +38,8 @@ export function MyRequestsList({ requests }: { requests: RequestData[] }) {
                     {r.chapter ? ` · ${r.chapter}` : ""}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {r.preferredTeacher ? r.preferredTeacher.name : "कोई भी शिक्षक"} · {r.upvotes} समर्थन
+                    {r.preferredTeacher ? r.preferredTeacher.name : t("classRequest.anyTeacherLabel")} ·{" "}
+                    {t("classRequest.myRequests.supportCount", { count: r.upvotes })}
                   </p>
                   {r.adminRemark && (
                     <p className="mt-1 rounded-[var(--radius-sm)] bg-surface-muted p-1.5 text-xs text-muted-foreground">
@@ -46,7 +54,7 @@ export function MyRequestsList({ requests }: { requests: RequestData[] }) {
                     color: `var(${CLASS_REQUEST_STATUS_COLOR[r.status]})`,
                   }}
                 >
-                  {CLASS_REQUEST_STATUS_LABEL[r.status]}
+                  {t(`classRequest.status.${r.status}`)}
                 </span>
               </div>
             </Card>

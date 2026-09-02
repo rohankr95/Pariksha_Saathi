@@ -3,6 +3,7 @@ import { Crown } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { cn } from "@/lib/utils";
+import { getT } from "@/lib/i18n/server";
 
 type Entry = {
   rank: number;
@@ -15,7 +16,8 @@ type Entry = {
 
 const RANK_COLORS = ["text-[#d99a1b]", "text-[#8a8f9c]", "text-[#b1712c]"];
 
-export function LeaderboardPreview({ entries, title, viewAllLabel }: { entries: Entry[]; title: string; viewAllLabel: string }) {
+export async function LeaderboardPreview({ entries, title, viewAllLabel }: { entries: Entry[]; title: string; viewAllLabel: string }) {
+  const t = await getT();
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
@@ -51,8 +53,8 @@ export function LeaderboardPreview({ entries, title, viewAllLabel }: { entries: 
       ) : (
         <EmptyState
           icon={Crown}
-          title="अभी कोई रैंकिंग उपलब्ध नहीं है"
-          description="प्रश्नोत्तरी में भाग लें और सूची में सबसे ऊपर आएँ!"
+          title={t("leaderboard.public.empty")}
+          description={t("leaderboard.public.emptyDesc")}
         />
       )}
     </div>

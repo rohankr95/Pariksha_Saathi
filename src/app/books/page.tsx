@@ -5,6 +5,7 @@ import { BookFilterBar } from "@/components/books/book-filter-bar";
 import { BookCard } from "@/components/books/book-card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { AdminPagination } from "@/components/admin/pagination";
+import { getT } from "@/lib/i18n/server";
 import type { BookCategory, ClassLevel, Language } from "@prisma/client";
 
 export const metadata = { title: "पुस्तकें | परीक्षा साथी" };
@@ -15,6 +16,7 @@ export default async function BooksPage({
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
   const sp = await searchParams;
+  const t = await getT();
   const filters = {
     category: sp.category as BookCategory | undefined,
     classLevel: sp.classLevel as ClassLevel | undefined,
@@ -36,8 +38,8 @@ export default async function BooksPage({
           <Library className="h-6 w-6" />
         </span>
         <div>
-          <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">पुस्तकें</h1>
-          <p className="text-sm text-muted-foreground">NCERT और संदर्भ पुस्तकों का पुस्तकालय</p>
+          <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">{t("books.public.title")}</h1>
+          <p className="text-sm text-muted-foreground">{t("books.public.subtitle")}</p>
         </div>
       </div>
 
@@ -54,7 +56,11 @@ export default async function BooksPage({
         </>
       ) : (
         <div className="mt-6">
-          <EmptyState icon={Library} title="कोई पुस्तक नहीं मिली" description="फ़िल्टर बदलकर पुनः प्रयास करें।" />
+          <EmptyState
+            icon={Library}
+            title={t("books.public.empty.title")}
+            description={t("books.public.empty.description")}
+          />
         </div>
       )}
     </div>

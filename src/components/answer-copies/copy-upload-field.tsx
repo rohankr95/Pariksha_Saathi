@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { UploadCloud, FileCheck2, Loader2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLocale } from "@/lib/i18n/locale-provider";
 
 export type UploadedFile = { path: string; url: string; sizeBytes: number };
 
@@ -24,6 +25,7 @@ export function CopyUploadField({
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const { t } = useLocale();
 
   async function handleFile(file: File) {
     setUploading(true);
@@ -34,10 +36,10 @@ export function CopyUploadField({
       formData.append("file", file);
       const res = await fetch("/api/answer-copies/upload", { method: "POST", body: formData });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "अपलोड विफल");
+      if (!res.ok) throw new Error(data.error || t("answerCopies.upload.failed"));
       onChange({ path: data.path, url: data.url, sizeBytes: data.sizeBytes }, file.name);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "अपलोड विफल");
+      setError(e instanceof Error ? e.message : t("answerCopies.upload.failed"));
     } finally {
       setUploading(false);
     }
@@ -56,7 +58,7 @@ export function CopyUploadField({
             <span className="truncate">{fileName || value.path.split("/").pop()}</span>
             <span className="shrink-0 text-xs text-muted-foreground">{(value.sizeBytes / 1024).toFixed(0)} KB</span>
           </div>
-          <button type="button" onClick={() => onChange(null)} aria-label="हटाएँ" className="rounded-full p-1 hover:bg-border">
+          <button type="button" onClick={() => onChange(null)} aria-label={t("answerCopies.upload.remove")} className="rounded-full p-1 hover:bg-border">
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -72,11 +74,11 @@ export function CopyUploadField({
         >
           {uploading ? (
             <>
-              <Loader2 className="h-4 w-4 animate-spin" /> अपलोड हो रहा है...
+              <Loader2 className="h-4 w-4 animate-spin" /> {t("answerCopies.upload.uploading")}
             </>
           ) : (
             <>
-              <UploadCloud className="h-4 w-4" /> फाइल चुनें (PDF, JPG, PNG · अधिकतम 15MB)
+              <UploadCloud className="h-4 w-4" /> {t("answerCopies.upload.choose")}
             </>
           )}
         </button>
