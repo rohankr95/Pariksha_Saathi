@@ -298,20 +298,62 @@ before handing back a stored `{ path, url, sizeBytes }`.
   student is emailed once CHECKED. Super Admin sees a cross-teacher overview
   (pending-per-teacher counts, average turnaround time, recent activity).
 
+## Bilingual UI, admin depth, gamification & PWA (Phase 6)
+
+- **Every page is fully bilingual.** The header's language toggle switches
+  the *entire* app (not just the Phase 1 shell) between Hindi and English —
+  all 12 public modules, every admin CRUD screen, the student dashboard,
+  and the legal/help pages. `src/lib/i18n/dictionaries/modules/{hi,en}/*.json`
+  holds one file per module; `src/lib/i18n/server.ts` (`getT()`/
+  `getServerLocale()`) lets Server Components translate without the
+  client-only `useLocale()` hook, and `LanguageToggle` calls
+  `router.refresh()` on switch so already-rendered Server Component pages
+  pick up the new locale immediately. Content authored by teachers/admins
+  (lecture titles, quiz questions, story text) is left as entered — only
+  UI chrome is translated, since that content has no stored English variant.
+- **Teacher Management** (`/admin/teachers`, Super Admin only) — create a
+  teacher account (auto-generated temp password emailed to them), assign
+  subjects, deactivate/reactivate, reset password.
+- **Announcements** (`/admin/announcements`) — bilingual (textHi/textEn)
+  CRUD for the scrolling notice bar already rendered on the home page.
+- **Audit Log** (`/admin/audit-log`, Super Admin only) — filterable viewer
+  over the `AuditLog` table that every admin mutation across the app has
+  been writing to since Phase 1 via `logAudit()`.
+- **Student dashboard depth** — `src/lib/gamification.ts` awards XP and
+  streak progress on every submitted quiz attempt (`recordQuizActivity`,
+  called from `submitAttempt`), computing IST-calendar-day streaks and a
+  set of milestone badges (first quiz, 10/25 quizzes, 3/7/30-day streaks,
+  XP tiers, a perfect-score badge). The dashboard shows earned badges,
+  a subject-wise accuracy breakdown, and a recent-accuracy trend strip.
+- **PWA** — `public/manifest.json` + hand-written `public/sw.js` (no
+  Workbox/next-pwa dependency): network-first navigation with an
+  `/offline` fallback page, cache-first static assets, and a
+  `beforeinstallprompt`-driven install banner. Service worker registration
+  is gated to production builds only (a caching SW actively fights Next's
+  dev-mode HMR). Deliberately never caches `/api/*`, `/admin/*`, or
+  `/dashboard` — those must always reflect live server/session state.
+- **Dark mode & accessibility** — every Phase 5/6 component was built
+  against the existing CSS-variable token system (`bg-surface`,
+  `text-foreground`, `var(--color-section-*)`, etc.) rather than hardcoded
+  colors, so the dark theme (`next-themes`, `data-theme` attribute) needed
+  no additional per-component overrides; verified by screenshot across the
+  dashboard, admin panel, and home page. Icon-only actions carry
+  `aria-label`s, destructive actions confirm via `ConfirmSubmitButton`, and
+  the global `:focus-visible` ring from Phase 1 covers all new interactive
+  elements.
+- **Docker deployment** — see the section below.
+
 ## What's stubbed vs. built
 
-Phases 1–5 deliver the schema, auth, design system, home page, and all
+All six phases deliver the schema, auth, design system, home page, all
 twelve public modules (Lectures, Notes, Books, Stories, Exam Dates, Career
 Roadmap, Olympiad, Quiz, Leaderboard, Class Request, Doubt Class Scheduler,
-Answer Copy Checking) — public browsing with real filters/pagination,
-subscriptions/interest registration/bookings, and full teacher admin CRUD,
-backed by real file uploads, email reminders/notifications, server-side
-scoring, transaction-safe booking, and the database — not placeholders.
-
-Phase 6 (student dashboard depth, streaks/XP/badges, PWA, dark-mode polish,
-analytics, audit log, accessibility pass, performance tuning, Docker
-deployment) is what remains. `Prisma Client` is already generated against
-the complete data model, so it plugs straight in without any schema changes.
+Answer Copy Checking), the full admin panel (including Teacher Management,
+Announcements, and Audit Log), a bilingual UI throughout, dashboard
+gamification, and PWA support — backed by real file uploads, email
+reminders/notifications, server-side scoring, transaction-safe booking,
+and the database, not placeholders. Nothing from the original spec remains
+stubbed.
 
 ---
 
@@ -323,21 +365,87 @@ the complete data model, so it plugs straight in without any schema changes.
 | 2 | Lectures, Notes, Books, Motivational Stories (+ their admin CRUD) |
 | 3 | Exam Dates with reminders, Career Roadmap, Olympiad |
 | 4 | Quiz engine, results, Leaderboard |
-| **5 (this phase)** | Class Request, Doubt Class Scheduler (+ email/.ics), Answer Copy Checking |
-| 6 | Student dashboard depth, streaks/XP/badges, PWA, dark-mode polish, analytics, audit log, accessibility pass, performance tuning, Docker deployment |
+| 5 | Class Request, Doubt Class Scheduler (+ email/.ics), Answer Copy Checking |
+| **6 (this phase)** | Bilingual UI (every page, hi/en), Teacher Management, Announcements, Audit Log, student dashboard depth (streaks/XP/badges), PWA, dark-mode + accessibility pass, performance tuning, Docker deployment |
 
 ---
 
 ## Deployment (private cloud VPS)
 
-Deployment tooling (Dockerfile, docker-compose, Nginx + Certbot config,
-backup cron) ships in Phase 6, once every module exists. Until then:
+This ships as a private-VPS deployment via Docker — **not** NIC/SDC
+hosting (nothing here assumes their platform), though the same
+`DATABASE_URL`/`STORAGE_DRIVER`/`EMAIL_DRIVER` env-var abstractions make
+it portable there later if required.
 
+### What's in the repo
+
+| File | Purpose |
+|---|---|
+| `Dockerfile` | Multi-stage build → a small non-root image running `next build`'s standalone output |
+| `docker-compose.yml` | `app` + `db` (Postgres 16) + `nginx` (reverse proxy/TLS) services, a `migrate` one-off, and a `certbot` one-off |
+| `deploy/nginx.initial.conf` | HTTP-only bootstrap config — use before you have a certificate |
+| `deploy/nginx.conf` | Production config — HTTP→HTTPS redirect + TLS termination |
+| `deploy/backup.sh` | Nightly `pg_dump` to `backups/`, prunes anything older than 14 days |
+| `deploy/restore.sh` | Restores a `backup.sh` dump (prompts for confirmation — it drops the DB first) |
+
+### First deploy, step by step
+
+1. **Provision** a VPS with Docker + Docker Compose installed, and point
+   your domain's DNS `A`/`AAAA` record at it.
+2. **Clone the repo** onto the server and `cp .env.example .env`, then
+   fill in `AUTH_SECRET` (`openssl rand -base64 32`), `POSTGRES_PASSWORD`,
+   `NEXT_PUBLIC_APP_URL` (your real domain, `https://...`), and the
+   storage/email driver of your choice (`local` storage + console-logged
+   email both work out of the box for a first deploy — switch to S3/SMTP
+   whenever you're ready).
+3. **Replace `your-domain.example`** with your real domain in both
+   `deploy/nginx.initial.conf` and `deploy/nginx.conf`.
+4. **Bootstrap with HTTP only** (no certificate exists yet):
+   ```bash
+   cp deploy/nginx.initial.conf deploy/nginx.conf.active
+   docker compose up -d db
+   docker compose run --rm migrate      # applies Prisma migrations
+   docker compose run --rm --entrypoint "" migrate npx tsx prisma/seed.ts  # optional: sample data
+   docker compose up -d app
+   # temporarily mount the bootstrap config, then bring nginx up
+   sed -i 's#./deploy/nginx.conf#./deploy/nginx.initial.conf#' docker-compose.yml
+   docker compose up -d nginx
+   ```
+5. **Obtain the certificate**:
+   ```bash
+   docker compose run --rm certbot certonly --webroot -w /var/www/certbot \
+     -d your-domain.example --email you@example.com --agree-tos --no-eff-email
+   ```
+6. **Switch to the production TLS config** and restart nginx:
+   ```bash
+   git checkout docker-compose.yml   # undo the sed from step 4
+   docker compose up -d nginx
+   ```
+7. **Verify**: `curl https://your-domain.example/api/health` should return
+   `{"status":"ok","db":"connected", ...}`.
+
+### Ongoing operations
+
+- **Deploying a new version**: `git pull`, `docker compose build app`,
+  `docker compose run --rm migrate` (safe to run even with no pending
+  migrations), then `docker compose up -d app`.
+- **Certificate renewal**: Certbot certs are valid 90 days. Add a host
+  cron job (not inside a container, so it survives rebuilds):
+  ```
+  0 3 * * 1 cd /path/to/pariksha-saathi && docker compose run --rm certbot renew --webroot -w /var/www/certbot && docker compose exec nginx nginx -s reload
+  ```
+- **Backups**: install `deploy/backup.sh` as a nightly host cron job (see
+  the comment at the top of that file for the exact crontab line). Restore
+  with `deploy/restore.sh <backup-file>`.
 - `DATABASE_URL`, `STORAGE_DRIVER`, `EMAIL_DRIVER` and friends are all env
   vars (see `.env.example`) — no code changes needed to point at a managed
-  Postgres, S3-compatible bucket, or SMTP relay.
+  Postgres, S3-compatible bucket, or SMTP relay instead of the bundled
+  `db` container.
 - `GET /api/health` returns `{ status: "ok" }` when the app can reach the
-  database — wire it into your uptime monitor / load balancer health check.
+  database — it's already wired into `docker-compose.yml`'s `app`
+  healthcheck; also point your uptime monitor at it.
+- Local file uploads (`STORAGE_DRIVER=local`) persist in the `uploads`
+  named volume, independent of the `app` container's lifecycle.
 
 ## Environment variables
 

@@ -1,0 +1,12 @@
+node_modules
+.next
+.git
+.env
+.env.local
+uploads
+npm-debug.log*
+*.md
+.vscode
+.claude
+.scratch
+prisma/dev.db

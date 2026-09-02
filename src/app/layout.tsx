@@ -9,6 +9,8 @@ import { BottomNav } from "@/components/layout/bottom-nav";
 import { LocaleProvider } from "@/lib/i18n/locale-provider";
 import { LOCALE_COOKIE, DEFAULT_LOCALE, type Locale } from "@/lib/i18n";
 import { ThemeProvider } from "@/components/theme-provider";
+import { RegisterServiceWorker } from "@/components/pwa/register-sw";
+import { InstallPrompt } from "@/components/pwa/install-prompt";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -35,6 +37,10 @@ export const metadata: Metadata = {
   description:
     "हर विद्यार्थी का साथी — तैयारी से सफलता तक। जिला शिक्षा विभाग, सूरजपुर की आधिकारिक परीक्षा तैयारी पोर्टल।",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/favicon.png",
+    apple: "/icons/icon-192.png",
+  },
 };
 
 export const viewport: Viewport = {
@@ -69,6 +75,8 @@ export default async function RootLayout({
             </main>
             <SiteFooter />
             <BottomNav />
+            <InstallPrompt />
+            <RegisterServiceWorker />
           </LocaleProvider>
         </ThemeProvider>
       </body>

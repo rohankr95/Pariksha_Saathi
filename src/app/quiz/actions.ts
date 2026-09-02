@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/require-role";
 import { shuffle, scoreAttempt, type StudentAnswer } from "@/lib/quiz-scoring";
 import type { AttemptState } from "@/lib/quiz-types";
+import { recordQuizActivity } from "@/lib/gamification";
 
 export async function startAttempt(quizId: string) {
   const session = await requireUser();
@@ -129,6 +130,8 @@ export async function submitAttempt(attemptId: string) {
       answersJson: finalState as unknown as Prisma.InputJsonValue,
     },
   });
+
+  await recordQuizActivity(session.user.id, { accuracy });
 
   revalidatePath("/dashboard");
   revalidatePath("/leaderboard");

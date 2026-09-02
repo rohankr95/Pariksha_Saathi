@@ -6,10 +6,25 @@
   "xp": "XP Points",
   "lecturesWatched": "Lectures Watched",
   "avgAccuracy": "Average Accuracy",
+  "badgesHeading": "Achievement Badges",
+  "subjectSummaryHeading": "Subject-wise Summary",
+  "noSubjectData": "No quiz data available yet.",
+  "trendHeading": "Recent Accuracy Trend",
   "recentQuizzesHeading": "Recent Quizzes",
   "scoreLine": "{score} marks · {accuracy}%",
   "noAttemptsTitle": "No quizzes attempted yet",
   "noAttemptsDesc": "Start practising and check your preparation.",
   "browseQuizzes": "Browse Quizzes",
-  "futurePhaseNote": "Marks trend charts, badges, and chapter-wise summaries will be added in Phase 6."
+  "badges": {
+    "FIRST_QUIZ": "First Quiz",
+    "QUIZ_10": "10 Quizzes Done",
+    "QUIZ_25": "25 Quizzes Done",
+    "STREAK_3": "3-Day Streak",
+    "STREAK_7": "7-Day Streak",
+    "STREAK_30": "30-Day Streak",
+    "XP_100": "100 XP",
+    "XP_500": "500 XP",
+    "XP_1000": "1000 XP",
+    "PERFECT_SCORE": "Perfect Score"
+  }
 }
