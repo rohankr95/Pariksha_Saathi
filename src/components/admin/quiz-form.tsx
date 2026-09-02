@@ -6,6 +6,7 @@ import { Select } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { CLASS_LEVEL_LABEL } from "@/lib/queries/curriculum";
+import { useLocale } from "@/lib/i18n/locale-provider";
 import type { ClassLevel, Chapter, Subject } from "@prisma/client";
 
 type QuizFormValues = {
@@ -40,19 +41,20 @@ export function QuizForm({
   initial?: QuizFormValues;
   action: (formData: FormData) => Promise<void>;
 }) {
+  const { t } = useLocale();
   const [subjectId, setSubjectId] = useState(initial?.subjectId ?? subjects[0]?.id ?? "");
   const filteredChapters = chapters.filter((c) => c.subjectId === subjectId);
 
   return (
     <form action={action} className="max-w-2xl space-y-5">
       <div className="space-y-1.5">
-        <Label htmlFor="title">प्रश्नोत्तरी शीर्षक</Label>
+        <Label htmlFor="title">{t("quiz.admin.form.title")}</Label>
         <Input id="title" name="title" required defaultValue={initial?.title} />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <Label htmlFor="classLevel">कक्षा</Label>
+          <Label htmlFor="classLevel">{t("quiz.admin.form.class")}</Label>
           <Select id="classLevel" name="classLevel" defaultValue={initial?.classLevel ?? "CLASS_10"}>
             {Object.entries(CLASS_LEVEL_LABEL).map(([value, label]) => (
               <option key={value} value={value}>
@@ -62,15 +64,15 @@ export function QuizForm({
           </Select>
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="difficulty">कठिनाई</Label>
+          <Label htmlFor="difficulty">{t("quiz.admin.form.difficulty")}</Label>
           <Select id="difficulty" name="difficulty" defaultValue={initial?.difficulty ?? "MEDIUM"}>
-            <option value="EASY">आसान</option>
-            <option value="MEDIUM">मध्यम</option>
-            <option value="HARD">कठिन</option>
+            <option value="EASY">{t("quiz.difficulty.EASY")}</option>
+            <option value="MEDIUM">{t("quiz.difficulty.MEDIUM")}</option>
+            <option value="HARD">{t("quiz.difficulty.HARD")}</option>
           </Select>
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="subjectId">विषय</Label>
+          <Label htmlFor="subjectId">{t("quiz.admin.form.subject")}</Label>
           <Select id="subjectId" name="subjectId" value={subjectId} onChange={(e) => setSubjectId(e.target.value)}>
             {subjects.map((s) => (
               <option key={s.id} value={s.id}>
@@ -80,9 +82,9 @@ export function QuizForm({
           </Select>
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="chapterId">अध्याय</Label>
+          <Label htmlFor="chapterId">{t("quiz.admin.form.chapter")}</Label>
           <Select id="chapterId" name="chapterId" defaultValue={initial?.chapterId ?? ""}>
-            <option value="">— कोई नहीं —</option>
+            <option value="">{t("quiz.admin.form.noneOption")}</option>
             {filteredChapters.map((c) => (
               <option key={c.id} value={c.id}>
                 {c.nameHi}
@@ -94,41 +96,41 @@ export function QuizForm({
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <div className="space-y-1.5">
-          <Label htmlFor="timeLimitMin">समय सीमा (मिनट)</Label>
+          <Label htmlFor="timeLimitMin">{t("quiz.admin.form.timeLimit")}</Label>
           <Input id="timeLimitMin" name="timeLimitMin" type="number" min={1} required defaultValue={initial?.timeLimitMin ?? 20} />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="marksPerQ">प्रति प्रश्न अंक</Label>
+          <Label htmlFor="marksPerQ">{t("quiz.admin.form.marksPerQ")}</Label>
           <Input id="marksPerQ" name="marksPerQ" type="number" step="0.25" min={0.25} required defaultValue={initial?.marksPerQ ?? 1} />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="negativeMarks">नकारात्मक अंकन</Label>
+          <Label htmlFor="negativeMarks">{t("quiz.admin.form.negativeMarks")}</Label>
           <Input id="negativeMarks" name="negativeMarks" type="number" step="0.25" min={0} required defaultValue={initial?.negativeMarks ?? 0} />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="maxAttempts">अधिकतम प्रयास</Label>
+          <Label htmlFor="maxAttempts">{t("quiz.admin.form.maxAttempts")}</Label>
           <Input id="maxAttempts" name="maxAttempts" type="number" min={1} required defaultValue={initial?.maxAttempts ?? 3} />
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <Label htmlFor="startAt">उपलब्ध से (वैकल्पिक)</Label>
+          <Label htmlFor="startAt">{t("quiz.admin.form.startAt")}</Label>
           <Input id="startAt" name="startAt" type="datetime-local" defaultValue={toDateTimeInputValue(initial?.startAt ?? null)} />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="endAt">उपलब्ध तक (वैकल्पिक)</Label>
+          <Label htmlFor="endAt">{t("quiz.admin.form.endAt")}</Label>
           <Input id="endAt" name="endAt" type="datetime-local" defaultValue={toDateTimeInputValue(initial?.endAt ?? null)} />
         </div>
       </div>
 
       <label className="flex items-center gap-2 text-sm">
         <Checkbox name="isPublished" defaultChecked={initial?.isPublished ?? false} />
-        प्रकाशित करें (प्रश्न जोड़ने के बाद ही प्रकाशित होगी)
+        {t("quiz.admin.form.publishLabel")}
       </label>
 
       <Button type="submit" size="lg">
-        {initial ? "बदलाव सहेजें" : "प्रश्नोत्तरी बनाएँ और प्रश्न जोड़ें"}
+        {initial ? t("quiz.admin.form.saveChanges") : t("quiz.admin.form.createAndAddQuestions")}
       </Button>
     </form>
   );

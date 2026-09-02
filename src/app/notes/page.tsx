@@ -7,6 +7,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { AdminPagination } from "@/components/admin/pagination";
 import { NOTE_TAGS } from "@/lib/note-tags";
 import { formatFileSize } from "@/lib/format";
+import { getT } from "@/lib/i18n/server";
 import type { ClassLevel, Language } from "@prisma/client";
 
 export const metadata = { title: "नोट्स | परीक्षा साथी" };
@@ -17,6 +18,7 @@ export default async function NotesPage({
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
   const sp = await searchParams;
+  const t = await getT();
   const filters = {
     classLevel: sp.classLevel as ClassLevel | undefined,
     subjectId: sp.subjectId,
@@ -41,15 +43,15 @@ export default async function NotesPage({
           <BookOpen className="h-6 w-6" />
         </span>
         <div>
-          <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">नोट्स</h1>
-          <p className="text-sm text-muted-foreground">अध्यायवार डाउनलोड करने योग्य नोट्स</p>
+          <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">{t("notes.public.title")}</h1>
+          <p className="text-sm text-muted-foreground">{t("notes.public.subtitle")}</p>
         </div>
       </div>
 
       {mostDownloaded.length > 0 && (
         <div className="mb-6">
           <p className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-foreground">
-            <Flame className="h-4 w-4 text-[var(--color-section-stories)]" /> सबसे अधिक डाउनलोड किए गए
+            <Flame className="h-4 w-4 text-[var(--color-section-stories)]" /> {t("notes.public.mostDownloaded")}
           </p>
           <div className="flex gap-3 overflow-x-auto pb-2">
             {mostDownloaded.map((note) => (
@@ -60,7 +62,8 @@ export default async function NotesPage({
               >
                 <span className="line-clamp-2 text-xs font-semibold text-foreground">{note.title}</span>
                 <span className="text-[11px] text-muted-foreground">
-                  {note.subject.nameHi} · {formatFileSize(note.fileSizeBytes)} · {note.downloads} डाउनलोड
+                  {note.subject.nameHi} · {formatFileSize(note.fileSizeBytes)} ·{" "}
+                  {t("notes.public.downloadsCount", { count: note.downloads })}
                 </span>
               </a>
             ))}
@@ -73,7 +76,7 @@ export default async function NotesPage({
         subjects={subjects}
         chapters={chapters}
         tags={NOTE_TAGS}
-        searchPlaceholder="नोट्स खोजें..."
+        searchPlaceholder={t("notes.public.searchPlaceholder")}
         current={filters}
       />
 
@@ -88,7 +91,11 @@ export default async function NotesPage({
         </>
       ) : (
         <div className="mt-6">
-          <EmptyState icon={BookOpen} title="कोई नोट्स नहीं मिले" description="फ़िल्टर बदलकर पुनः प्रयास करें।" />
+          <EmptyState
+            icon={BookOpen}
+            title={t("notes.public.empty.title")}
+            description={t("notes.public.empty.description")}
+          />
         </div>
       )}
     </div>

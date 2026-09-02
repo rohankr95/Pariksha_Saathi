@@ -1,0 +1,70 @@
+{
+  "public": {
+    "title": "व्याख्यान",
+    "subtitle": "विषयवार वीडियो पाठ, कक्षा 10 और 12 के लिए",
+    "searchPlaceholder": "व्याख्यान खोजें...",
+    "empty": {
+      "title": "कोई व्याख्यान नहीं मिला",
+      "description": "फ़िल्टर बदलकर पुनः प्रयास करें, या जल्द ही नए व्याख्यान जोड़े जाएँगे।"
+    },
+    "card": {
+      "watchedBadge": "देखा गया ✓"
+    },
+    "detail": {
+      "videoUnavailable": "वीडियो लोड नहीं हो सका",
+      "openOnYoutube": "YouTube पर खोलें (धीमे इंटरनेट के लिए)",
+      "views": "{count} बार देखा गया",
+      "durationMinutes": "{count} मिनट",
+      "playlistLabel": "प्लेलिस्ट: {title}",
+      "relatedTitle": "संबंधित व्याख्यान"
+    }
+  },
+  "language": {
+    "hindi": "हिंदी",
+    "english": "English",
+    "chhattisgarhi": "छत्तीसगढ़ी"
+  },
+  "admin": {
+    "listTitle": "व्याख्यान",
+    "totalCount": "कुल {count} व्याख्यान",
+    "brokenLinks": {
+      "heading": "टूटे लिंक की रिपोर्ट ({count})",
+      "markResolved": "हल किया गया चिह्नित करें"
+    },
+    "searchPlaceholder": "व्याख्यान खोजें...",
+    "addLabel": "नया व्याख्यान",
+    "empty": {
+      "title": "कोई व्याख्यान नहीं मिला",
+      "description": "नया व्याख्यान जोड़ें।"
+    },
+    "table": {
+      "title": "व्याख्यान",
+      "subject": "विषय",
+      "status": "स्थिति",
+      "order": "क्रम",
+      "actions": "कार्रवाई"
+    },
+    "moveUp": "ऊपर ले जाएँ",
+    "moveDown": "नीचे ले जाएँ",
+    "edit": "संपादित करें",
+    "delete": "हटाएँ",
+    "deleteConfirm": "क्या आप वाकई इस व्याख्यान को हटाना चाहते हैं?",
+    "newTitle": "नया व्याख्यान जोड़ें",
+    "editTitle": "व्याख्यान संपादित करें",
+    "form": {
+      "title": "शीर्षक",
+      "description": "विवरण",
+      "youtubeUrl": "YouTube लिंक",
+      "classLevel": "कक्षा",
+      "language": "भाषा",
+      "subject": "विषय",
+      "chapter": "अध्याय",
+      "none": "— कोई नहीं —",
+      "duration": "अवधि (सेकंड में, वैकल्पिक)",
+      "tags": "टैग",
+      "publishNow": "तुरंत प्रकाशित करें",
+      "save": "बदलाव सहेजें",
+      "add": "व्याख्यान जोड़ें"
+    }
+  }
+}

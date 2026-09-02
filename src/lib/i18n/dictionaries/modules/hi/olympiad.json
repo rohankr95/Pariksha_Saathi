@@ -1,0 +1,62 @@
+{
+  "meta": { "title": "ओलंपियाड | परीक्षा साथी" },
+  "page": {
+    "title": "ओलंपियाड",
+    "subtitle": "राष्ट्रीय व राज्य स्तरीय ओलंपियाड जानकारी",
+    "empty": "कोई ओलंपियाड उपलब्ध नहीं है",
+    "emptyDesc": "जल्द ही जानकारी जोड़ी जाएगी।"
+  },
+  "card": {
+    "registration": "पंजीकरण: ",
+    "fee": " · शुल्क: {fee}",
+    "pattern": "परीक्षा पैटर्न: {pattern}",
+    "syllabus": "पाठ्यक्रम",
+    "previousPapers": "पिछले प्रश्नपत्र",
+    "officialSite": "आधिकारिक वेबसाइट"
+  },
+  "interest": {
+    "registered": "पंजीकृत रुचि",
+    "register": "रुचि पंजीकृत करें"
+  },
+  "admin": {
+    "title": "ओलंपियाड",
+    "totalOlympiads": "कुल {count} ओलंपियाड",
+    "searchPlaceholder": "ओलंपियाड खोजें...",
+    "addLabel": "नया ओलंपियाड",
+    "empty": "कोई ओलंपियाड नहीं मिला",
+    "emptyDesc": "नया ओलंपियाड जोड़ें।",
+    "colName": "नाम",
+    "colInterest": "रुचि पंजीकरण",
+    "colStatus": "स्थिति",
+    "colActions": "कार्रवाई",
+    "studentsCount": "{count} विद्यार्थी",
+    "edit": "संपादित करें",
+    "delete": "हटाएँ",
+    "deleteConfirm": "क्या आप वाकई इस ओलंपियाड को हटाना चाहते हैं?",
+    "newTitle": "नया ओलंपियाड जोड़ें",
+    "editTitle": "ओलंपियाड संपादित करें",
+    "interestedSubtitle": "रुचि पंजीकृत करने वाले विद्यार्थी ({count}) — विद्यालयवार सूची फेलिसिटेशन/समन्वय हेतु",
+    "noInterest": "अभी तक किसी ने रुचि पंजीकृत नहीं की है",
+    "colStudentName": "नाम",
+    "colClass": "कक्षा",
+    "colSchool": "विद्यालय",
+    "colBlock": "विकासखंड",
+    "colMobile": "मोबाइल"
+  },
+  "form": {
+    "name": "ओलंपियाड का नाम",
+    "body": "आयोजक संस्था",
+    "eligibleClasses": "पात्र कक्षाएँ",
+    "regStart": "पंजीकरण प्रारंभ",
+    "regEnd": "पंजीकरण अंतिम तिथि",
+    "fee": "शुल्क",
+    "officialUrl": "आधिकारिक वेबसाइट",
+    "pattern": "परीक्षा पैटर्न",
+    "patternPlaceholder": "50 MCQ, 60 मिनट",
+    "syllabusPdf": "पाठ्यक्रम PDF (वैकल्पिक)",
+    "previousPapersUrl": "पिछले प्रश्नपत्र लिंक",
+    "publishNow": "तुरंत प्रकाशित करें",
+    "save": "बदलाव सहेजें",
+    "add": "ओलंपियाड जोड़ें"
+  }
+}

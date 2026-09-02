@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Trophy, Star } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { getT } from "@/lib/i18n/server";
 
 type StoryCardData = {
   id: string;
@@ -13,7 +14,8 @@ type StoryCardData = {
   isFeatured: boolean;
 };
 
-export function StoryCard({ story }: { story: StoryCardData }) {
+export async function StoryCard({ story }: { story: StoryCardData }) {
+  const t = await getT();
   return (
     <Link href={`/stories/${story.id}`}>
       <Card className="group h-full overflow-hidden transition-shadow hover:shadow-[var(--shadow-card-hover)]">
@@ -26,7 +28,7 @@ export function StoryCard({ story }: { story: StoryCardData }) {
           )}
           {story.isFeatured && (
             <span className="absolute left-2 top-2 flex items-center gap-1 rounded-full bg-accent px-2 py-0.5 text-[10px] font-semibold text-accent-foreground">
-              <Star className="h-3 w-3" /> विशेष
+              <Star className="h-3 w-3" /> {t("stories.card.featuredBadge")}
             </span>
           )}
         </div>

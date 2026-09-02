@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { StepsEditor } from "@/components/admin/steps-editor";
+import { useLocale } from "@/lib/i18n/locale-provider";
 
 type RoadmapFormValues = {
   title: string;
@@ -33,26 +34,28 @@ export function RoadmapForm({
   initial?: RoadmapFormValues;
   action: (formData: FormData) => Promise<void>;
 }) {
+  const { t } = useLocale();
+
   return (
     <form action={action} className="max-w-2xl space-y-5">
       <div className="space-y-1.5">
-        <Label htmlFor="title">करियर का नाम</Label>
-        <Input id="title" name="title" required defaultValue={initial?.title} placeholder="इंजीनियरिंग" />
+        <Label htmlFor="title">{t("career.form.title")}</Label>
+        <Input id="title" name="title" required defaultValue={initial?.title} placeholder={t("career.form.titlePlaceholder")} />
       </div>
       <div className="space-y-1.5">
-        <Label htmlFor="stream">स्ट्रीम</Label>
+        <Label htmlFor="stream">{t("career.form.stream")}</Label>
         <Input id="stream" name="stream" required defaultValue={initial?.stream} placeholder="Science (PCM)" />
       </div>
       <div className="space-y-1.5">
-        <Label htmlFor="overview">परिचय</Label>
+        <Label htmlFor="overview">{t("career.form.overview")}</Label>
         <Textarea id="overview" name="overview" required rows={4} defaultValue={initial?.overview} />
       </div>
       <div className="space-y-1.5">
-        <Label htmlFor="eligibility">पात्रता</Label>
+        <Label htmlFor="eligibility">{t("career.form.eligibility")}</Label>
         <Input id="eligibility" name="eligibility" defaultValue={initial?.eligibility ?? ""} />
       </div>
       <div className="space-y-1.5">
-        <Label htmlFor="exams">प्रवेश परीक्षाएँ (कॉमा से अलग करें)</Label>
+        <Label htmlFor="exams">{t("career.form.exams")}</Label>
         <Input id="exams" name="exams" defaultValue={initial?.exams.join(", ") ?? ""} placeholder="JEE, NEET" />
       </div>
 
@@ -60,22 +63,22 @@ export function RoadmapForm({
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-1.5">
-          <Label htmlFor="salaryRange">औसत वेतन सीमा</Label>
+          <Label htmlFor="salaryRange">{t("career.form.salaryRange")}</Label>
           <Input id="salaryRange" name="salaryRange" defaultValue={initial?.salaryRange ?? ""} placeholder="₹4-12 लाख/वर्ष" />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="scholarships">छात्रवृत्ति विकल्प</Label>
+          <Label htmlFor="scholarships">{t("career.form.scholarships")}</Label>
           <Input id="scholarships" name="scholarships" defaultValue={initial?.scholarships ?? ""} />
         </div>
       </div>
 
       <label className="flex items-center gap-2 text-sm">
         <Checkbox name="isPublished" defaultChecked={initial?.isPublished ?? false} />
-        तुरंत प्रकाशित करें
+        {t("career.form.publishNow")}
       </label>
 
       <Button type="submit" size="lg">
-        {initial ? "बदलाव सहेजें" : "रोडमैप जोड़ें"}
+        {initial ? t("career.form.save") : t("career.form.add")}
       </Button>
     </form>
   );

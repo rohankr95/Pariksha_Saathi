@@ -8,6 +8,7 @@ import { PublishToggle } from "@/components/admin/publish-toggle";
 import { ConfirmSubmitButton } from "@/components/admin/confirm-submit-button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Card } from "@/components/ui/card";
+import { getT } from "@/lib/i18n/server";
 import {
   toggleLecturePublish,
   deleteLecture,
@@ -26,20 +27,21 @@ export default async function AdminLecturesPage({
     getAdminLectures({ q: sp.q, page }),
     getUnresolvedBrokenLinkReports(),
   ]);
+  const t = await getT();
 
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="font-sans text-2xl font-bold text-foreground">व्याख्यान</h1>
-          <p className="text-sm text-muted-foreground">कुल {total} व्याख्यान</p>
+          <h1 className="font-sans text-2xl font-bold text-foreground">{t("lectures.admin.listTitle")}</h1>
+          <p className="text-sm text-muted-foreground">{t("lectures.admin.totalCount", { count: total })}</p>
         </div>
       </div>
 
       {reports.length > 0 && (
         <Card className="mb-6 border-[var(--color-section-examdates)]/30 bg-[color-mix(in_srgb,var(--color-section-examdates)_8%,transparent)] p-4">
           <p className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-[var(--color-section-examdates)]">
-            <Flag className="h-4 w-4" /> टूटे लिंक की रिपोर्ट ({reports.length})
+            <Flag className="h-4 w-4" /> {t("lectures.admin.brokenLinks.heading", { count: reports.length })}
           </p>
           <ul className="space-y-1.5 text-sm">
             {reports.map((r) => (
@@ -49,7 +51,7 @@ export default async function AdminLecturesPage({
                 </span>
                 <form action={resolveBrokenLinkReport.bind(null, r.id)}>
                   <button type="submit" className="shrink-0 text-xs font-medium text-primary hover:underline">
-                    हल किया गया चिह्नित करें
+                    {t("lectures.admin.brokenLinks.markResolved")}
                   </button>
                 </form>
               </li>
@@ -59,24 +61,28 @@ export default async function AdminLecturesPage({
       )}
 
       <AdminListToolbar
-        searchPlaceholder="व्याख्यान खोजें..."
+        searchPlaceholder={t("lectures.admin.searchPlaceholder")}
         defaultSearch={sp.q}
         addHref="/admin/lectures/new"
-        addLabel="नया व्याख्यान"
+        addLabel={t("lectures.admin.addLabel")}
       />
 
       {items.length === 0 ? (
-        <EmptyState icon={PlayCircle} title="कोई व्याख्यान नहीं मिला" description="नया व्याख्यान जोड़ें।" />
+        <EmptyState
+          icon={PlayCircle}
+          title={t("lectures.admin.empty.title")}
+          description={t("lectures.admin.empty.description")}
+        />
       ) : (
         <div className="overflow-hidden rounded-[var(--radius-lg)] border border-border">
           <table className="w-full text-sm">
             <thead className="bg-surface-muted text-left text-xs text-muted-foreground">
               <tr>
-                <th className="p-3">व्याख्यान</th>
-                <th className="p-3">विषय</th>
-                <th className="p-3">स्थिति</th>
-                <th className="p-3">क्रम</th>
-                <th className="p-3 text-right">कार्रवाई</th>
+                <th className="p-3">{t("lectures.admin.table.title")}</th>
+                <th className="p-3">{t("lectures.admin.table.subject")}</th>
+                <th className="p-3">{t("lectures.admin.table.status")}</th>
+                <th className="p-3">{t("lectures.admin.table.order")}</th>
+                <th className="p-3 text-right">{t("lectures.admin.table.actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -103,12 +109,12 @@ export default async function AdminLecturesPage({
                   <td className="p-3">
                     <div className="flex gap-1">
                       <form action={moveLectureOrder.bind(null, lecture.id, "up")}>
-                        <button type="submit" className="rounded p-1 hover:bg-surface-muted" aria-label="ऊपर ले जाएँ">
+                        <button type="submit" className="rounded p-1 hover:bg-surface-muted" aria-label={t("lectures.admin.moveUp")}>
                           <ArrowUp className="h-3.5 w-3.5" />
                         </button>
                       </form>
                       <form action={moveLectureOrder.bind(null, lecture.id, "down")}>
-                        <button type="submit" className="rounded p-1 hover:bg-surface-muted" aria-label="नीचे ले जाएँ">
+                        <button type="submit" className="rounded p-1 hover:bg-surface-muted" aria-label={t("lectures.admin.moveDown")}>
                           <ArrowDown className="h-3.5 w-3.5" />
                         </button>
                       </form>
@@ -119,14 +125,14 @@ export default async function AdminLecturesPage({
                       <Link
                         href={`/admin/lectures/${lecture.id}/edit`}
                         className="rounded-[var(--radius-sm)] p-1.5 text-muted-foreground hover:bg-surface-muted hover:text-primary"
-                        aria-label="संपादित करें"
+                        aria-label={t("lectures.admin.edit")}
                       >
                         <Pencil className="h-4 w-4" />
                       </Link>
                       <form action={deleteLecture.bind(null, lecture.id)}>
                         <ConfirmSubmitButton
-                          confirmMessage="क्या आप वाकई इस व्याख्यान को हटाना चाहते हैं?"
-                          aria-label="हटाएँ"
+                          confirmMessage={t("lectures.admin.deleteConfirm")}
+                          aria-label={t("lectures.admin.delete")}
                         >
                           <Trash2 className="h-4 w-4" />
                         </ConfirmSubmitButton>

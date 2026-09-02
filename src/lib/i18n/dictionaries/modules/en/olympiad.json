@@ -1,0 +1,62 @@
+{
+  "meta": { "title": "Olympiad | Pariksha Saathi" },
+  "page": {
+    "title": "Olympiad",
+    "subtitle": "National and state-level olympiad information",
+    "empty": "No olympiad available",
+    "emptyDesc": "Information will be added soon."
+  },
+  "card": {
+    "registration": "Registration: ",
+    "fee": " · Fee: {fee}",
+    "pattern": "Exam pattern: {pattern}",
+    "syllabus": "Syllabus",
+    "previousPapers": "Previous Papers",
+    "officialSite": "Official Website"
+  },
+  "interest": {
+    "registered": "Interest Registered",
+    "register": "Register Interest"
+  },
+  "admin": {
+    "title": "Olympiads",
+    "totalOlympiads": "{count} olympiads total",
+    "searchPlaceholder": "Search olympiads...",
+    "addLabel": "New Olympiad",
+    "empty": "No olympiad found",
+    "emptyDesc": "Add a new olympiad.",
+    "colName": "Name",
+    "colInterest": "Interest Registered",
+    "colStatus": "Status",
+    "colActions": "Actions",
+    "studentsCount": "{count} students",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this olympiad?",
+    "newTitle": "Add New Olympiad",
+    "editTitle": "Edit Olympiad",
+    "interestedSubtitle": "Students who registered interest ({count}) — list by school for felicitation/coordination",
+    "noInterest": "No one has registered interest yet",
+    "colStudentName": "Name",
+    "colClass": "Class",
+    "colSchool": "School",
+    "colBlock": "Block",
+    "colMobile": "Mobile"
+  },
+  "form": {
+    "name": "Olympiad Name",
+    "body": "Conducting Body",
+    "eligibleClasses": "Eligible Classes",
+    "regStart": "Registration Start",
+    "regEnd": "Registration Deadline",
+    "fee": "Fee",
+    "officialUrl": "Official Website",
+    "pattern": "Exam Pattern",
+    "patternPlaceholder": "50 MCQ, 60 minutes",
+    "syllabusPdf": "Syllabus PDF (optional)",
+    "previousPapersUrl": "Previous Papers Link",
+    "publishNow": "Publish immediately",
+    "save": "Save Changes",
+    "add": "Add Olympiad"
+  }
+}

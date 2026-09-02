@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
-import { ANSWER_COPY_STATUS_LABEL, ANSWER_COPY_STATUS_COLOR } from "@/lib/answer-copy-status";
+import { ANSWER_COPY_STATUS_COLOR } from "@/lib/answer-copy-status";
+import { getT, getServerLocale } from "@/lib/i18n/server";
 import type { AnswerCopyStatus } from "@prisma/client";
 
 type Copy = {
@@ -15,7 +16,10 @@ type Copy = {
   subject: { nameHi: string };
 };
 
-export function MyCopiesList({ copies }: { copies: Copy[] }) {
+export async function MyCopiesList({ copies }: { copies: Copy[] }) {
+  const t = await getT();
+  const locale = await getServerLocale();
+
   return (
     <div className="space-y-3">
       {copies.map((c) => (
@@ -25,7 +29,9 @@ export function MyCopiesList({ copies }: { copies: Copy[] }) {
               <p className="text-sm font-semibold text-foreground">{c.paperName}</p>
               <p className="text-xs text-muted-foreground">
                 {c.subject.nameHi} · {c.teacher.name} ·{" "}
-                {new Intl.DateTimeFormat("hi-IN", { day: "numeric", month: "short", timeZone: "Asia/Kolkata" }).format(c.submittedAt)}
+                {new Intl.DateTimeFormat(locale === "hi" ? "hi-IN" : "en-IN", { day: "numeric", month: "short", timeZone: "Asia/Kolkata" }).format(
+                  c.submittedAt
+                )}
               </p>
             </div>
             <span
@@ -35,19 +41,19 @@ export function MyCopiesList({ copies }: { copies: Copy[] }) {
                 color: `var(${ANSWER_COPY_STATUS_COLOR[c.status]})`,
               }}
             >
-              {ANSWER_COPY_STATUS_LABEL[c.status]}
+              {t(`answerCopies.status.${c.status}`)}
             </span>
           </div>
 
           {c.status === "CHECKED" || c.status === "RETURNED" ? (
             <div className="mt-3 space-y-1 border-t border-border pt-3 text-sm">
               <p className="font-semibold text-foreground">
-                अंक: {c.marksAwarded} / {c.totalMarks}
+                {t("answerCopies.myCopy.marks", { awarded: c.marksAwarded ?? "—", total: c.totalMarks ?? "—" })}
               </p>
               {c.remarks && <p className="text-xs text-muted-foreground">{c.remarks}</p>}
               {c.checkedFileUrl && (
                 <a href={c.checkedFileUrl} target="_blank" rel="noreferrer" className="text-xs font-medium text-primary hover:underline">
-                  जाँची गई फाइल देखें
+                  {t("answerCopies.myCopy.viewChecked")}
                 </a>
               )}
             </div>

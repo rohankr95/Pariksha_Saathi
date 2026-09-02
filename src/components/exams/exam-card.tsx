@@ -2,8 +2,9 @@ import { ExternalLink, FileText, CalendarClock } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { SubscribeButton } from "@/components/exams/subscribe-button";
-import { computeExamStatus, EXAM_STATUS_LABEL, daysUntil, formatIST } from "@/lib/exam-status";
+import { computeExamStatus, daysUntil, formatIST } from "@/lib/exam-status";
 import { cn } from "@/lib/utils";
+import { getT } from "@/lib/i18n/server";
 
 type ExamCardData = {
   id: string;
@@ -24,7 +25,7 @@ const STATUS_COLOR: Record<string, string> = {
   CLOSED: "--muted-foreground",
 };
 
-export function ExamCard({
+export async function ExamCard({
   exam,
   isStudent,
   subscribed,
@@ -33,6 +34,7 @@ export function ExamCard({
   isStudent: boolean;
   subscribed: boolean;
 }) {
+  const t = await getT();
   const status = computeExamStatus(exam);
   const remaining = daysUntil(exam.applyEnd);
   const urgent = remaining !== null && remaining >= 0 && remaining <= 7;
@@ -54,19 +56,19 @@ export function ExamCard({
             color: `var(${STATUS_COLOR[status]})`,
           }}
         >
-          {EXAM_STATUS_LABEL[status]}
+          {t(`examDates.status.${status}`)}
         </span>
       </div>
 
       <dl className="mt-3 grid grid-cols-2 gap-x-3 gap-y-1.5 text-xs text-muted-foreground">
         <div>
-          <dt className="inline">आवेदन: </dt>
+          <dt className="inline">{t("examDates.card.apply")}</dt>
           <dd className="inline text-foreground">
             {formatIST(exam.applyStart)} – {formatIST(exam.applyEnd)}
           </dd>
         </div>
         <div>
-          <dt className="inline">परीक्षा: </dt>
+          <dt className="inline">{t("examDates.card.exam")}</dt>
           <dd className="inline text-foreground">{formatIST(exam.examDate)}</dd>
         </div>
       </dl>
@@ -74,7 +76,7 @@ export function ExamCard({
       {urgent && (
         <p className="mt-2 flex items-center gap-1 text-xs font-medium text-[var(--color-section-examdates)]">
           <CalendarClock className="h-3.5 w-3.5" />
-          आवेदन की अंतिम तिथि में {remaining} दिन शेष!
+          {t("examDates.card.urgent", { count: remaining! })}
         </p>
       )}
 
@@ -86,7 +88,7 @@ export function ExamCard({
             rel="noopener noreferrer"
             className="flex items-center gap-1 text-xs font-medium text-primary hover:underline"
           >
-            <ExternalLink className="h-3.5 w-3.5" /> आधिकारिक वेबसाइट
+            <ExternalLink className="h-3.5 w-3.5" /> {t("examDates.card.officialSite")}
           </a>
         )}
         {exam.notificationUrl && (
@@ -96,7 +98,7 @@ export function ExamCard({
             rel="noopener noreferrer"
             className="flex items-center gap-1 text-xs font-medium text-primary hover:underline"
           >
-            <FileText className="h-3.5 w-3.5" /> अधिसूचना
+            <FileText className="h-3.5 w-3.5" /> {t("examDates.card.notification")}
           </a>
         )}
         {isStudent && (

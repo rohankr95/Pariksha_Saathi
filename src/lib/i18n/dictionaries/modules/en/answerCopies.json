@@ -1,0 +1,74 @@
+{
+  "meta": { "title": "Answer Copy Checking | Pariksha Saathi" },
+  "page": {
+    "title": "Answer Copy Checking",
+    "subtitle": "Get your answer sheet evaluated by a teacher",
+    "loginPrompt": "Log in as a student to submit an answer copy",
+    "myCopiesHeading": "My Answer Copies",
+    "noCopies": "No answer copy has been submitted yet."
+  },
+  "form": {
+    "weeklyLimitReached": "You've reached this week's submission limit. Please try again next week.",
+    "heading": "Submit an Answer Copy",
+    "remaining": "{count} submissions left this week",
+    "success": "Your answer copy has been submitted successfully.",
+    "subject": "Subject",
+    "classLevel": "Class",
+    "teacher": "Teacher",
+    "noTeacherForSubject": "No teacher available for this subject",
+    "paperName": "Paper / Exam Name",
+    "paperNamePlaceholder": "e.g. Half-Yearly Exam — Mathematics",
+    "fileLabel": "Answer Copy File",
+    "submitting": "Submitting...",
+    "submit": "Submit"
+  },
+  "upload": {
+    "failed": "Upload failed",
+    "remove": "Remove",
+    "uploading": "Uploading...",
+    "choose": "Choose file (PDF, JPG, PNG · max 15MB)"
+  },
+  "myCopy": {
+    "marks": "Marks: {awarded} / {total}",
+    "viewChecked": "View checked file"
+  },
+  "status": {
+    "SUBMITTED": "Submitted",
+    "ASSIGNED": "Assigned",
+    "UNDER_EVALUATION": "Under Evaluation",
+    "CHECKED": "Checked",
+    "RETURNED": "Returned"
+  },
+  "teacherQueue": {
+    "myListTitle": "Answer Copy Checking — My List",
+    "pendingHeading": "Pending",
+    "emptyPending": "No pending answer copies right now",
+    "recentCheckedHeading": "Recently Checked",
+    "emptyChecked": "No answer copies checked yet.",
+    "classLabel": "Class",
+    "viewOriginal": "View Original File",
+    "startEvaluation": "Start Evaluation",
+    "marksAwarded": "Marks Awarded",
+    "totalMarks": "Total Marks",
+    "remarks": "Remarks (optional)",
+    "checkedFileLabel": "Checked File (optional)",
+    "saving": "Saving...",
+    "submitEvaluation": "Submit Evaluation"
+  },
+  "admin": {
+    "overviewTitle": "Answer Copy Checking — Overview",
+    "avgTurnaround": "Average turnaround time: {value}",
+    "byTeacherHeading": "Pending by Teacher",
+    "noPending": "No pending answer copies.",
+    "pendingCount": "{count} pending",
+    "recentActivityHeading": "Recent Activity",
+    "emptyRecent": "No answer copies submitted yet."
+  },
+  "errors": {
+    "studentOnly": "Only students can submit answer copies",
+    "invalid": "Invalid information",
+    "weeklyLimit": "You can submit at most {limit} answer copies per week",
+    "unauthorized": "Unauthorized",
+    "marksExceedTotal": "Marks awarded cannot exceed total marks"
+  }
+}

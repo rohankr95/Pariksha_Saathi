@@ -1,0 +1,68 @@
+{
+  "meta": { "title": "Class Request | Pariksha Saathi" },
+  "page": {
+    "title": "Class Request",
+    "subtitle": "Request a class on the topic of your choice",
+    "loginPrompt": "Log in as a student to send a class request"
+  },
+  "form": {
+    "heading": "Send a new request",
+    "mergedSuccess": "Another student has already requested this topic — your interest has been added to it!",
+    "success": "Your request has been sent successfully.",
+    "subject": "Subject",
+    "classLevel": "Class",
+    "chapter": "Chapter / Topic",
+    "chapterPlaceholder": "e.g. Trigonometry",
+    "preferredTeacher": "Preferred teacher",
+    "anyTeacherOption": "Any",
+    "mode": "Mode",
+    "online": "Online",
+    "offline": "Offline",
+    "preferredTime": "Preferred time",
+    "preferredTimePlaceholder": "e.g. 4-6 PM",
+    "description": "Description",
+    "descriptionPlaceholder": "What are you finding difficult?",
+    "urgency": "Urgency",
+    "urgencyLow": "Low",
+    "urgencyNormal": "Normal",
+    "urgencyHigh": "High",
+    "submitting": "Sending...",
+    "submit": "Send Request"
+  },
+  "anyTeacherLabel": "Any teacher",
+  "myRequests": {
+    "heading": "My Requests",
+    "emptyTitle": "No requests yet",
+    "emptyDesc": "Fill in the form above to send your first request.",
+    "supportCount": "{count} supporters"
+  },
+  "feed": {
+    "heading": "Other students' requests",
+    "hint": "Need the same chapter? Support this instead of creating a new request."
+  },
+  "status": {
+    "SUBMITTED": "Submitted",
+    "UNDER_REVIEW": "Under Review",
+    "ACCEPTED": "Accepted",
+    "SCHEDULED": "Scheduled",
+    "COMPLETED": "Completed",
+    "DECLINED": "Declined"
+  },
+  "admin": {
+    "title": "Class Requests",
+    "totalRequests": "{count} requests total",
+    "allStatuses": "All statuses",
+    "applyFilter": "Apply Filter",
+    "empty": "No requests found",
+    "trending": "Trending",
+    "supportCount": "{count} supporters",
+    "teacherLabel": "Teacher",
+    "anyTeacherOption": "Any",
+    "remarkPlaceholder": "Remark (optional)",
+    "update": "Update"
+  },
+  "errors": {
+    "studentOnly": "Only students can send requests",
+    "invalid": "Invalid information"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "greeting": "Hi {name}! 👋",
+  "subtitle": "A summary of your preparation",
+  "streak": "Streak",
+  "streakDays": "{count} days",
+  "xp": "XP Points",
+  "lecturesWatched": "Lectures Watched",
+  "avgAccuracy": "Average Accuracy",
+  "recentQuizzesHeading": "Recent Quizzes",
+  "scoreLine": "{score} marks · {accuracy}%",
+  "noAttemptsTitle": "No quizzes attempted yet",
+  "noAttemptsDesc": "Start practising and check your preparation.",
+  "browseQuizzes": "Browse Quizzes",
+  "futurePhaseNote": "Marks trend charts, badges, and chapter-wise summaries will be added in Phase 6."
+}

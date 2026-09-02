@@ -4,6 +4,7 @@ import { useTransition } from "react";
 import { ThumbsUp } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { upvoteClassRequest } from "@/app/class-request/actions";
+import { useLocale } from "@/lib/i18n/locale-provider";
 
 type FeedItem = {
   id: string;
@@ -16,13 +17,12 @@ type FeedItem = {
 
 export function RequestFeed({ requests, myId }: { requests: FeedItem[]; myId: string }) {
   const [pending, startTransition] = useTransition();
+  const { t } = useLocale();
 
   return (
     <div>
-      <h2 className="mb-3 font-sans text-base font-semibold text-foreground">अन्य विद्यार्थियों के अनुरोध</h2>
-      <p className="mb-3 text-xs text-muted-foreground">
-        क्या आपको भी यही अध्याय चाहिए? नया अनुरोध बनाने के बजाय समर्थन करें।
-      </p>
+      <h2 className="mb-3 font-sans text-base font-semibold text-foreground">{t("classRequest.feed.heading")}</h2>
+      <p className="mb-3 text-xs text-muted-foreground">{t("classRequest.feed.hint")}</p>
       <div className="space-y-2">
         {requests.map((r) => {
           const voted = r.upvoterIds.includes(myId);
@@ -34,7 +34,7 @@ export function RequestFeed({ requests, myId }: { requests: FeedItem[]; myId: st
                   {r.chapter ? ` · ${r.chapter}` : ""}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {r.preferredTeacher ? r.preferredTeacher.name : "कोई भी शिक्षक"}
+                  {r.preferredTeacher ? r.preferredTeacher.name : t("classRequest.anyTeacherLabel")}
                 </p>
               </div>
               <button

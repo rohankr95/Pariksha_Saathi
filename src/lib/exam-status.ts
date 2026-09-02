@@ -14,12 +14,6 @@ export function computeExamStatus(exam: ExamDates, now: Date = new Date()): Exam
   return "UPCOMING";
 }
 
-export const EXAM_STATUS_LABEL: Record<ExamStatus, string> = {
-  UPCOMING: "आगामी",
-  ONGOING: "जारी",
-  CLOSED: "समाप्त",
-};
-
 export function daysUntil(date: Date | null, now: Date = new Date()): number | null {
   if (!date) return null;
   return Math.ceil((date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));

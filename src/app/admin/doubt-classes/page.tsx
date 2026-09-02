@@ -7,10 +7,12 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { TeacherBookingsList } from "@/components/doubt-class/teacher-bookings-list";
-import { BOOKING_MODE_LABEL } from "@/lib/weekday";
-import { BOOKING_STATUS_LABEL, BOOKING_STATUS_COLOR } from "@/lib/doubt-booking-status";
+import { BOOKING_STATUS_COLOR } from "@/lib/doubt-booking-status";
+import { getT, getServerLocale } from "@/lib/i18n/server";
 
 export default async function AdminDoubtClassesPage() {
+  const t = await getT();
+  const locale = await getServerLocale();
   const session = await requireRole(["TEACHER", "SUPER_ADMIN"]);
 
   if (session.user.role === "TEACHER") {
@@ -22,13 +24,17 @@ export default async function AdminDoubtClassesPage() {
     return (
       <div>
         <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-          <h1 className="font-sans text-2xl font-bold text-foreground">शंका समाधान — मेरी कक्षाएँ</h1>
+          <h1 className="font-sans text-2xl font-bold text-foreground">{t("doubtClass.admin.myClassesTitle")}</h1>
           <Link href="/admin/doubt-classes/availability">
-            <Button size="sm">मेरी उपलब्धता प्रबंधित करें</Button>
+            <Button size="sm">{t("doubtClass.admin.manageAvailability")}</Button>
           </Link>
         </div>
         {upcoming.length === 0 && past.length === 0 ? (
-          <EmptyState icon={MessageCircleQuestion} title="अभी कोई बुकिंग नहीं है" description="पहले अपनी उपलब्धता सेट करें।" />
+          <EmptyState
+            icon={MessageCircleQuestion}
+            title={t("doubtClass.admin.emptyBookingsTitle")}
+            description={t("doubtClass.admin.emptyBookingsDesc")}
+          />
         ) : (
           <TeacherBookingsList upcoming={upcoming} past={past} />
         )}
@@ -49,14 +55,14 @@ export default async function AdminDoubtClassesPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="font-sans text-2xl font-bold text-foreground">शंका समाधान — सभी बुकिंग</h1>
+        <h1 className="font-sans text-2xl font-bold text-foreground">{t("doubtClass.admin.allBookingsTitle")}</h1>
         <p className="text-sm text-muted-foreground">
-          {teacherCount} सक्रिय शिक्षक · {bookings.length} आगामी बुकिंग
+          {t("doubtClass.admin.activeTeachersCount", { teachers: teacherCount, bookings: bookings.length })}
         </p>
       </div>
 
       {bookings.length === 0 ? (
-        <EmptyState icon={MessageCircleQuestion} title="अभी कोई आगामी बुकिंग नहीं है" />
+        <EmptyState icon={MessageCircleQuestion} title={t("doubtClass.admin.emptyUpcoming")} />
       ) : (
         <div className="space-y-2.5">
           {bookings.map((b) => (
@@ -65,14 +71,14 @@ export default async function AdminDoubtClassesPage() {
                 <p className="font-medium text-foreground">{b.topic}</p>
                 <p className="text-xs text-muted-foreground">
                   {b.teacher.name} ← {b.student.name} ·{" "}
-                  {new Intl.DateTimeFormat("hi-IN", {
+                  {new Intl.DateTimeFormat(locale === "hi" ? "hi-IN" : "en-IN", {
                     day: "numeric",
                     month: "short",
                     hour: "numeric",
                     minute: "2-digit",
                     timeZone: "Asia/Kolkata",
                   }).format(b.slotStart)}{" "}
-                  · {BOOKING_MODE_LABEL[b.mode]}
+                  · {t(`doubtClass.bookingMode.${b.mode}`)}
                 </p>
               </div>
               <span
@@ -82,7 +88,7 @@ export default async function AdminDoubtClassesPage() {
                   color: `var(${BOOKING_STATUS_COLOR[b.status]})`,
                 }}
               >
-                {BOOKING_STATUS_LABEL[b.status]}
+                {t(`doubtClass.status.${b.status}`)}
               </span>
             </Card>
           ))}

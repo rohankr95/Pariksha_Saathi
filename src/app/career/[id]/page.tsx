@@ -4,6 +4,7 @@ import { Compass, IndianRupee, GraduationCap, MessageCircleQuestion } from "luci
 import { getRoadmapById } from "@/lib/queries/roadmaps";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getT } from "@/lib/i18n/server";
 
 type Step = { step: string; detail: string };
 
@@ -16,6 +17,7 @@ function parseSteps(json: unknown): Step[] {
 
 export default async function RoadmapDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const t = await getT();
   const roadmap = await getRoadmapById(id);
   if (!roadmap) notFound();
 
@@ -37,7 +39,8 @@ export default async function RoadmapDetailPage({ params }: { params: Promise<{ 
 
       {roadmap.eligibility && (
         <p className="mt-2 flex items-start gap-1.5 text-sm text-muted-foreground">
-          <GraduationCap className="mt-0.5 h-4 w-4 shrink-0" /> पात्रता: {roadmap.eligibility}
+          <GraduationCap className="mt-0.5 h-4 w-4 shrink-0" /> {t("career.detail.eligibility")}
+          {roadmap.eligibility}
         </p>
       )}
 
@@ -53,7 +56,7 @@ export default async function RoadmapDetailPage({ params }: { params: Promise<{ 
 
       {steps.length > 0 && (
         <div className="mt-8">
-          <h2 className="mb-4 font-sans text-lg font-bold text-foreground">चरण-दर-चरण मार्ग</h2>
+          <h2 className="mb-4 font-sans text-lg font-bold text-foreground">{t("career.detail.stepsHeading")}</h2>
           <ol className="relative ml-3 space-y-6 border-l-2 border-[var(--color-section-career)]/30 pl-6">
             {steps.map((s, i) => (
               <li key={i} className="relative">
@@ -73,14 +76,14 @@ export default async function RoadmapDetailPage({ params }: { params: Promise<{ 
           {roadmap.salaryRange && (
             <div className="rounded-[var(--radius-md)] border border-border p-3.5">
               <p className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
-                <IndianRupee className="h-4 w-4" /> औसत वेतन सीमा
+                <IndianRupee className="h-4 w-4" /> {t("career.detail.salaryRange")}
               </p>
               <p className="mt-1 text-sm text-muted-foreground">{roadmap.salaryRange}</p>
             </div>
           )}
           {roadmap.scholarships && (
             <div className="rounded-[var(--radius-md)] border border-border p-3.5">
-              <p className="text-sm font-semibold text-foreground">छात्रवृत्ति विकल्प</p>
+              <p className="text-sm font-semibold text-foreground">{t("career.detail.scholarships")}</p>
               <p className="mt-1 text-sm text-muted-foreground">{roadmap.scholarships}</p>
             </div>
           )}
@@ -88,10 +91,10 @@ export default async function RoadmapDetailPage({ params }: { params: Promise<{ 
       )}
 
       <div className="mt-8 rounded-[var(--radius-lg)] bg-[var(--color-section-career)]/10 p-5 text-center">
-        <p className="font-semibold text-foreground">इस करियर के बारे में और जानना चाहते हैं?</p>
+        <p className="font-semibold text-foreground">{t("career.detail.wantToKnowMore")}</p>
         <Button asChild className="mt-3" variant="accent">
           <Link href="/class-request">
-            <MessageCircleQuestion className="h-4 w-4" /> काउंसलर से बात करें
+            <MessageCircleQuestion className="h-4 w-4" /> {t("career.detail.talkToCounsellor")}
           </Link>
         </Button>
       </div>

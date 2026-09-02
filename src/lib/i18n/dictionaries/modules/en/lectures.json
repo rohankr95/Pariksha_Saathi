@@ -1,0 +1,70 @@
+{
+  "public": {
+    "title": "Lectures",
+    "subtitle": "Subject-wise video lessons for Class 10 and 12",
+    "searchPlaceholder": "Search lectures...",
+    "empty": {
+      "title": "No lectures found",
+      "description": "Try changing the filters, or new lectures will be added soon."
+    },
+    "card": {
+      "watchedBadge": "Watched ✓"
+    },
+    "detail": {
+      "videoUnavailable": "Video could not be loaded",
+      "openOnYoutube": "Open on YouTube (for slow internet)",
+      "views": "{count} views",
+      "durationMinutes": "{count} min",
+      "playlistLabel": "Playlist: {title}",
+      "relatedTitle": "Related Lectures"
+    }
+  },
+  "language": {
+    "hindi": "Hindi",
+    "english": "English",
+    "chhattisgarhi": "Chhattisgarhi"
+  },
+  "admin": {
+    "listTitle": "Lectures",
+    "totalCount": "{count} lectures total",
+    "brokenLinks": {
+      "heading": "Broken link reports ({count})",
+      "markResolved": "Mark as resolved"
+    },
+    "searchPlaceholder": "Search lectures...",
+    "addLabel": "New Lecture",
+    "empty": {
+      "title": "No lectures found",
+      "description": "Add a new lecture."
+    },
+    "table": {
+      "title": "Lecture",
+      "subject": "Subject",
+      "status": "Status",
+      "order": "Order",
+      "actions": "Actions"
+    },
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this lecture?",
+    "newTitle": "Add New Lecture",
+    "editTitle": "Edit Lecture",
+    "form": {
+      "title": "Title",
+      "description": "Description",
+      "youtubeUrl": "YouTube Link",
+      "classLevel": "Class",
+      "language": "Language",
+      "subject": "Subject",
+      "chapter": "Chapter",
+      "none": "— None —",
+      "duration": "Duration (in seconds, optional)",
+      "tags": "Tags",
+      "publishNow": "Publish immediately",
+      "save": "Save Changes",
+      "add": "Add Lecture"
+    }
+  }
+}

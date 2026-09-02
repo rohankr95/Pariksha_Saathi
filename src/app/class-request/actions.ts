@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/require-role";
 import { findSimilarOpenRequest } from "@/lib/queries/class-requests";
+import { getT } from "@/lib/i18n/server";
 
 const requestSchema = z.object({
   subjectId: z.string().min(1),
@@ -23,8 +24,9 @@ export async function submitClassRequest(
   _prev: SubmitClassRequestState,
   formData: FormData
 ): Promise<SubmitClassRequestState> {
+  const t = await getT();
   const session = await requireUser();
-  if (session.user.role !== "STUDENT") return { error: "केवल विद्यार्थी अनुरोध भेज सकते हैं" };
+  if (session.user.role !== "STUDENT") return { error: t("classRequest.errors.studentOnly") };
 
   const parsed = requestSchema.safeParse({
     subjectId: formData.get("subjectId"),
@@ -36,7 +38,7 @@ export async function submitClassRequest(
     description: formData.get("description") || undefined,
     urgency: formData.get("urgency"),
   });
-  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "अमान्य जानकारी" };
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? t("classRequest.errors.invalid") };
 
   const data = parsed.data;
 

@@ -1,0 +1,123 @@
+{
+  "meta": { "browseTitle": "Doubt Class | Pariksha Saathi", "myBookingsTitle": "My Bookings | Pariksha Saathi" },
+  "browse": {
+    "myBookings": "My Bookings",
+    "myClasses": "My Classes",
+    "manageAvailability": "Manage Availability",
+    "title": "Doubt Class",
+    "subtitle": "Pick a teacher and book a slot that works for you",
+    "allSubjects": "All subjects",
+    "generalSubject": "General",
+    "emptyTitle": "No teacher is available for this subject yet",
+    "emptyDesc": "Please pick another subject or try again later."
+  },
+  "teacherPage": {
+    "backLink": "Doubt Class",
+    "generalSubject": "General"
+  },
+  "booking": {
+    "successTitle": "Your doubt class is booked!",
+    "successDesc": "The details have been emailed to you (with a calendar invite).",
+    "noSlots": "This teacher has no open slots in the coming days.",
+    "seatsLeft": "{count} seats left",
+    "topic": "Topic / Question",
+    "topicPlaceholder": "e.g. Understanding trigonometry formulas",
+    "description": "Description (optional)",
+    "descriptionPlaceholder": "Describe your doubt in detail",
+    "booking": "Booking...",
+    "submit": "Book Slot"
+  },
+  "myBookings": {
+    "title": "My Bookings",
+    "titleTeacher": "My Classes",
+    "emptyTitle": "No bookings yet",
+    "emptyDescStudent": "Pick a teacher to book a slot.",
+    "emptyDescTeacher": "Students will be able to book slots based on your availability."
+  },
+  "studentCard": {
+    "openMeetingLink": "Open Meeting Link",
+    "confirmCancel": "Are you sure you want to cancel this booking?",
+    "cancelFailed": "Could not cancel",
+    "rating": "Rating:",
+    "starLabel": "{n} star",
+    "cancel": "Cancel"
+  },
+  "teacherCard": {
+    "upcomingHeading": "Upcoming Classes",
+    "noUpcoming": "No upcoming classes.",
+    "pastHeading": "Past Classes",
+    "noPast": "No past classes yet.",
+    "classLabel": "Class",
+    "cancel": "Cancel",
+    "cancelReasonPlaceholder": "Reason for cancelling",
+    "cancelReasonRequired": "A cancellation reason is required",
+    "cancelFailed": "Could not cancel",
+    "confirm": "Confirm",
+    "back": "Back",
+    "attended": "Attended",
+    "noShow": "No-show",
+    "remarkPlaceholder": "Remark (optional)",
+    "update": "Update",
+    "record": "Record"
+  },
+  "admin": {
+    "myClassesTitle": "Doubt Class — My Classes",
+    "manageAvailability": "Manage My Availability",
+    "emptyBookingsTitle": "No bookings yet",
+    "emptyBookingsDesc": "Set your availability first.",
+    "allBookingsTitle": "Doubt Class — All Bookings",
+    "activeTeachersCount": "{teachers} active teachers · {bookings} upcoming bookings",
+    "emptyUpcoming": "No upcoming bookings yet"
+  },
+  "availability": {
+    "backLink": "Doubt Class",
+    "title": "My Availability",
+    "weeklyHeading": "Weekly Schedule",
+    "slotDurationLabel": "{minutes} min slot",
+    "capacityLabel": "Capacity {count}",
+    "removeConfirm": "Are you sure you want to remove this?",
+    "remove": "Remove",
+    "noRules": "No weekly schedule has been set yet.",
+    "addSlotHeading": "Add New Slot",
+    "modeOnline": "Online (Meet)",
+    "modePhone": "Phone Call",
+    "modeInPerson": "In Person",
+    "startTime": "Start Time",
+    "endTime": "End Time",
+    "slotMinutes": "Slot Duration (minutes)",
+    "capacity": "Capacity (students at once)",
+    "meetingLink": "Meeting Link (optional)",
+    "add": "Add",
+    "blackoutHeading": "Blackout Dates",
+    "noBlackout": "No blackout dates set.",
+    "addBlackoutHeading": "Add Blackout Date",
+    "date": "Date",
+    "reason": "Reason (optional)",
+    "reasonPlaceholder": "e.g. Holiday, Training"
+  },
+  "weekday": {
+    "0": "Sunday", "1": "Monday", "2": "Tuesday", "3": "Wednesday", "4": "Thursday", "5": "Friday", "6": "Saturday"
+  },
+  "bookingMode": {
+    "MEET": "Online (Google Meet)",
+    "PHONE": "Phone Call",
+    "IN_PERSON": "In Person"
+  },
+  "status": {
+    "BOOKED": "Booked",
+    "CANCELLED": "Cancelled",
+    "RESCHEDULED": "Rescheduled",
+    "ATTENDED": "Completed",
+    "NO_SHOW": "No-show"
+  },
+  "errors": {
+    "studentOnly": "Only students can book",
+    "invalid": "Invalid information",
+    "invalidTime": "Invalid time",
+    "slotUnavailable": "This slot is no longer available, please pick another",
+    "slotJustBooked": "This slot was just booked, please pick another slot",
+    "cancelCutoff": "The cancellation window ({hours} hours before) has passed",
+    "cancelReasonRequired": "A cancellation reason is required",
+    "endAfterStart": "End time must be after start time"
+  }
+}

@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { InterestButton } from "@/components/olympiad/interest-button";
 import { CLASS_LEVEL_LABEL } from "@/lib/queries/curriculum";
 import { formatIST } from "@/lib/exam-status";
+import { getT } from "@/lib/i18n/server";
 import type { ClassLevel } from "@prisma/client";
 
 type OlympiadCardData = {
@@ -20,7 +21,7 @@ type OlympiadCardData = {
   previousPapersUrl: string | null;
 };
 
-export function OlympiadCard({
+export async function OlympiadCard({
   olympiad,
   isStudent,
   interested,
@@ -29,6 +30,8 @@ export function OlympiadCard({
   isStudent: boolean;
   interested: boolean;
 }) {
+  const t = await getT();
+
   return (
     <Card className="p-4">
       <div className="flex items-start gap-3">
@@ -50,26 +53,27 @@ export function OlympiadCard({
 
       <dl className="mt-3 space-y-1 text-xs text-muted-foreground">
         <div>
-          पंजीकरण: {formatIST(olympiad.regStart)} – {formatIST(olympiad.regEnd)}
-          {olympiad.fee ? ` · शुल्क: ${olympiad.fee}` : ""}
+          {t("olympiad.card.registration")}
+          {formatIST(olympiad.regStart)} – {formatIST(olympiad.regEnd)}
+          {olympiad.fee ? t("olympiad.card.fee", { fee: olympiad.fee }) : ""}
         </div>
-        {olympiad.pattern && <div>परीक्षा पैटर्न: {olympiad.pattern}</div>}
+        {olympiad.pattern && <div>{t("olympiad.card.pattern", { pattern: olympiad.pattern })}</div>}
       </dl>
 
       <div className="mt-3 flex flex-wrap items-center gap-3">
         {olympiad.syllabusUrl && (
           <a href={olympiad.syllabusUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs font-medium text-primary hover:underline">
-            <FileText className="h-3.5 w-3.5" /> पाठ्यक्रम
+            <FileText className="h-3.5 w-3.5" /> {t("olympiad.card.syllabus")}
           </a>
         )}
         {olympiad.previousPapersUrl && (
           <a href={olympiad.previousPapersUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs font-medium text-primary hover:underline">
-            <FileText className="h-3.5 w-3.5" /> पिछले प्रश्नपत्र
+            <FileText className="h-3.5 w-3.5" /> {t("olympiad.card.previousPapers")}
           </a>
         )}
         {olympiad.officialUrl && (
           <a href={olympiad.officialUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs font-medium text-primary hover:underline">
-            <ExternalLink className="h-3.5 w-3.5" /> आधिकारिक वेबसाइट
+            <ExternalLink className="h-3.5 w-3.5" /> {t("olympiad.card.officialSite")}
           </a>
         )}
         {isStudent && (

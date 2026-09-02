@@ -9,26 +9,26 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { getAdminDashboardCounts } from "@/lib/queries/admin-dashboard";
+import { getT } from "@/lib/i18n/server";
 
 export default async function AdminDashboardPage() {
+  const t = await getT();
   const counts = await getAdminDashboardCounts();
 
   const cards = [
-    { label: "लंबित कक्षा अनुरोध", value: counts.pendingClassRequests, icon: HandHelping, color: "--color-section-classrequest" },
-    { label: "आज की शंका कक्षाएँ", value: counts.doubtClassesToday, icon: MessageCircleQuestion, color: "--color-section-doubtclass" },
-    { label: "जाँच हेतु लंबित उत्तरपुस्तिकाएँ", value: counts.answerCopiesPending, icon: FileCheck2, color: "--color-section-answercopies" },
-    { label: "नए पंजीकरण (7 दिन)", value: counts.newRegistrations, icon: UserPlus, color: "--color-section-lectures" },
-    { label: "टूटे लिंक की रिपोर्ट", value: counts.brokenLinkReports, icon: AlertTriangle, color: "--color-section-examdates" },
-    { label: "सक्रिय शिक्षक", value: counts.totalTeachers, icon: Users, color: "--color-section-career" },
-    { label: "सक्रिय विद्यार्थी", value: counts.totalStudents, icon: GraduationCap, color: "--color-section-quiz" },
+    { label: t("admin.dashboard.pendingClassRequests"), value: counts.pendingClassRequests, icon: HandHelping, color: "--color-section-classrequest" },
+    { label: t("admin.dashboard.doubtClassesToday"), value: counts.doubtClassesToday, icon: MessageCircleQuestion, color: "--color-section-doubtclass" },
+    { label: t("admin.dashboard.answerCopiesPending"), value: counts.answerCopiesPending, icon: FileCheck2, color: "--color-section-answercopies" },
+    { label: t("admin.dashboard.newRegistrations"), value: counts.newRegistrations, icon: UserPlus, color: "--color-section-lectures" },
+    { label: t("admin.dashboard.brokenLinkReports"), value: counts.brokenLinkReports, icon: AlertTriangle, color: "--color-section-examdates" },
+    { label: t("admin.dashboard.totalTeachers"), value: counts.totalTeachers, icon: Users, color: "--color-section-career" },
+    { label: t("admin.dashboard.totalStudents"), value: counts.totalStudents, icon: GraduationCap, color: "--color-section-quiz" },
   ];
 
   return (
     <div>
-      <h1 className="font-sans text-2xl font-bold text-foreground">डैशबोर्ड</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        सूरजपुर जिले के परीक्षा साथी पोर्टल का सारांश
-      </p>
+      <h1 className="font-sans text-2xl font-bold text-foreground">{t("admin.dashboard.title")}</h1>
+      <p className="mt-1 text-sm text-muted-foreground">{t("admin.dashboard.subtitle")}</p>
 
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {cards.map((card) => {

@@ -8,6 +8,7 @@ import { LectureCard } from "@/components/lectures/lecture-card";
 import { LECTURE_SPECIAL_TAGS } from "@/lib/lecture-tags";
 import { EmptyState } from "@/components/ui/empty-state";
 import { AdminPagination } from "@/components/admin/pagination";
+import { getT } from "@/lib/i18n/server";
 import type { ClassLevel, Language } from "@prisma/client";
 
 export const metadata = { title: "व्याख्यान | परीक्षा साथी" };
@@ -19,6 +20,7 @@ export default async function LecturesPage({
 }) {
   const sp = await searchParams;
   const session = await auth();
+  const t = await getT();
 
   const filters = {
     classLevel: sp.classLevel as ClassLevel | undefined,
@@ -44,8 +46,8 @@ export default async function LecturesPage({
           <PlayCircle className="h-6 w-6" />
         </span>
         <div>
-          <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">व्याख्यान</h1>
-          <p className="text-sm text-muted-foreground">विषयवार वीडियो पाठ, कक्षा 10 और 12 के लिए</p>
+          <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">{t("lectures.public.title")}</h1>
+          <p className="text-sm text-muted-foreground">{t("lectures.public.subtitle")}</p>
         </div>
       </div>
 
@@ -54,7 +56,7 @@ export default async function LecturesPage({
         subjects={subjects}
         chapters={chapters}
         tags={LECTURE_SPECIAL_TAGS}
-        searchPlaceholder="व्याख्यान खोजें..."
+        searchPlaceholder={t("lectures.public.searchPlaceholder")}
         current={filters}
       />
 
@@ -71,8 +73,8 @@ export default async function LecturesPage({
         <div className="mt-6">
           <EmptyState
             icon={PlayCircle}
-            title="कोई व्याख्यान नहीं मिला"
-            description="फ़िल्टर बदलकर पुनः प्रयास करें, या जल्द ही नए व्याख्यान जोड़े जाएँगे।"
+            title={t("lectures.public.empty.title")}
+            description={t("lectures.public.empty.description")}
           />
         </div>
       )}

@@ -7,12 +7,12 @@ import { getMyAttemptsSummary } from "@/lib/queries/quizzes";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getT } from "@/lib/i18n/server";
 import { startAttempt } from "../actions";
-
-const DIFFICULTY_LABEL: Record<string, string> = { EASY: "आसान", MEDIUM: "मध्यम", HARD: "कठिन" };
 
 export default async function QuizDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
+  const t = await getT();
   const [quiz, session] = await Promise.all([
     prisma.quiz.findUnique({
       where: { id },
@@ -48,51 +48,51 @@ export default async function QuizDetailPage({ params }: { params: Promise<{ id:
       <Card className="p-5">
         <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
           <div className="flex items-center gap-1.5 text-muted-foreground">
-            <ListChecks className="h-4 w-4" /> {quiz._count.questions} प्रश्न
+            <ListChecks className="h-4 w-4" /> {t("quiz.public.questionsCount", { count: quiz._count.questions })}
           </div>
           <div className="flex items-center gap-1.5 text-muted-foreground">
-            <Clock className="h-4 w-4" /> {quiz.timeLimitMin} मिनट
+            <Clock className="h-4 w-4" /> {t("quiz.public.minutes", { count: quiz.timeLimitMin })}
           </div>
-          <Badge variant="outline" className="w-fit">{DIFFICULTY_LABEL[quiz.difficulty]}</Badge>
-          <span className="text-muted-foreground">{quiz.marksPerQ} अंक/प्रश्न</span>
+          <Badge variant="outline" className="w-fit">{t(`quiz.difficulty.${quiz.difficulty}`)}</Badge>
+          <span className="text-muted-foreground">{t("quiz.detail.marksPerQuestion", { marks: quiz.marksPerQ })}</span>
         </div>
 
         <ul className="mt-4 space-y-1 text-xs text-muted-foreground">
-          <li>• प्रति गलत उत्तर {quiz.negativeMarks} अंक की कटौती</li>
-          <li>• अधिकतम {quiz.maxAttempts} प्रयास अनुमत ({attemptsLeft} शेष)</li>
-          <li>• सबमिट करने के बाद उत्तर नहीं बदले जा सकते</li>
-          <li>• प्रश्न व विकल्पों का क्रम प्रत्येक प्रयास में बदल सकता है</li>
+          <li>• {t("quiz.detail.negativeMarking", { marks: quiz.negativeMarks })}</li>
+          <li>• {t("quiz.detail.maxAttempts", { max: quiz.maxAttempts, left: attemptsLeft })}</li>
+          <li>• {t("quiz.detail.noEdit")}</li>
+          <li>• {t("quiz.detail.shuffleNote")}</li>
         </ul>
 
         {!isStudent ? (
-          <p className="mt-5 text-sm text-muted-foreground">प्रश्नोत्तरी में भाग लेने के लिए विद्यार्थी के रूप में लॉगिन करें।</p>
+          <p className="mt-5 text-sm text-muted-foreground">{t("quiz.detail.loginRequired")}</p>
         ) : notYetOpen ? (
           <p className="mt-5 flex items-center gap-1.5 text-sm text-[var(--color-section-examdates)]">
-            <AlertTriangle className="h-4 w-4" /> यह प्रश्नोत्तरी अभी उपलब्ध नहीं है।
+            <AlertTriangle className="h-4 w-4" /> {t("quiz.detail.notYetOpen")}
           </p>
         ) : closed ? (
           <p className="mt-5 flex items-center gap-1.5 text-sm text-[var(--color-section-examdates)]">
-            <AlertTriangle className="h-4 w-4" /> इस प्रश्नोत्तरी की समय सीमा समाप्त हो चुकी है।
+            <AlertTriangle className="h-4 w-4" /> {t("quiz.detail.closed")}
           </p>
         ) : summary?.inProgress ? (
           <form action={startAttempt.bind(null, id)} className="mt-5">
             <Button type="submit" size="lg" variant="accent">
-              <RotateCcw className="h-4 w-4" /> प्रयास जारी रखें
+              <RotateCcw className="h-4 w-4" /> {t("quiz.detail.resumeAttempt")}
             </Button>
           </form>
         ) : attemptsLeft <= 0 ? (
           <div className="mt-5">
-            <p className="text-sm text-muted-foreground">आपके सभी प्रयास पूर्ण हो चुके हैं।</p>
+            <p className="text-sm text-muted-foreground">{t("quiz.detail.allAttemptsUsed")}</p>
             {summary?.lastCompleted && (
               <Button asChild variant="outline" size="sm" className="mt-2">
-                <Link href={`/quiz/${id}/result/${summary.lastCompleted.id}`}>अंतिम परिणाम देखें</Link>
+                <Link href={`/quiz/${id}/result/${summary.lastCompleted.id}`}>{t("quiz.detail.viewLastResult")}</Link>
               </Button>
             )}
           </div>
         ) : (
           <form action={startAttempt.bind(null, id)} className="mt-5">
             <Button type="submit" size="lg" variant="accent">
-              प्रश्नोत्तरी शुरू करें
+              {t("quiz.detail.startQuiz")}
             </Button>
           </form>
         )}

@@ -7,7 +7,7 @@ import { PublishToggle } from "@/components/admin/publish-toggle";
 import { ConfirmSubmitButton } from "@/components/admin/confirm-submit-button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Badge } from "@/components/ui/badge";
-import { BOOK_CATEGORY_LABEL } from "@/lib/book-categories";
+import { getT } from "@/lib/i18n/server";
 import { toggleBookPublish, deleteBook } from "./actions";
 
 export default async function AdminBooksPage({
@@ -18,33 +18,38 @@ export default async function AdminBooksPage({
   const sp = await searchParams;
   const page = sp.page ? Number(sp.page) : 1;
   const { items, total, totalPages } = await getAdminBooks({ q: sp.q, page });
+  const t = await getT();
 
   return (
     <div>
       <div className="mb-6">
-        <h1 className="font-sans text-2xl font-bold text-foreground">पुस्तकें</h1>
-        <p className="text-sm text-muted-foreground">कुल {total} पुस्तकें</p>
+        <h1 className="font-sans text-2xl font-bold text-foreground">{t("books.admin.listTitle")}</h1>
+        <p className="text-sm text-muted-foreground">{t("books.admin.totalCount", { count: total })}</p>
       </div>
 
       <AdminListToolbar
-        searchPlaceholder="पुस्तकें खोजें..."
+        searchPlaceholder={t("books.admin.searchPlaceholder")}
         defaultSearch={sp.q}
         addHref="/admin/books/new"
-        addLabel="नई पुस्तक"
+        addLabel={t("books.admin.addLabel")}
       />
 
       {items.length === 0 ? (
-        <EmptyState icon={Library} title="कोई पुस्तक नहीं मिली" description="नई पुस्तक जोड़ें।" />
+        <EmptyState
+          icon={Library}
+          title={t("books.admin.empty.title")}
+          description={t("books.admin.empty.description")}
+        />
       ) : (
         <div className="overflow-hidden rounded-[var(--radius-lg)] border border-border">
           <table className="w-full text-sm">
             <thead className="bg-surface-muted text-left text-xs text-muted-foreground">
               <tr>
-                <th className="p-3">शीर्षक</th>
-                <th className="p-3">श्रेणी</th>
-                <th className="p-3">कॉपीराइट</th>
-                <th className="p-3">स्थिति</th>
-                <th className="p-3 text-right">कार्रवाई</th>
+                <th className="p-3">{t("books.admin.table.title")}</th>
+                <th className="p-3">{t("books.admin.table.category")}</th>
+                <th className="p-3">{t("books.admin.table.copyright")}</th>
+                <th className="p-3">{t("books.admin.table.status")}</th>
+                <th className="p-3 text-right">{t("books.admin.table.actions")}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -52,13 +57,13 @@ export default async function AdminBooksPage({
                 <tr key={book.id}>
                   <td className="max-w-xs p-3 font-medium">{book.title}</td>
                   <td className="p-3">
-                    <Badge variant="outline">{BOOK_CATEGORY_LABEL[book.category]}</Badge>
+                    <Badge variant="outline">{t(`books.category.${book.category}`)}</Badge>
                   </td>
                   <td className="p-3">
                     {book.copyrightCleared ? (
-                      <Badge variant="success">स्पष्ट</Badge>
+                      <Badge variant="success">{t("books.admin.copyrightClear")}</Badge>
                     ) : (
-                      <Badge variant="accent">जाँच लंबित</Badge>
+                      <Badge variant="accent">{t("books.admin.copyrightPending")}</Badge>
                     )}
                   </td>
                   <td className="p-3">
@@ -72,12 +77,15 @@ export default async function AdminBooksPage({
                       <Link
                         href={`/admin/books/${book.id}/edit`}
                         className="rounded-[var(--radius-sm)] p-1.5 text-muted-foreground hover:bg-surface-muted hover:text-primary"
-                        aria-label="संपादित करें"
+                        aria-label={t("books.admin.edit")}
                       >
                         <Pencil className="h-4 w-4" />
                       </Link>
                       <form action={deleteBook.bind(null, book.id)}>
-                        <ConfirmSubmitButton confirmMessage="क्या आप वाकई इस पुस्तक को हटाना चाहते हैं?" aria-label="हटाएँ">
+                        <ConfirmSubmitButton
+                          confirmMessage={t("books.admin.deleteConfirm")}
+                          aria-label={t("books.admin.delete")}
+                        >
                           <Trash2 className="h-4 w-4" />
                         </ConfirmSubmitButton>
                       </form>

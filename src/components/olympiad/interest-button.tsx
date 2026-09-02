@@ -3,10 +3,12 @@
 import { useState, useTransition } from "react";
 import { CheckCircle2, PlusCircle } from "lucide-react";
 import { registerOlympiadInterest, withdrawOlympiadInterest } from "@/app/olympiad/actions";
+import { useLocale } from "@/lib/i18n/locale-provider";
 
 export function InterestButton({ olympiadId, initialInterested }: { olympiadId: string; initialInterested: boolean }) {
   const [interested, setInterested] = useState(initialInterested);
   const [pending, startTransition] = useTransition();
+  const { t } = useLocale();
 
   return (
     <button
@@ -28,7 +30,7 @@ export function InterestButton({ olympiadId, initialInterested }: { olympiadId: 
       }
     >
       {interested ? <CheckCircle2 className="h-3.5 w-3.5" /> : <PlusCircle className="h-3.5 w-3.5" />}
-      {interested ? "पंजीकृत रुचि" : "रुचि पंजीकृत करें"}
+      {interested ? t("olympiad.interest.registered") : t("olympiad.interest.register")}
     </button>
   );
 }

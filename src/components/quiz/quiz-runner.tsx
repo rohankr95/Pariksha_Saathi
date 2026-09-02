@@ -10,6 +10,7 @@ import { saveAnswer, toggleMarkForReview, recordTabSwitch, submitAttempt } from 
 import type { ClientQuestion } from "@/lib/quiz-types";
 import type { StudentAnswer } from "@/lib/quiz-scoring";
 import { shuffledIndexToOriginal } from "@/lib/build-client-questions";
+import { useLocale } from "@/lib/i18n/locale-provider";
 
 type Props = {
   attemptId: string;
@@ -38,6 +39,7 @@ export function QuizRunner({
   initialAnswers,
   initialMarked,
 }: Props) {
+  const { t } = useLocale();
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, StudentAnswer>>(initialAnswers);
   const [marked, setMarked] = useState<Set<string>>(new Set(initialMarked));
@@ -143,7 +145,7 @@ export function QuizRunner({
         <div>
           <div className="rounded-[var(--radius-lg)] border border-border bg-surface p-5 shadow-[var(--shadow-card)]">
             <p className="mb-3 text-xs font-medium text-muted-foreground">
-              प्रश्न {index + 1} / {total} · {question.marks} अंक
+              {t("quiz.runner.questionOf", { current: index + 1, total, marks: question.marks })}
             </p>
             <p className="text-base font-medium leading-relaxed text-foreground">{question.textHi}</p>
             {question.textEn && <p className="mt-1 text-sm text-muted-foreground">{question.textEn}</p>}
@@ -224,7 +226,7 @@ export function QuizRunner({
                     const val = e.target.value === "" ? null : Number(e.target.value);
                     persistAnswer(question.id, val);
                   }}
-                  placeholder="अपना उत्तर लिखें"
+                  placeholder={t("quiz.runner.typeYourAnswer")}
                   className="max-w-xs"
                 />
               )}
@@ -238,19 +240,19 @@ export function QuizRunner({
                   marked.has(question.id) ? "bg-[var(--color-section-quiz)]/15 text-[var(--color-section-quiz)]" : "border border-border text-muted-foreground"
                 )}
               >
-                <Flag className="h-3.5 w-3.5" /> समीक्षा हेतु चिह्नित करें
+                <Flag className="h-3.5 w-3.5" /> {t("quiz.runner.markForReview")}
               </button>
               <div className="flex gap-2">
                 <Button variant="outline" size="sm" disabled={index === 0} onClick={() => setIndex((i) => i - 1)}>
-                  <ChevronLeft className="h-4 w-4" /> पिछला
+                  <ChevronLeft className="h-4 w-4" /> {t("quiz.runner.prev")}
                 </Button>
                 {index < total - 1 ? (
                   <Button size="sm" onClick={() => setIndex((i) => i + 1)}>
-                    अगला <ChevronRight className="h-4 w-4" />
+                    {t("quiz.runner.next")} <ChevronRight className="h-4 w-4" />
                   </Button>
                 ) : (
                   <Button size="sm" variant="accent" onClick={() => setConfirmOpen(true)}>
-                    सबमिट करें
+                    {t("quiz.runner.submit")}
                   </Button>
                 )}
               </div>
@@ -260,7 +262,7 @@ export function QuizRunner({
 
         <aside className="space-y-4">
           <div className="rounded-[var(--radius-lg)] border border-border bg-surface p-4">
-            <p className="mb-3 text-xs font-semibold text-muted-foreground">प्रश्न पैलेट</p>
+            <p className="mb-3 text-xs font-semibold text-muted-foreground">{t("quiz.runner.palette")}</p>
             <div className="grid grid-cols-5 gap-1.5">
               {questions.map((q, i) => {
                 const status = statusFor(q.id);
@@ -282,14 +284,14 @@ export function QuizRunner({
               })}
             </div>
             <div className="mt-3 space-y-1 text-xs text-muted-foreground">
-              <p>उत्तर दिए गए: {answeredCount}</p>
-              <p>चिह्नित: {markedCount}</p>
-              <p>शेष: {total - answeredCount}</p>
+              <p>{t("quiz.runner.answered", { count: answeredCount })}</p>
+              <p>{t("quiz.runner.marked", { count: markedCount })}</p>
+              <p>{t("quiz.runner.remaining", { count: total - answeredCount })}</p>
             </div>
           </div>
 
           <Button variant="accent" className="w-full" onClick={() => setConfirmOpen(true)}>
-            प्रश्नोत्तरी सबमिट करें
+            {t("quiz.runner.submitQuiz")}
           </Button>
         </aside>
       </div>
@@ -297,16 +299,16 @@ export function QuizRunner({
       {confirmOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
           <div className="w-full max-w-sm rounded-[var(--radius-lg)] bg-surface p-5 shadow-xl">
-            <p className="font-semibold text-foreground">क्या आप सबमिट करना चाहते हैं?</p>
+            <p className="font-semibold text-foreground">{t("quiz.runner.confirmTitle")}</p>
             <p className="mt-2 text-sm text-muted-foreground">
-              {answeredCount} / {total} प्रश्नों के उत्तर दिए गए हैं। सबमिट करने के बाद बदलाव नहीं किया जा सकता।
+              {t("quiz.runner.confirmDesc", { answered: answeredCount, total })}
             </p>
             <div className="mt-4 flex justify-end gap-2">
               <Button variant="outline" size="sm" onClick={() => setConfirmOpen(false)} disabled={submitting}>
-                रद्द करें
+                {t("quiz.runner.cancel")}
               </Button>
               <Button size="sm" onClick={doSubmit} disabled={submitting}>
-                {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "सबमिट करें"}
+                {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : t("quiz.runner.submit")}
               </Button>
             </div>
           </div>

@@ -6,6 +6,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { CLASS_LEVEL_LABEL } from "@/lib/queries/curriculum";
+import { getT } from "@/lib/i18n/server";
 import type { ClassLevel } from "@prisma/client";
 
 export const metadata = { title: "प्रश्नोत्तरी | परीक्षा साथी" };
@@ -20,6 +21,7 @@ export default async function QuizListPage({
     classLevel: sp.classLevel as ClassLevel | undefined,
     subjectId: sp.subjectId,
   };
+  const t = await getT();
 
   const [items, subjects] = await Promise.all([getAvailableQuizzes(filters), getSubjects(filters.classLevel)]);
 
@@ -30,14 +32,14 @@ export default async function QuizListPage({
           <Lightbulb className="h-6 w-6" />
         </span>
         <div>
-          <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">प्रश्नोत्तरी</h1>
-          <p className="text-sm text-muted-foreground">अभ्यास करें और अपनी तैयारी जाँचें</p>
+          <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">{t("quiz.public.title")}</h1>
+          <p className="text-sm text-muted-foreground">{t("quiz.public.subtitle")}</p>
         </div>
       </div>
 
       <form action="/quiz" className="mb-6 flex flex-wrap gap-2.5">
         <Select name="classLevel" defaultValue={filters.classLevel ?? ""} className="max-w-[180px]">
-          <option value="">सभी कक्षाएँ</option>
+          <option value="">{t("quiz.public.allClasses")}</option>
           {(Object.keys(CLASS_LEVEL_LABEL) as ClassLevel[]).map((c) => (
             <option key={c} value={c}>
               {CLASS_LEVEL_LABEL[c]}
@@ -45,7 +47,7 @@ export default async function QuizListPage({
           ))}
         </Select>
         <Select name="subjectId" defaultValue={filters.subjectId ?? ""} className="max-w-[220px]">
-          <option value="">सभी विषय</option>
+          <option value="">{t("quiz.public.allSubjects")}</option>
           {subjects.map((s) => (
             <option key={s.id} value={s.id}>
               {s.nameHi}
@@ -53,7 +55,7 @@ export default async function QuizListPage({
           ))}
         </Select>
         <Button type="submit" size="sm" variant="outline">
-          फ़िल्टर लागू करें
+          {t("quiz.public.applyFilters")}
         </Button>
       </form>
 
@@ -64,7 +66,7 @@ export default async function QuizListPage({
           ))}
         </div>
       ) : (
-        <EmptyState icon={Lightbulb} title="कोई प्रश्नोत्तरी उपलब्ध नहीं है" description="जल्द ही नई प्रश्नोत्तरी जोड़ी जाएगी।" />
+        <EmptyState icon={Lightbulb} title={t("quiz.public.empty")} description={t("quiz.public.emptyDesc")} />
       )}
     </div>
   );

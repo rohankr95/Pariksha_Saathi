@@ -5,7 +5,7 @@ import { ClassRequestRow } from "@/components/admin/class-request-row";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { CLASS_REQUEST_STATUS_LABEL } from "@/lib/class-request-status";
+import { getT } from "@/lib/i18n/server";
 import type { ClassRequestStatus } from "@prisma/client";
 
 export default async function AdminClassRequestsPage({
@@ -13,34 +13,37 @@ export default async function AdminClassRequestsPage({
 }: {
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
+  const t = await getT();
   const sp = await searchParams;
   const page = sp.page ? Number(sp.page) : 1;
   const status = sp.status as ClassRequestStatus | undefined;
   const { items, total, totalPages } = await getAdminClassRequests({ status, page });
 
+  const statusValues: ClassRequestStatus[] = ["SUBMITTED", "UNDER_REVIEW", "ACCEPTED", "SCHEDULED", "COMPLETED", "DECLINED"];
+
   return (
     <div>
       <div className="mb-6">
-        <h1 className="font-sans text-2xl font-bold text-foreground">कक्षा अनुरोध</h1>
-        <p className="text-sm text-muted-foreground">कुल {total} अनुरोध</p>
+        <h1 className="font-sans text-2xl font-bold text-foreground">{t("classRequest.admin.title")}</h1>
+        <p className="text-sm text-muted-foreground">{t("classRequest.admin.totalRequests", { count: total })}</p>
       </div>
 
       <form action="/admin/class-requests" className="mb-4 flex gap-2.5">
         <Select name="status" defaultValue={status ?? ""} className="max-w-[180px]">
-          <option value="">सभी स्थितियाँ</option>
-          {Object.entries(CLASS_REQUEST_STATUS_LABEL).map(([value, label]) => (
+          <option value="">{t("classRequest.admin.allStatuses")}</option>
+          {statusValues.map((value) => (
             <option key={value} value={value}>
-              {label}
+              {t(`classRequest.status.${value}`)}
             </option>
           ))}
         </Select>
         <Button type="submit" size="sm" variant="outline">
-          फ़िल्टर लागू करें
+          {t("classRequest.admin.applyFilter")}
         </Button>
       </form>
 
       {items.length === 0 ? (
-        <EmptyState icon={HandHelping} title="कोई अनुरोध नहीं मिला" />
+        <EmptyState icon={HandHelping} title={t("classRequest.admin.empty")} />
       ) : (
         <div className="space-y-3">
           {items.map((r) => (

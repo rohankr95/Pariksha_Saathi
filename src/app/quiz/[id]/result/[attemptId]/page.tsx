@@ -9,13 +9,19 @@ import { Button } from "@/components/ui/button";
 import { ResultCelebration } from "@/components/quiz/result-celebration";
 import type { AttemptState } from "@/lib/quiz-types";
 import { isCorrect } from "@/lib/quiz-scoring";
+import { getT } from "@/lib/i18n/server";
 
-function answerText(options: string[] | null, type: string, value: unknown): string {
-  if (value === null || value === undefined) return "उत्तर नहीं दिया गया";
-  if (type === "TRUE_FALSE") return value ? "सही" : "गलत";
+function answerText(
+  t: (key: string, vars?: Record<string, string | number>) => string,
+  options: string[] | null,
+  type: string,
+  value: unknown
+): string {
+  if (value === null || value === undefined) return t("quiz.result.notAnswered");
+  if (type === "TRUE_FALSE") return value ? t("quiz.result.true") : t("quiz.result.false");
   if (type === "NUMERIC") return String(value);
   if (Array.isArray(value)) {
-    return value.map((i) => options?.[Number(i)] ?? "?").join(", ") || "उत्तर नहीं दिया गया";
+    return value.map((i) => options?.[Number(i)] ?? "?").join(", ") || t("quiz.result.notAnswered");
   }
   return options?.[Number(value)] ?? "?";
 }
@@ -27,6 +33,7 @@ export default async function QuizResultPage({
 }) {
   const { id, attemptId } = await params;
   const session = await requireUser();
+  const t = await getT();
   const attempt = await getAttemptForResult(attemptId, session.user.id);
   if (!attempt || attempt.quizId !== id) notFound();
 
@@ -46,7 +53,7 @@ export default async function QuizResultPage({
           {attempt.score} <span className="text-lg font-normal text-muted-foreground">/ {totalMarks}</span>
         </p>
         <p className="mt-1 text-base font-medium text-foreground">
-          {passed ? "शानदार! आपने अच्छा प्रदर्शन किया 🎉" : "कोई बात नहीं, फिर से कोशिश करें"}
+          {passed ? t("quiz.result.passed") : t("quiz.result.failed")}
         </p>
       </div>
 
@@ -54,17 +61,17 @@ export default async function QuizResultPage({
         <Card className="p-4 text-center">
           <Target className="mx-auto h-5 w-5 text-primary" />
           <p className="mt-1.5 text-lg font-bold text-foreground">{attempt.accuracy}%</p>
-          <p className="text-xs text-muted-foreground">सटीकता</p>
+          <p className="text-xs text-muted-foreground">{t("quiz.result.accuracy")}</p>
         </Card>
         <Card className="p-4 text-center">
           <Clock className="mx-auto h-5 w-5 text-primary" />
-          <p className="mt-1.5 text-lg font-bold text-foreground">{timeTakenMin} मिनट</p>
-          <p className="text-xs text-muted-foreground">समय लगा</p>
+          <p className="mt-1.5 text-lg font-bold text-foreground">{t("quiz.result.timeTaken", { minutes: timeTakenMin })}</p>
+          <p className="text-xs text-muted-foreground">{t("quiz.result.timeTakenLabel")}</p>
         </Card>
         <Card className="p-4 text-center">
           <TrendingUp className="mx-auto h-5 w-5 text-primary" />
-          <p className="mt-1.5 text-lg font-bold text-foreground">{percentile}वाँ</p>
-          <p className="text-xs text-muted-foreground">पर्सेंटाइल</p>
+          <p className="mt-1.5 text-lg font-bold text-foreground">{t("quiz.result.percentile", { value: percentile })}</p>
+          <p className="text-xs text-muted-foreground">{t("quiz.result.percentileLabel")}</p>
         </Card>
         <Card className="p-4 text-center">
           <CheckCircle2 className="mx-auto h-5 w-5 text-success" />
@@ -72,7 +79,7 @@ export default async function QuizResultPage({
             {attempt.quiz.questions.filter((q) => isCorrect(q.type, q.correctAnswer, state.answers[q.id] ?? null)).length}
             /{attempt.quiz.questions.length}
           </p>
-          <p className="text-xs text-muted-foreground">सही उत्तर</p>
+          <p className="text-xs text-muted-foreground">{t("quiz.result.correctAnswers")}</p>
         </Card>
       </div>
 
@@ -80,20 +87,21 @@ export default async function QuizResultPage({
         <Card className="mt-6 flex flex-wrap items-center justify-between gap-3 border-[var(--color-section-lectures)]/30 bg-[var(--color-section-lectures)]/5 p-4">
           <div>
             <p className="text-sm font-semibold text-foreground">
-              {attempt.quiz.subject.nameHi}
-              {attempt.quiz.chapter ? ` · ${attempt.quiz.chapter.nameHi}` : ""} में सुधार की गुंजाइश है
+              {t("quiz.result.improveArea", {
+                subject: attempt.quiz.subject.nameHi + (attempt.quiz.chapter ? ` · ${attempt.quiz.chapter.nameHi}` : ""),
+              })}
             </p>
-            <p className="text-xs text-muted-foreground">संबंधित व्याख्यान और नोट्स देखें</p>
+            <p className="text-xs text-muted-foreground">{t("quiz.result.improveHint")}</p>
           </div>
           <div className="flex gap-2">
             <Button asChild size="sm" variant="outline">
               <Link href={`/lectures?subjectId=${attempt.quiz.subjectId}${attempt.quiz.chapterId ? `&chapterId=${attempt.quiz.chapterId}` : ""}`}>
-                <PlayCircle className="h-4 w-4" /> व्याख्यान
+                <PlayCircle className="h-4 w-4" /> {t("quiz.result.lectures")}
               </Link>
             </Button>
             <Button asChild size="sm" variant="outline">
               <Link href={`/notes?subjectId=${attempt.quiz.subjectId}${attempt.quiz.chapterId ? `&chapterId=${attempt.quiz.chapterId}` : ""}`}>
-                <BookOpen className="h-4 w-4" /> नोट्स
+                <BookOpen className="h-4 w-4" /> {t("quiz.result.notes")}
               </Link>
             </Button>
           </div>
@@ -101,7 +109,7 @@ export default async function QuizResultPage({
       )}
 
       <div className="mt-8 space-y-4">
-        <h2 className="font-sans text-lg font-bold text-foreground">विस्तृत समीक्षा</h2>
+        <h2 className="font-sans text-lg font-bold text-foreground">{t("quiz.result.detailedReview")}</h2>
         {attempt.quiz.questions.map((q, i) => {
           const options = Array.isArray(q.optionsJson) ? q.optionsJson.map(String) : null;
           const given = state.answers[q.id] ?? null;
@@ -119,11 +127,11 @@ export default async function QuizResultPage({
                     {i + 1}. {q.textHi}
                   </p>
                   <p className="mt-1.5 text-xs text-muted-foreground">
-                    आपका उत्तर: <span className="text-foreground">{answerText(options, q.type, given)}</span>
+                    {t("quiz.result.yourAnswer")} <span className="text-foreground">{answerText(t, options, q.type, given)}</span>
                   </p>
                   {!correct && (
                     <p className="text-xs text-success">
-                      सही उत्तर: {answerText(options, q.type, q.correctAnswer)}
+                      {t("quiz.result.correctAnswer")} {answerText(t, options, q.type, q.correctAnswer)}
                     </p>
                   )}
                   {q.explanation && (
@@ -131,7 +139,7 @@ export default async function QuizResultPage({
                       {q.explanation}
                     </p>
                   )}
-                  <Badge variant="outline" className="mt-2 text-[10px]">{q.marks} अंक</Badge>
+                  <Badge variant="outline" className="mt-2 text-[10px]">{t("quiz.result.marks", { marks: q.marks })}</Badge>
                 </div>
               </div>
             </Card>
@@ -141,10 +149,10 @@ export default async function QuizResultPage({
 
       <div className="mt-8 flex justify-center gap-3">
         <Button asChild variant="outline">
-          <Link href="/quiz">और प्रश्नोत्तरी देखें</Link>
+          <Link href="/quiz">{t("quiz.result.moreQuizzes")}</Link>
         </Button>
         <Button asChild>
-          <Link href="/leaderboard">शीर्ष प्रदर्शन देखें</Link>
+          <Link href="/leaderboard">{t("quiz.result.viewLeaderboard")}</Link>
         </Button>
       </div>
     </div>

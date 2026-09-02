@@ -7,6 +7,7 @@ import { requireUser } from "@/lib/require-role";
 import { sendEmail, renderNotification } from "@/lib/email";
 import { countRecentSubmissions } from "@/lib/queries/answer-copies";
 import { ANSWER_COPY_WEEKLY_LIMIT } from "@/lib/answer-copy-status";
+import { getT } from "@/lib/i18n/server";
 
 const submitSchema = z.object({
   subjectId: z.string().min(1),
@@ -19,8 +20,9 @@ const submitSchema = z.object({
 export type SubmitAnswerCopyState = { error?: string; success?: boolean };
 
 export async function submitAnswerCopy(_prev: SubmitAnswerCopyState, formData: FormData): Promise<SubmitAnswerCopyState> {
+  const t = await getT();
   const session = await requireUser();
-  if (session.user.role !== "STUDENT") return { error: "केवल विद्यार्थी उत्तरपुस्तिका जमा कर सकते हैं" };
+  if (session.user.role !== "STUDENT") return { error: t("answerCopies.errors.studentOnly") };
 
   const parsed = submitSchema.safeParse({
     subjectId: formData.get("subjectId"),
@@ -29,12 +31,12 @@ export async function submitAnswerCopy(_prev: SubmitAnswerCopyState, formData: F
     paperName: formData.get("paperName"),
     fileUrl: formData.get("fileUrl"),
   });
-  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "अमान्य जानकारी" };
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? t("answerCopies.errors.invalid") };
   const data = parsed.data;
 
   const recentCount = await countRecentSubmissions(session.user.id);
   if (recentCount >= ANSWER_COPY_WEEKLY_LIMIT) {
-    return { error: `आप एक सप्ताह में अधिकतम ${ANSWER_COPY_WEEKLY_LIMIT} उत्तरपुस्तिकाएँ जमा कर सकते हैं` };
+    return { error: t("answerCopies.errors.weeklyLimit", { limit: ANSWER_COPY_WEEKLY_LIMIT }) };
   }
 
   await prisma.answerCopy.create({
@@ -90,9 +92,10 @@ export async function submitEvaluation(
   _prev: SubmitEvaluationState,
   formData: FormData
 ): Promise<SubmitEvaluationState> {
+  const t = await getT();
   const session = await requireUser();
   const copy = await prisma.answerCopy.findUnique({ where: { id: copyId }, include: { student: true } });
-  if (!copy || copy.teacherId !== session.user.id) return { error: "अनधिकृत" };
+  if (!copy || copy.teacherId !== session.user.id) return { error: t("answerCopies.errors.unauthorized") };
 
   const parsed = evaluationSchema.safeParse({
     marksAwarded: formData.get("marksAwarded"),
@@ -100,9 +103,9 @@ export async function submitEvaluation(
     remarks: formData.get("remarks") || undefined,
     checkedFileUrl: formData.get("checkedFileUrl") || undefined,
   });
-  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "अमान्य जानकारी" };
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? t("answerCopies.errors.invalid") };
   const data = parsed.data;
-  if (data.marksAwarded > data.totalMarks) return { error: "प्राप्त अंक कुल अंकों से अधिक नहीं हो सकते" };
+  if (data.marksAwarded > data.totalMarks) return { error: t("answerCopies.errors.marksExceedTotal") };
 
   await prisma.answerCopy.update({
     where: { id: copyId },

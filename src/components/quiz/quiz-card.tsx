@@ -2,8 +2,7 @@ import Link from "next/link";
 import { Lightbulb, Clock, ListChecks } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-
-const DIFFICULTY_LABEL: Record<string, string> = { EASY: "आसान", MEDIUM: "मध्यम", HARD: "कठिन" };
+import { getT } from "@/lib/i18n/server";
 
 type QuizCardData = {
   id: string;
@@ -16,7 +15,8 @@ type QuizCardData = {
   _count: { questions: number };
 };
 
-export function QuizCard({ quiz }: { quiz: QuizCardData }) {
+export async function QuizCard({ quiz }: { quiz: QuizCardData }) {
+  const t = await getT();
   return (
     <Link href={`/quiz/${quiz.id}`}>
       <Card className="flex h-full flex-col gap-2 p-4 transition-shadow hover:shadow-[var(--shadow-card-hover)]">
@@ -29,12 +29,12 @@ export function QuizCard({ quiz }: { quiz: QuizCardData }) {
           {quiz.chapter ? ` · ${quiz.chapter.nameHi}` : ""}
         </p>
         <div className="mt-auto flex flex-wrap items-center gap-2 pt-2 text-xs text-muted-foreground">
-          <Badge variant="outline" className="text-[10px]">{DIFFICULTY_LABEL[quiz.difficulty]}</Badge>
+          <Badge variant="outline" className="text-[10px]">{t(`quiz.difficulty.${quiz.difficulty}`)}</Badge>
           <span className="flex items-center gap-1">
-            <ListChecks className="h-3.5 w-3.5" /> {quiz._count.questions} प्रश्न
+            <ListChecks className="h-3.5 w-3.5" /> {t("quiz.public.questionsCount", { count: quiz._count.questions })}
           </span>
           <span className="flex items-center gap-1">
-            <Clock className="h-3.5 w-3.5" /> {quiz.timeLimitMin} मिनट
+            <Clock className="h-3.5 w-3.5" /> {t("quiz.public.minutes", { count: quiz.timeLimitMin })}
           </span>
         </div>
       </Card>

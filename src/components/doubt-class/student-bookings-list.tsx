@@ -4,9 +4,9 @@ import { useState, useTransition } from "react";
 import { Star } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BOOKING_MODE_LABEL } from "@/lib/weekday";
-import { BOOKING_STATUS_LABEL, BOOKING_STATUS_COLOR } from "@/lib/doubt-booking-status";
 import { cancelBooking, rateBooking } from "@/app/doubt-class/actions";
+import { BOOKING_STATUS_COLOR } from "@/lib/doubt-booking-status";
+import { useLocale } from "@/lib/i18n/locale-provider";
 import type { BookingMode, BookingStatus } from "@prisma/client";
 
 type Booking = {
@@ -20,30 +20,31 @@ type Booking = {
   teacher: { name: string };
 };
 
-function formatWhen(d: Date) {
-  return new Intl.DateTimeFormat("hi-IN", {
-    weekday: "short",
-    day: "numeric",
-    month: "short",
-    hour: "numeric",
-    minute: "2-digit",
-    timeZone: "Asia/Kolkata",
-  }).format(d);
-}
-
 function BookingCard({ booking }: { booking: Booking }) {
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [rating, setRating] = useState(booking.rating ?? 0);
+  const { t, locale } = useLocale();
+
+  function formatWhen(d: Date) {
+    return new Intl.DateTimeFormat(locale === "hi" ? "hi-IN" : "en-IN", {
+      weekday: "short",
+      day: "numeric",
+      month: "short",
+      hour: "numeric",
+      minute: "2-digit",
+      timeZone: "Asia/Kolkata",
+    }).format(d);
+  }
 
   function doCancel() {
-    if (!window.confirm("क्या आप वाकई इस बुकिंग को रद्द करना चाहते हैं?")) return;
+    if (!window.confirm(t("doubtClass.studentCard.confirmCancel"))) return;
     setError(null);
     startTransition(async () => {
       try {
         await cancelBooking(booking.id, "");
       } catch (e) {
-        setError(e instanceof Error ? e.message : "रद्द नहीं हो सका");
+        setError(e instanceof Error ? e.message : t("doubtClass.studentCard.cancelFailed"));
       }
     });
   }
@@ -64,10 +65,10 @@ function BookingCard({ booking }: { booking: Booking }) {
           <p className="text-xs text-muted-foreground">
             {booking.teacher.name} · {formatWhen(booking.slotStart)}
           </p>
-          <p className="text-xs text-muted-foreground">{BOOKING_MODE_LABEL[booking.mode]}</p>
+          <p className="text-xs text-muted-foreground">{t(`doubtClass.bookingMode.${booking.mode}`)}</p>
           {booking.meetingLink && booking.status === "BOOKED" && (
             <a href={booking.meetingLink} target="_blank" rel="noreferrer" className="text-xs font-medium text-primary hover:underline">
-              मीटिंग लिंक खोलें
+              {t("doubtClass.studentCard.openMeetingLink")}
             </a>
           )}
         </div>
@@ -78,15 +79,15 @@ function BookingCard({ booking }: { booking: Booking }) {
             color: `var(${BOOKING_STATUS_COLOR[booking.status]})`,
           }}
         >
-          {BOOKING_STATUS_LABEL[booking.status]}
+          {t(`doubtClass.status.${booking.status}`)}
         </span>
       </div>
 
       {canRate && (
         <div className="mt-3 flex items-center gap-1 border-t border-border pt-3">
-          <span className="mr-1 text-xs text-muted-foreground">रेटिंग:</span>
+          <span className="mr-1 text-xs text-muted-foreground">{t("doubtClass.studentCard.rating")}</span>
           {[1, 2, 3, 4, 5].map((v) => (
-            <button key={v} onClick={() => doRate(v)} disabled={pending} aria-label={`${v} स्टार`}>
+            <button key={v} onClick={() => doRate(v)} disabled={pending} aria-label={t("doubtClass.studentCard.starLabel", { n: v })}>
               <Star className={v <= rating ? "h-4 w-4 fill-[var(--color-section-leaderboard)] text-[var(--color-section-leaderboard)]" : "h-4 w-4 text-border"} />
             </button>
           ))}
@@ -98,7 +99,7 @@ function BookingCard({ booking }: { booking: Booking }) {
       {canCancel && (
         <div className="mt-3 border-t border-border pt-3">
           <Button variant="outline" size="sm" disabled={pending} onClick={doCancel}>
-            रद्द करें
+            {t("doubtClass.studentCard.cancel")}
           </Button>
         </div>
       )}

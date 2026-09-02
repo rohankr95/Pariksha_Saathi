@@ -9,6 +9,7 @@ import { getOpenSlots } from "@/lib/doubt-slots";
 import { sendEmail, renderNotification } from "@/lib/email";
 import { buildICS } from "@/lib/ics";
 import { BOOKING_MODE_LABEL } from "@/lib/weekday";
+import { getT } from "@/lib/i18n/server";
 
 const bookingSchema = z.object({
   teacherId: z.string().min(1),
@@ -21,8 +22,9 @@ const bookingSchema = z.object({
 export type BookSlotState = { error?: string; success?: boolean };
 
 export async function bookSlot(_prev: BookSlotState, formData: FormData): Promise<BookSlotState> {
+  const t = await getT();
   const session = await requireUser();
-  if (session.user.role !== "STUDENT") return { error: "केवल विद्यार्थी बुकिंग कर सकते हैं" };
+  if (session.user.role !== "STUDENT") return { error: t("doubtClass.errors.studentOnly") };
 
   const parsed = bookingSchema.safeParse({
     teacherId: formData.get("teacherId"),
@@ -31,17 +33,17 @@ export async function bookSlot(_prev: BookSlotState, formData: FormData): Promis
     description: formData.get("description") || undefined,
     attachmentUrl: formData.get("attachmentUrl") || undefined,
   });
-  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "अमान्य जानकारी" };
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? t("doubtClass.errors.invalid") };
   const data = parsed.data;
 
   const slotStart = new Date(data.slotStartISO);
-  if (Number.isNaN(slotStart.getTime())) return { error: "अमान्य समय" };
+  if (Number.isNaN(slotStart.getTime())) return { error: t("doubtClass.errors.invalidTime") };
 
   // Re-derive the slot from the teacher's real availability server-side —
   // never trust the client for capacity/mode/meetingLink/duration.
   const openSlots = await getOpenSlots(data.teacherId);
   const slot = openSlots.find((s) => s.start.getTime() === slotStart.getTime());
-  if (!slot) return { error: "यह स्लॉट अब उपलब्ध नहीं है, कृपया दूसरा चुनें" };
+  if (!slot) return { error: t("doubtClass.errors.slotUnavailable") };
 
   try {
     await prisma.$transaction(
@@ -75,7 +77,7 @@ export async function bookSlot(_prev: BookSlotState, formData: FormData): Promis
       message === "SLOT_FULL" ||
       (e as { code?: string })?.code === "P2002" ||
       (e as { code?: string })?.code === "P2034";
-    if (isConflict) return { error: "यह स्लॉट अभी-अभी बुक हो गया, कृपया दूसरा स्लॉट चुनें" };
+    if (isConflict) return { error: t("doubtClass.errors.slotJustBooked") };
     throw e;
   }
 
@@ -158,6 +160,7 @@ async function notifyBooking(
 const CANCEL_CUTOFF_HOURS = 2;
 
 export async function cancelBooking(bookingId: string, reason: string) {
+  const t = await getT();
   const session = await requireUser();
   const booking = await prisma.doubtBooking.findUnique({
     where: { id: bookingId },
@@ -171,10 +174,10 @@ export async function cancelBooking(bookingId: string, reason: string) {
 
   const hoursUntil = (booking.slotStart.getTime() - Date.now()) / (1000 * 60 * 60);
   if (isOwner && hoursUntil < CANCEL_CUTOFF_HOURS) {
-    throw new Error(`रद्द करने की समय सीमा (${CANCEL_CUTOFF_HOURS} घंटे पूर्व) समाप्त हो चुकी है`);
+    throw new Error(t("doubtClass.errors.cancelCutoff", { hours: CANCEL_CUTOFF_HOURS }));
   }
   if (isTeacher && !reason.trim()) {
-    throw new Error("रद्द करने का कारण आवश्यक है");
+    throw new Error(t("doubtClass.errors.cancelReasonRequired"));
   }
 
   await prisma.doubtBooking.update({

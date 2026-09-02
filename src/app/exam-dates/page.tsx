@@ -8,6 +8,7 @@ import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { CLASS_LEVEL_LABEL } from "@/lib/queries/curriculum";
 import { formatIST, daysUntil } from "@/lib/exam-status";
+import { getT } from "@/lib/i18n/server";
 import type { ClassLevel } from "@prisma/client";
 
 export const metadata = { title: "परीक्षा तिथि | परीक्षा साथी" };
@@ -17,6 +18,7 @@ export default async function ExamDatesPage({
 }: {
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
+  const t = await getT();
   const sp = await searchParams;
   const session = await auth();
   const filters = {
@@ -39,15 +41,15 @@ export default async function ExamDatesPage({
           <CalendarClock className="h-6 w-6" />
         </span>
         <div>
-          <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">परीक्षा तिथि</h1>
-          <p className="text-sm text-muted-foreground">बोर्ड व प्रवेश परीक्षाओं की महत्वपूर्ण तिथियाँ</p>
+          <h1 className="font-sans text-2xl font-bold text-foreground sm:text-3xl">{t("examDates.page.title")}</h1>
+          <p className="text-sm text-muted-foreground">{t("examDates.page.subtitle")}</p>
         </div>
       </div>
 
       {urgent.length > 0 && (
         <div className="mb-6 rounded-[var(--radius-lg)] border border-[var(--color-section-examdates)]/30 bg-[color-mix(in_srgb,var(--color-section-examdates)_8%,transparent)] p-4">
           <p className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-[var(--color-section-examdates)]">
-            <AlertTriangle className="h-4 w-4" /> निकट आवेदन अंतिम तिथियाँ (अगले 30 दिन)
+            <AlertTriangle className="h-4 w-4" /> {t("examDates.page.urgentHeading")}
           </p>
           <ul className="space-y-1 text-sm">
             {urgent.map((e) => {
@@ -56,7 +58,7 @@ export default async function ExamDatesPage({
                 <li key={e.id} className="flex items-center justify-between">
                   <span>{e.name}</span>
                   <span className="font-semibold text-[var(--color-section-examdates)]">
-                    {remaining !== null && remaining >= 0 ? `${remaining} दिन शेष` : formatIST(e.applyEnd)}
+                    {remaining !== null && remaining >= 0 ? t("examDates.page.daysRemaining", { count: remaining }) : formatIST(e.applyEnd)}
                   </span>
                 </li>
               );
@@ -67,7 +69,7 @@ export default async function ExamDatesPage({
 
       <form action="/exam-dates" className="mb-6 flex flex-wrap gap-2.5">
         <Select name="classLevel" defaultValue={filters.classLevel ?? ""} className="max-w-[180px]">
-          <option value="">सभी कक्षाएँ</option>
+          <option value="">{t("examDates.page.allClasses")}</option>
           {(Object.keys(CLASS_LEVEL_LABEL) as ClassLevel[]).map((c) => (
             <option key={c} value={c}>
               {CLASS_LEVEL_LABEL[c]}
@@ -75,7 +77,7 @@ export default async function ExamDatesPage({
           ))}
         </Select>
         <Select name="category" defaultValue={filters.category ?? ""} className="max-w-[220px]">
-          <option value="">सभी श्रेणियाँ</option>
+          <option value="">{t("examDates.page.allCategories")}</option>
           {categories.map((c) => (
             <option key={c} value={c}>
               {c}
@@ -83,7 +85,7 @@ export default async function ExamDatesPage({
           ))}
         </Select>
         <Button type="submit" size="sm" variant="outline">
-          फ़िल्टर लागू करें
+          {t("examDates.page.applyFilter")}
         </Button>
       </form>
 
@@ -102,7 +104,7 @@ export default async function ExamDatesPage({
           <AdminPagination page={page} totalPages={totalPages} basePath="/exam-dates" searchParams={sp} />
         </>
       ) : (
-        <EmptyState icon={CalendarClock} title="कोई परीक्षा तिथि नहीं मिली" description="फ़िल्टर बदलकर पुनः प्रयास करें।" />
+        <EmptyState icon={CalendarClock} title={t("examDates.page.empty")} description={t("examDates.page.emptyDesc")} />
       )}
     </div>
   );

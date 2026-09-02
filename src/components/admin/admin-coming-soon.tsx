@@ -1,8 +1,9 @@
 import type { LucideIcon } from "lucide-react";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Badge } from "@/components/ui/badge";
+import { getT } from "@/lib/i18n/server";
 
-export function AdminComingSoon({
+export async function AdminComingSoon({
   icon,
   titleHi,
   titleEn,
@@ -13,6 +14,7 @@ export function AdminComingSoon({
   titleEn: string;
   phase: string;
 }) {
+  const t = await getT();
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
@@ -22,11 +24,7 @@ export function AdminComingSoon({
         </div>
         <Badge variant="accent">{phase}</Badge>
       </div>
-      <EmptyState
-        icon={icon}
-        title="इस मॉड्यूल का पूर्ण प्रबंधन जल्द आ रहा है"
-        description="इस चरण में केवल डेटाबेस संरचना और नेविगेशन तैयार है। पूर्ण CRUD आगामी चरण में जोड़ा जाएगा।"
-      />
+      <EmptyState icon={icon} title={t("admin.comingSoon.title")} description={t("admin.comingSoon.desc")} />
     </div>
   );
 }
