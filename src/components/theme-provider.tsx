@@ -12,6 +12,9 @@ export function ThemeProvider({
       attribute="data-theme"
       defaultTheme="system"
       enableSystem
+      scriptProps={{
+        type: typeof window === "undefined" ? "text/javascript" : "text/plain",
+      }}
       {...props}
     >
       {children}
