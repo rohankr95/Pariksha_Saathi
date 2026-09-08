@@ -41,7 +41,6 @@
     "featuredStory": "प्रेरणादायक कहानी",
     "topLeaderboard": "शीर्ष प्रदर्शनकर्ता",
     "viewAll": "सभी देखें",
-    "exploreTitle": "परीक्षा साथी क्या प्रदान करता है?",
     "messageForStudentsTitle": "विद्यार्थियों के लिए संदेश",
     "officials": {
       "collector": {
@@ -93,7 +92,8 @@
     "comingSoonTitle": "यह सुविधा जल्द जुड़ रही है",
     "language": "English",
     "previous": "पिछला",
-    "next": "अगला"
+    "next": "अगला",
+    "slideLabel": "स्लाइड {n}"
   },
   "search": {
     "comingSoonDesc": "व्याख्यान, नोट्स और पुस्तकों में खोज आगामी चरण में जोड़ी जाएगी।"
