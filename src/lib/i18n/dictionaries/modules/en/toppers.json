@@ -1,0 +1,48 @@
+{
+  "public": {
+    "sectionTitle": "Surajpur Board Exam Toppers {year}",
+    "sectionSubtitle": "District's brightest students who excelled in the board examinations",
+    "classAndYear": "Class {class} Board Exam {year}",
+    "father": "Father",
+    "mother": "Mother",
+    "rankBadge": "Rank #{rank}"
+  },
+  "admin": {
+    "listTitle": "Board Toppers",
+    "totalCount": "{count} toppers total",
+    "searchPlaceholder": "Search students...",
+    "addLabel": "New Topper",
+    "emptyTitle": "No toppers found",
+    "emptyDesc": "Add a new topper.",
+    "table": {
+      "student": "Student",
+      "school": "School",
+      "class": "Class",
+      "year": "Year",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirmDelete": "Are you sure you want to delete this topper?",
+    "newTitle": "Add New Topper",
+    "editTitle": "Edit Topper",
+    "form": {
+      "studentName": "Student's Name",
+      "fatherName": "Father's Name",
+      "motherName": "Mother's Name",
+      "school": "School Name",
+      "block": "Block",
+      "classLevel": "Class",
+      "examYear": "Exam Year",
+      "percentage": "Percentage (%)",
+      "rank": "District Rank (optional)",
+      "photo": "Passport-size photo",
+      "displayOrder": "Display Order",
+      "displayOrderHint": "Lower numbers are shown first",
+      "publishNow": "Show on home page immediately",
+      "saveChanges": "Save Changes",
+      "addTopper": "Add Topper"
+    }
+  }
+}
