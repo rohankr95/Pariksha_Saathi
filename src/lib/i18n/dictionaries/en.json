@@ -85,6 +85,7 @@
     "invalidCredentials": "Incorrect email or password"
   },
   "common": {
+    "notice": "Notice",
     "loading": "Loading...",
     "noData": "No information available yet",
     "tryAgain": "Try again",
