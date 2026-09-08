@@ -1,10 +1,13 @@
 import { auth } from "@/lib/auth";
+import { getT } from "@/lib/i18n/server";
 import { Hero } from "@/components/home/hero";
+import { HeroCarousel } from "@/components/home/hero-carousel";
 import { NoticeBanner } from "@/components/home/notice-banner";
 import { SectionGrid } from "@/components/home/section-grid";
 import { LiveCounters } from "@/components/home/live-counters";
 import { FeaturedStory } from "@/components/home/featured-story";
 import { LeaderboardPreview } from "@/components/home/leaderboard-preview";
+import { MessageForStudents } from "@/components/home/message-for-students";
 import { PersonalisedStrip } from "@/components/home/personalised-strip";
 import {
   getHomeStats,
@@ -17,6 +20,7 @@ import {
 
 export default async function HomePage() {
   const session = await auth();
+  const t = await getT();
 
   const [stats, announcements, story, leaderboard, nearestExam] = await Promise.all([
     getHomeStats(),
@@ -34,6 +38,7 @@ export default async function HomePage() {
   return (
     <div>
       <Hero session={session} />
+      <HeroCarousel />
       <NoticeBanner announcements={announcements} />
 
       <div className="mx-auto max-w-6xl space-y-10 px-4 py-8 sm:py-10">
@@ -46,9 +51,11 @@ export default async function HomePage() {
           />
         )}
 
+        <MessageForStudents />
+
         <section>
           <h2 className="mb-4 font-sans text-xl font-bold text-foreground sm:text-2xl">
-            सभी सुविधाएँ
+            {t("home.sectionsTitle")}
           </h2>
           <SectionGrid />
         </section>
@@ -56,8 +63,12 @@ export default async function HomePage() {
         <LiveCounters stats={stats} />
 
         <div className="grid gap-8 lg:grid-cols-2">
-          <FeaturedStory story={story} title="प्रेरणादायक कहानी" />
-          <LeaderboardPreview entries={leaderboard} title="शीर्ष प्रदर्शनकर्ता" viewAllLabel="सभी देखें" />
+          <FeaturedStory story={story} title={t("home.featuredStory")} />
+          <LeaderboardPreview
+            entries={leaderboard}
+            title={t("home.topLeaderboard")}
+            viewAllLabel={t("home.viewAll")}
+          />
         </div>
       </div>
     </div>

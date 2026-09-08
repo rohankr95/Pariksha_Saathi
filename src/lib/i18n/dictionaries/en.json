@@ -40,7 +40,19 @@
     "statsQuizzes": "Quizzes attempted",
     "featuredStory": "Featured Story",
     "topLeaderboard": "Top Performers",
-    "viewAll": "View all"
+    "viewAll": "View all",
+    "exploreTitle": "What does Pariksha Saathi provide?",
+    "messageForStudentsTitle": "Message for Students",
+    "officials": {
+      "collector": {
+        "role": "Collector, Surajpur",
+        "message": "Dear students, the Pariksha Saathi portal has been built to give your hard work the right direction. Study regularly, resolve your doubts in time, and prepare for your exams with confidence. The district administration stands with you always."
+      },
+      "deo": {
+        "role": "District Education Officer (DEO), Surajpur",
+        "message": "Education is the strongest foundation for success. Make full use of the lectures, notes, and quizzes available on this portal, and keep moving steadily toward your goals. Your success is our goal."
+      }
+    }
   },
   "sections": {
     "lectures": { "title": "Lectures", "desc": "Subject-wise video lessons for Class 10 & 12" },
@@ -79,7 +91,9 @@
     "tryAgain": "Try again",
     "comingSoon": "Coming soon",
     "comingSoonTitle": "This feature is coming soon",
-    "language": "हिंदी"
+    "language": "हिंदी",
+    "previous": "Previous",
+    "next": "Next"
   },
   "search": {
     "comingSoonDesc": "Search across lectures, notes, and books will be added in an upcoming phase."
