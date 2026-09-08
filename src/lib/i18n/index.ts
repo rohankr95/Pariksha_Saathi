@@ -28,6 +28,8 @@ import hiAnswerCopies from "./dictionaries/modules/hi/answerCopies.json";
 import enAnswerCopies from "./dictionaries/modules/en/answerCopies.json";
 import hiDashboard from "./dictionaries/modules/hi/dashboard.json";
 import enDashboard from "./dictionaries/modules/en/dashboard.json";
+import hiToppers from "./dictionaries/modules/hi/toppers.json";
+import enToppers from "./dictionaries/modules/en/toppers.json";
 
 export type Locale = "hi" | "en";
 export const LOCALE_COOKIE = "ps_locale";
@@ -53,6 +55,7 @@ const hi = {
   doubtClass: hiDoubtClass,
   answerCopies: hiAnswerCopies,
   dashboard: hiDashboard,
+  toppers: hiToppers,
 };
 const en = {
   ...enCore,
@@ -70,6 +73,7 @@ const en = {
   doubtClass: enDoubtClass,
   answerCopies: enAnswerCopies,
   dashboard: enDashboard,
+  toppers: enToppers,
 };
 
 export const dictionaries = { hi, en } as const;

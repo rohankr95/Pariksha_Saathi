@@ -1,0 +1,48 @@
+{
+  "public": {
+    "sectionTitle": "सूरजपुर बोर्ड परीक्षा टॉपर्स {year}",
+    "sectionSubtitle": "जिले के मेधावी विद्यार्थी जिन्होंने बोर्ड परीक्षा में उत्कृष्ट प्रदर्शन किया",
+    "classAndYear": "कक्षा {class} बोर्ड परीक्षा {year}",
+    "father": "पिता",
+    "mother": "माता",
+    "rankBadge": "रैंक #{rank}"
+  },
+  "admin": {
+    "listTitle": "बोर्ड टॉपर्स",
+    "totalCount": "कुल {count} टॉपर्स",
+    "searchPlaceholder": "विद्यार्थी खोजें...",
+    "addLabel": "नया टॉपर",
+    "emptyTitle": "कोई टॉपर नहीं मिला",
+    "emptyDesc": "नया टॉपर जोड़ें।",
+    "table": {
+      "student": "विद्यार्थी",
+      "school": "विद्यालय",
+      "class": "कक्षा",
+      "year": "वर्ष",
+      "status": "स्थिति",
+      "actions": "कार्रवाई"
+    },
+    "edit": "संपादित करें",
+    "delete": "हटाएँ",
+    "confirmDelete": "क्या आप वाकई इस टॉपर को हटाना चाहते हैं?",
+    "newTitle": "नया टॉपर जोड़ें",
+    "editTitle": "टॉपर संपादित करें",
+    "form": {
+      "studentName": "विद्यार्थी का नाम",
+      "fatherName": "पिता का नाम",
+      "motherName": "माता का नाम",
+      "school": "विद्यालय का नाम",
+      "block": "विकासखंड",
+      "classLevel": "कक्षा",
+      "examYear": "परीक्षा वर्ष",
+      "percentage": "प्रतिशत (%)",
+      "rank": "जिला रैंक (वैकल्पिक)",
+      "photo": "पासपोर्ट साइज़ फोटो",
+      "displayOrder": "प्रदर्शन क्रम",
+      "displayOrderHint": "छोटी संख्या पहले दिखाई जाएगी",
+      "publishNow": "होम पेज पर तुरंत दिखाएँ",
+      "saveChanges": "बदलाव सहेजें",
+      "addTopper": "टॉपर जोड़ें"
+    }
+  }
+}

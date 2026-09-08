@@ -11,6 +11,7 @@ import { FeaturedStory } from "@/components/home/featured-story";
 import { LeaderboardPreview } from "@/components/home/leaderboard-preview";
 import { MessageForStudents } from "@/components/home/message-for-students";
 import { PersonalisedStrip } from "@/components/home/personalised-strip";
+import { ToppersSection } from "@/components/home/toppers-section";
 import {
   getHomeStats,
   getActiveAnnouncements,
@@ -19,6 +20,7 @@ import {
   getNearestExamDeadline,
   getStudentPersonalisation,
 } from "@/lib/queries/home";
+import { getFeaturedToppers } from "@/lib/queries/toppers";
 
 export default async function HomePage() {
   const session = await auth();
@@ -29,12 +31,13 @@ export default async function HomePage() {
     deo: getOfficialPhotoUrl("deo"),
   };
 
-  const [stats, announcements, story, leaderboard, nearestExam] = await Promise.all([
+  const [stats, announcements, story, leaderboard, nearestExam, toppers] = await Promise.all([
     getHomeStats(),
     getActiveAnnouncements(),
     getFeaturedStory(),
     getLeaderboardPreview(),
     getNearestExamDeadline(),
+    getFeaturedToppers(),
   ]);
 
   const personalisation =
@@ -80,6 +83,8 @@ export default async function HomePage() {
             viewAllLabel={t("home.viewAll")}
           />
         </div>
+
+        <ToppersSection toppers={toppers} />
       </div>
     </div>
   );

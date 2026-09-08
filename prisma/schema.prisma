@@ -364,6 +364,28 @@ model Story {
   @@index([isFeatured])
 }
 
+model Topper {
+  id           String     @id @default(cuid())
+  studentName  String
+  fatherName   String?
+  motherName   String?
+  school       String
+  block        String?
+  classLevel   ClassLevel
+  examYear     Int
+  percentage   Float?
+  rank         Int?
+  photoUrl     String?
+  isPublished  Boolean    @default(false)
+  displayOrder Int        @default(0)
+  deletedAt    DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([isPublished])
+  @@index([examYear])
+}
+
 model Exam {
   id              String       @id @default(cuid())
   name            String
