@@ -41,7 +41,6 @@
     "featuredStory": "Featured Story",
     "topLeaderboard": "Top Performers",
     "viewAll": "View all",
-    "exploreTitle": "What does Pariksha Saathi provide?",
     "messageForStudentsTitle": "Message for Students",
     "officials": {
       "collector": {
@@ -93,7 +92,8 @@
     "comingSoonTitle": "This feature is coming soon",
     "language": "हिंदी",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "slideLabel": "Slide {n}"
   },
   "search": {
     "comingSoonDesc": "Search across lectures, notes, and books will be added in an upcoming phase."
