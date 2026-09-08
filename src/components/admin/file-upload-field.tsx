@@ -20,6 +20,7 @@ export function FileUploadField({
     | "book-file"
     | "book-cover"
     | "story-photo"
+    | "topper-photo"
     | "exam-notification"
     | "olympiad-syllabus"
     | "question-image";
