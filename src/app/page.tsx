@@ -1,6 +1,7 @@
 import { auth } from "@/lib/auth";
 import { getT } from "@/lib/i18n/server";
 import { getHeroImages } from "@/lib/hero-images";
+import { getOfficialPhotoUrl } from "@/lib/official-photos";
 import { Hero } from "@/components/home/hero";
 import { HeroImageCarousel } from "@/components/home/hero-image-carousel";
 import { NoticeBanner } from "@/components/home/notice-banner";
@@ -23,6 +24,10 @@ export default async function HomePage() {
   const session = await auth();
   const t = await getT();
   const heroImages = getHeroImages();
+  const officialPhotos = {
+    collector: getOfficialPhotoUrl("collector"),
+    deo: getOfficialPhotoUrl("deo"),
+  };
 
   const [stats, announcements, story, leaderboard, nearestExam] = await Promise.all([
     getHomeStats(),
@@ -56,7 +61,7 @@ export default async function HomePage() {
           />
         )}
 
-        <MessageForStudents />
+        <MessageForStudents photos={officialPhotos} />
 
         <section>
           <h2 className="mb-4 font-sans text-xl font-bold text-foreground sm:text-2xl">
