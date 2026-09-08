@@ -42,7 +42,7 @@ export function HeroImageCarousel({ images }: { images: string[] }) {
             fill
             priority={i === 0}
             sizes="100vw"
-            className="object-cover"
+            className="object-cover object-top"
           />
         </div>
       ))}
