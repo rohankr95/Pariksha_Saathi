@@ -42,8 +42,8 @@ export function SiteHeader({ session }: { session: Session | null }) {
 
       {/* Main header */}
       <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
-        <Link href="/" className="flex items-center gap-2.5 shrink-0">
-          <Emblem className="h-10 w-10" />
+        <Link href="/" className="flex items-center gap-3 shrink-0">
+          <Emblem variant="full" className="h-12 w-auto sm:h-14" />
           <div className="leading-tight">
             <p className="font-sans text-lg font-bold text-primary">{t("site.name")}</p>
             <p className="hidden text-[11px] text-muted-foreground sm:block">{t("site.tagline")}</p>
