@@ -31,6 +31,7 @@ async function main() {
     prisma.examSubscription.deleteMany(),
     prisma.exam.deleteMany(),
     prisma.story.deleteMany(),
+    prisma.topper.deleteMany(),
     prisma.book.deleteMany(),
     prisma.noteVersion.deleteMany(),
     prisma.note.deleteMany(),
@@ -271,6 +272,23 @@ async function main() {
       },
     });
   }
+
+  // ── Board Toppers (1) ────────────────────────────────────────────────
+  await prisma.topper.create({
+    data: {
+      studentName: "Jugyasu Verma",
+      fatherName: "श्री अजय वर्मा",
+      motherName: "श्रीमती सुनीता वर्मा",
+      school: "शासकीय उमा विद्यालय, सूरजपुर",
+      block: "सूरजपुर",
+      classLevel: "CLASS_10",
+      examYear: 2025,
+      percentage: 96.8,
+      rank: 1,
+      isPublished: true,
+      displayOrder: 0,
+    },
+  });
 
   // ── Exam Dates (6) ───────────────────────────────────────────────────
   const now = new Date();
