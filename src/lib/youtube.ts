@@ -22,7 +22,9 @@ export function youtubeThumbnail(url: string): string | null {
 
 export function youtubeNoCookieEmbedUrl(url: string): string | null {
   const id = extractYoutubeId(url);
-  return id ? `https://www.youtube-nocookie.com/embed/${id}` : null;
+  // enablejsapi lets the client-side watch-time tracker (watch-time-tracker.tsx)
+  // listen for play/pause state via the YouTube IFrame Player API.
+  return id ? `https://www.youtube-nocookie.com/embed/${id}?enablejsapi=1` : null;
 }
 
 export function youtubeWatchUrl(url: string): string {
