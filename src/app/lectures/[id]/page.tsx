@@ -9,6 +9,7 @@ import { LectureCard } from "@/components/lectures/lecture-card";
 import { WatchedToggle } from "@/components/lectures/watched-toggle";
 import { ReportBrokenLinkButton } from "@/components/lectures/report-broken-link-button";
 import { ViewTracker } from "@/components/lectures/view-tracker";
+import { WatchTimeTracker } from "@/components/lectures/watch-time-tracker";
 import { getT } from "@/lib/i18n/server";
 
 export default async function LectureDetailPage({
@@ -31,11 +32,15 @@ export default async function LectureDetailPage({
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <ViewTracker lectureId={lecture.id} />
+      {embedUrl && session?.user?.role === "STUDENT" && (
+        <WatchTimeTracker lectureId={lecture.id} iframeId={`lecture-player-${lecture.id}`} />
+      )}
       <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
         <div>
           <div className="aspect-video overflow-hidden rounded-[var(--radius-lg)] bg-black shadow-[var(--shadow-card)]">
             {embedUrl ? (
               <iframe
+                id={`lecture-player-${lecture.id}`}
                 src={embedUrl}
                 title={lecture.title}
                 className="h-full w-full"

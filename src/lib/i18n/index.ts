@@ -30,6 +30,8 @@ import hiDashboard from "./dictionaries/modules/hi/dashboard.json";
 import enDashboard from "./dictionaries/modules/en/dashboard.json";
 import hiToppers from "./dictionaries/modules/hi/toppers.json";
 import enToppers from "./dictionaries/modules/en/toppers.json";
+import hiAnalytics from "./dictionaries/modules/hi/analytics.json";
+import enAnalytics from "./dictionaries/modules/en/analytics.json";
 
 export type Locale = "hi" | "en";
 export const LOCALE_COOKIE = "ps_locale";
@@ -56,6 +58,7 @@ const hi = {
   answerCopies: hiAnswerCopies,
   dashboard: hiDashboard,
   toppers: hiToppers,
+  analytics: hiAnalytics,
 };
 const en = {
   ...enCore,
@@ -74,6 +77,7 @@ const en = {
   answerCopies: enAnswerCopies,
   dashboard: enDashboard,
   toppers: enToppers,
+  analytics: enAnalytics,
 };
 
 export const dictionaries = { hi, en } as const;

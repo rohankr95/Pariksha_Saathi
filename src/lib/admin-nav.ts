@@ -16,6 +16,7 @@ import {
   Megaphone,
   ScrollText,
   GraduationCap,
+  BarChart3,
   type LucideIcon,
 } from "lucide-react";
 
@@ -47,4 +48,5 @@ export const ADMIN_NAV: AdminNavItem[] = [
   { slug: "announcements", href: "/admin/announcements", titleHi: "सूचना पट्ट", titleEn: "Announcements", icon: Megaphone, phase: "Phase 6", roles: ["TEACHER", "SUPER_ADMIN"] },
   { slug: "audit-log", href: "/admin/audit-log", titleHi: "ऑडिट लॉग", titleEn: "Audit Log", icon: ScrollText, phase: "Phase 6", roles: ["SUPER_ADMIN"] },
   { slug: "toppers", href: "/admin/toppers", titleHi: "बोर्ड टॉपर्स", titleEn: "Board Toppers", icon: GraduationCap, phase: "Phase 6", roles: ["TEACHER", "SUPER_ADMIN"] },
+  { slug: "analytics", href: "/admin/analytics", titleHi: "उपयोग रिपोर्ट", titleEn: "Utilization Report", icon: BarChart3, phase: "Phase 7", roles: ["SUPER_ADMIN"] },
 ];
