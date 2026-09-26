@@ -43,8 +43,18 @@ export function FileUploadField({
       formData.append("kind", kind);
       formData.append("file", file);
       const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "अपलोड विफल");
+      let data: { path?: string; url?: string; sizeBytes?: number; error?: string } | null = null;
+      try {
+        data = await res.json();
+      } catch {
+        // A non-JSON body means the request never reached the app route at all —
+        // most commonly the reverse proxy rejecting an oversized file before
+        // Next.js ever sees it (a raw HTML error page instead of our JSON).
+        throw new Error(res.status === 413 ? "फ़ाइल का आकार बहुत बड़ा है" : "सर्वर त्रुटि — कृपया पुनः प्रयास करें");
+      }
+      if (!res.ok || !data || !data.path || !data.url || data.sizeBytes === undefined) {
+        throw new Error(data?.error || "अपलोड विफल");
+      }
       onChange({ path: data.path, url: data.url, sizeBytes: data.sizeBytes }, file.name);
     } catch (e) {
       setError(e instanceof Error ? e.message : "अपलोड विफल");
