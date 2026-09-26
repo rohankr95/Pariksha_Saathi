@@ -80,6 +80,58 @@
       "add": "Add Announcement"
     }
   },
+  "subjects": {
+    "listTitle": "Subjects & Chapters",
+    "totalCount": "{count} subjects total",
+    "searchPlaceholder": "Search subjects...",
+    "addNew": "Add New Subject",
+    "backToList": "Back to subjects list",
+    "editTitle": "Edit Subject",
+    "emptyTitle": "No subjects yet",
+    "emptyDesc": "Create a subject before adding lectures, notes, or quizzes.",
+    "colName": "Name",
+    "colClass": "Class",
+    "colChapters": "Chapters",
+    "colStatus": "Status",
+    "colActions": "Actions",
+    "active": "Active",
+    "inactive": "Inactive",
+    "manageChapters": "Manage Chapters",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Delete this subject?",
+    "errors": {
+      "invalid": "Please fill in all required fields correctly.",
+      "hasContent": "This subject has lectures, notes, quizzes, or other content attached, so it can't be deleted. Deactivate it instead."
+    },
+    "form": {
+      "nameHi": "Name (Hindi)",
+      "nameEn": "Name (English)",
+      "classLevel": "Class",
+      "icon": "Icon (emoji, optional)",
+      "colorKey": "Color key (optional)",
+      "saving": "Saving...",
+      "save": "Save",
+      "add": "Add"
+    },
+    "chapters": {
+      "addNew": "Add New Chapter",
+      "editTitle": "Edit Chapter",
+      "countLabel": "{count} chapters",
+      "emptyTitle": "No chapters yet",
+      "emptyDesc": "Add chapters for this subject to organise lectures and notes.",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "deleteConfirm": "Delete this chapter?",
+      "errors": {
+        "invalid": "Please enter a valid chapter name."
+      },
+      "form": {
+        "nameHi": "Chapter name (Hindi)",
+        "nameEn": "Chapter name (English)"
+      }
+    }
+  },
   "auditLog": {
     "title": "Audit Log",
     "totalCount": "{count} entries total",

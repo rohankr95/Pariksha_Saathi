@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { saveUpload } from "@/lib/storage";
 
 const KIND_RULES: Record<string, { folder: string; maxBytes: number; mimeTypes: string[] }> = {
-  "note-file": { folder: "notes", maxBytes: 20 * 1024 * 1024, mimeTypes: ["application/pdf"] },
+  "note-file": { folder: "notes", maxBytes: 50 * 1024 * 1024, mimeTypes: ["application/pdf"] },
   "book-file": { folder: "books/files", maxBytes: 30 * 1024 * 1024, mimeTypes: ["application/pdf"] },
   "book-cover": {
     folder: "books/covers",
