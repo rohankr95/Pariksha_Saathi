@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X, LogOut } from "lucide-react";
+import Link from "next/link";
+import { Menu, X, LogOut, KeyRound } from "lucide-react";
 import type { Role } from "@prisma/client";
 import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -29,6 +30,12 @@ export function AdminTopbar({ name, role }: { name: string; role: Role }) {
           <LanguageToggle />
         </div>
         <ThemeToggle />
+        <Button asChild variant="outline" size="sm" aria-label={t("account.menuLink")}>
+          <Link href="/account/security">
+            <KeyRound className="h-4 w-4" />
+            <span className="hidden sm:inline">{t("account.menuLink")}</span>
+          </Link>
+        </Button>
         <Button
           variant="outline"
           size="sm"

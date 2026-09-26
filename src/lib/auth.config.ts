@@ -28,7 +28,7 @@ export const authConfig = {
         return role === "TEACHER" || role === "SUPER_ADMIN";
       }
 
-      if (pathname.startsWith("/dashboard") || pathname.startsWith("/me")) {
+      if (pathname.startsWith("/dashboard") || pathname.startsWith("/me") || pathname.startsWith("/account")) {
         return isLoggedIn;
       }
 
