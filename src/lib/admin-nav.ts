@@ -17,6 +17,7 @@ import {
   ScrollText,
   GraduationCap,
   BarChart3,
+  Layers,
   type LucideIcon,
 } from "lucide-react";
 
@@ -32,6 +33,7 @@ export type AdminNavItem = {
 
 export const ADMIN_NAV: AdminNavItem[] = [
   { slug: "dashboard", href: "/admin", titleHi: "डैशबोर्ड", titleEn: "Dashboard", icon: LayoutDashboard, phase: "Phase 1", roles: ["TEACHER", "SUPER_ADMIN"] },
+  { slug: "subjects", href: "/admin/subjects", titleHi: "विषय एवं अध्याय", titleEn: "Subjects & Chapters", icon: Layers, phase: "Phase 7", roles: ["TEACHER", "SUPER_ADMIN"] },
   { slug: "lectures", href: "/admin/lectures", titleHi: "व्याख्यान", titleEn: "Lectures", icon: PlayCircle, phase: "Phase 2", roles: ["TEACHER", "SUPER_ADMIN"] },
   { slug: "notes", href: "/admin/notes", titleHi: "नोट्स", titleEn: "Notes", icon: BookOpen, phase: "Phase 2", roles: ["TEACHER", "SUPER_ADMIN"] },
   { slug: "books", href: "/admin/books", titleHi: "पुस्तकें", titleEn: "Books", icon: Library, phase: "Phase 2", roles: ["TEACHER", "SUPER_ADMIN"] },
