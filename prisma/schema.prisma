@@ -260,14 +260,20 @@ model Lecture {
 }
 
 model LectureWatchProgress {
-  id        String   @id @default(cuid())
-  lecture   Lecture  @relation(fields: [lectureId], references: [id], onDelete: Cascade)
-  lectureId String
-  userId    String
-  watched   Boolean  @default(false)
-  updatedAt DateTime @updatedAt
+  id             String   @id @default(cuid())
+  lecture        Lecture  @relation(fields: [lectureId], references: [id], onDelete: Cascade)
+  lectureId      String
+  userId         String
+  watched        Boolean  @default(false)
+  // Accumulated seconds of actual playback, reported by the YouTube player
+  // while it's in the PLAYING state (see watch-time-tracker.tsx) — distinct
+  // from `watched`, which stays a separate self-reported "I finished this"
+  // flag so neither one silently overwrites the other's meaning.
+  watchedSeconds Int      @default(0)
+  updatedAt      DateTime @updatedAt
 
   @@unique([lectureId, userId])
+  @@index([updatedAt])
 }
 
 model BrokenLinkReport {
