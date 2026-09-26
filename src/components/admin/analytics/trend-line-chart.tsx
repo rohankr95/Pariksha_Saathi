@@ -1,15 +1,11 @@
 import type { TrendPoint } from "@/lib/queries/analytics";
+import { formatShortDate } from "./format-date";
 
 const WIDTH = 520;
 const HEIGHT = 160;
 const PAD_X = 8;
 const PAD_TOP = 12;
 const PAD_BOTTOM = 22;
-
-function formatShortDate(iso: string): string {
-  const d = new Date(iso + "T00:00:00");
-  return d.toLocaleDateString("en-IN", { day: "numeric", month: "short" });
-}
 
 /** A single-series line chart with per-point hover (native title) — no dependency, hand-authored SVG. */
 export function TrendLineChart({
