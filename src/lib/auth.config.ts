@@ -6,6 +6,11 @@ import type { NextAuthConfig } from "next-auth";
  * which runs only in the Node.js runtime (API routes / server actions).
  */
 export const authConfig = {
+  // Required for self-hosted deployments behind a reverse proxy (Nginx on a
+  // VPS, Docker, etc.) — without it Auth.js rejects the incoming Host header
+  // as untrusted and every auth request fails with a generic "server
+  // configuration" error. Vercel deployments are auto-trusted regardless.
+  trustHost: true,
   pages: {
     signIn: "/login",
   },
