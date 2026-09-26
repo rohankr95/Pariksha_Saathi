@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X, Search, LogOut } from "lucide-react";
+import { Menu, X, Search, LogOut, KeyRound } from "lucide-react";
 import type { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -85,6 +85,11 @@ export function SiteHeader({ session }: { session: Session | null }) {
               >
                 {session.user.displayName || session.user.name}
               </Link>
+              <Button asChild variant="ghost" size="sm" aria-label={t("account.menuLink")}>
+                <Link href="/account/security">
+                  <KeyRound className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Button>
               <Button variant="outline" size="sm" onClick={() => signOut({ callbackUrl: "/" })}>
                 <LogOut className="h-4 w-4" aria-hidden="true" />
                 {t("nav.logout")}
@@ -136,13 +141,17 @@ export function SiteHeader({ session }: { session: Session | null }) {
               <ThemeToggle />
             </div>
             {session?.user ? (
-              <Button
-                variant="outline"
-                className="mt-2"
-                onClick={() => signOut({ callbackUrl: "/" })}
-              >
-                {t("nav.logout")}
-              </Button>
+              <div className="mt-2 flex flex-col gap-2">
+                <Button asChild variant="outline" onClick={() => setOpen(false)}>
+                  <Link href="/account/security">
+                    <KeyRound className="h-4 w-4" aria-hidden="true" />
+                    {t("account.menuLink")}
+                  </Link>
+                </Button>
+                <Button variant="outline" onClick={() => signOut({ callbackUrl: "/" })}>
+                  {t("nav.logout")}
+                </Button>
+              </div>
             ) : (
               <div className="mt-2 flex gap-2">
                 <Button asChild variant="outline" className="flex-1">

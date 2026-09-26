@@ -1,0 +1,19 @@
+{
+  "security": {
+    "title": "Change Password",
+    "subtitle": "Set a new password to keep your account secure.",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm new password",
+    "submit": "Change Password",
+    "saving": "Saving...",
+    "success": "Your password has been changed successfully.",
+    "errors": {
+      "wrongCurrent": "Current password is incorrect.",
+      "mismatch": "New password and confirmation don't match.",
+      "tooShort": "New password must be at least 6 characters.",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "menuLink": "Change Password"
+}
