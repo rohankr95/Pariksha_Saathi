@@ -10,8 +10,8 @@ export function ThemeProvider({
   return (
     <NextThemesProvider
       attribute="data-theme"
-      defaultTheme="system"
-      enableSystem
+      defaultTheme="light"
+      enableSystem={false}
       scriptProps={{
         type: typeof window === "undefined" ? "text/javascript" : "text/plain",
       }}
