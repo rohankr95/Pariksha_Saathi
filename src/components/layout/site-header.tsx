@@ -142,6 +142,13 @@ export function SiteHeader({ session }: { session: Session | null }) {
             </div>
             {session?.user ? (
               <div className="mt-2 flex flex-col gap-2">
+                <Link
+                  href={session.user.role === "STUDENT" ? "/dashboard" : "/admin"}
+                  onClick={() => setOpen(false)}
+                  className="rounded-[var(--radius-sm)] px-3 py-2.5 text-sm font-semibold text-foreground hover:bg-surface-muted"
+                >
+                  {session.user.displayName || session.user.name}
+                </Link>
                 <Button asChild variant="outline" onClick={() => setOpen(false)}>
                   <Link href="/account/security">
                     <KeyRound className="h-4 w-4" aria-hidden="true" />
