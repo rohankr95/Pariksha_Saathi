@@ -15,5 +15,47 @@
       "generic": "Something went wrong. Please try again."
     }
   },
-  "menuLink": "Change Password"
+  "menuLink": "Change Password",
+  "profile": {
+    "title": "My Profile",
+    "subtitle": "Keep your details up to date. These are the details you entered while registering.",
+    "sectionAccount": "Account details",
+    "sectionStudent": "School details",
+    "name": "Full name",
+    "email": "Email",
+    "emailHint": "You log in with this email. If you change it, use the new email next time.",
+    "mobile": "Mobile number",
+    "mobileOptional": "Mobile number (optional)",
+    "classLevel": "Class",
+    "school": "School name",
+    "block": "Block",
+    "displayName": "Leaderboard name",
+    "displayNameHint": "Shown publicly on the leaderboard instead of your full name. Leave blank to use your first name.",
+    "onLeaderboard": "Show me on the public leaderboard",
+    "role": "Role",
+    "memberSince": "Member since",
+    "roles": {
+      "STUDENT": "Student",
+      "TEACHER": "Teacher",
+      "SUPER_ADMIN": "Super Admin"
+    },
+    "blockNotice": "Your saved block \"{block}\" is not in the district list. Please choose your block below and save.",
+    "submit": "Save changes",
+    "saving": "Saving...",
+    "success": "Your profile has been updated.",
+    "menuLink": "My Profile",
+    "errors": {
+      "name": "Please enter your full name (at least 2 characters).",
+      "email": "Please enter a valid email address.",
+      "mobile": "Please enter a valid 10-digit mobile number.",
+      "classLevel": "Please select your class.",
+      "school": "Please enter your school name.",
+      "block": "Please select your block from the list.",
+      "displayName": "Leaderboard name can be at most 40 characters.",
+      "emailTaken": "Another account already uses this email.",
+      "mobileTaken": "Another account already uses this mobile number.",
+      "generic": "Something went wrong. Please try again."
+    },
+    "blockMissing": "Your block is not saved yet. Please choose your block below and save."
+  }
 }

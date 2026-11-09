@@ -153,5 +153,46 @@
       "PUBLISH": "Published",
       "UNPUBLISH": "Unpublished"
     }
+  },
+  "students": {
+    "title": "Students",
+    "subtitle": "All registered students, and a tool to bring every student's block in line with the district's six blocks.",
+    "cleanup": {
+      "title": "Block cleanup",
+      "intro": "Before registration used a dropdown, students typed their block by hand, so the same block appears under different spellings. Map each non-standard value to one of the six blocks.",
+      "standardCount": "Students with a standard block",
+      "needsFixCount": "Students needing a fix",
+      "allGood": "Every student has one of the six standard blocks.",
+      "applySuggested": "Apply all suggested fixes ({count} students)",
+      "applySuggestedConfirm": "Update {count} students to the suggested blocks?",
+      "inferFromSchool": "Fill {count} from school name",
+      "inferFromSchoolConfirm": "Set the block for {count} students based on the block named in their school's name?",
+      "inferHint": "Uses a student's school name only when it names exactly one block, e.g. \"Govt HSS, Odgi\".",
+      "colSaved": "Saved value",
+      "colStudents": "Students",
+      "colSuggestion": "Suggestion",
+      "colMapTo": "Change to",
+      "noBlock": "(no block)",
+      "noSuggestion": "No match — choose manually",
+      "apply": "Apply",
+      "applyConfirm": "Change the block for all {count} students with this value?",
+      "distribution": "Current distribution"
+    },
+    "list": {
+      "title": "Student list",
+      "search": "Search by name, email, mobile or school",
+      "allBlocks": "All blocks",
+      "allClasses": "All classes",
+      "filter": "Filter",
+      "total": "{count} students",
+      "colName": "Name",
+      "colClass": "Class",
+      "colBlock": "Block",
+      "colSchool": "School",
+      "colContact": "Contact",
+      "colRegistered": "Registered",
+      "empty": "No students match these filters.",
+      "inactive": "Inactive"
+    }
   }
 }

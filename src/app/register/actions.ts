@@ -3,6 +3,8 @@
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
+import { BLOCK_VALUES } from "@/lib/blocks";
+import { getT } from "@/lib/i18n/server";
 
 const registerSchema = z.object({
   name: z.string().min(2).max(100),
@@ -11,7 +13,7 @@ const registerSchema = z.object({
   mobile: z.string().regex(/^[6-9]\d{9}$/, "अमान्य मोबाइल नंबर"),
   classLevel: z.enum(["CLASS_9", "CLASS_10", "CLASS_11", "CLASS_12"]),
   school: z.string().min(2).max(150),
-  block: z.string().min(1).max(100),
+  block: z.enum(BLOCK_VALUES, { message: "block" }),
 });
 
 export type RegisterState = { error?: string; success?: boolean };
@@ -31,7 +33,9 @@ export async function registerStudent(
   });
 
   if (!parsed.success) {
-    return { error: parsed.error.issues[0]?.message ?? "अमान्य जानकारी" };
+    const issue = parsed.error.issues[0];
+    if (issue?.path[0] === "block") return { error: (await getT())("auth.blockInvalid") };
+    return { error: issue?.message ?? "अमान्य जानकारी" };
   }
 
   const { name, email, password, mobile, classLevel, school, block } = parsed.data;

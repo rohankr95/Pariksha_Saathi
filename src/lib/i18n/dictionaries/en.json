@@ -77,6 +77,8 @@
     "classLevel": "Class",
     "school": "School Name",
     "block": "Block",
+    "blockPlaceholder": "Select block",
+    "blockInvalid": "Please select your block from the list",
     "submit": "Submit",
     "loginCta": "Login",
     "registerCta": "Register",

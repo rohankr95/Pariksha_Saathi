@@ -1,3 +1,4 @@
+import { BLOCKS } from "@/lib/blocks";
 import { prisma } from "@/lib/prisma";
 import type { ClassLevel, LeaderboardPeriod } from "@prisma/client";
 
@@ -77,12 +78,13 @@ export async function getLeaderboard(filters: LeaderboardFilters): Promise<Leade
 }
 
 export async function getFilterOptions() {
-  const [schools, blocks] = await Promise.all([
-    prisma.user.findMany({ where: { role: "STUDENT", school: { not: null } }, select: { school: true }, distinct: ["school"] }),
-    prisma.user.findMany({ where: { role: "STUDENT", block: { not: null } }, select: { block: true }, distinct: ["block"] }),
-  ]);
+  const schools = await prisma.user.findMany({
+    where: { role: "STUDENT", school: { not: null } },
+    select: { school: true },
+    distinct: ["school"],
+  });
   return {
     schools: schools.map((s) => s.school).filter((s): s is string => Boolean(s)),
-    blocks: blocks.map((b) => b.block).filter((b): b is string => Boolean(b)),
+    blocks: BLOCKS.map((b) => ({ value: b.value, en: b.en })),
   };
 }

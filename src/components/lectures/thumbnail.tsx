@@ -4,7 +4,15 @@ import { useState } from "react";
 import Image from "next/image";
 import { PlayCircle } from "lucide-react";
 
-export function LectureThumbnail({ src, alt = "" }: { src: string | null; alt?: string }) {
+export function LectureThumbnail({
+  src,
+  alt = "",
+  sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw",
+}: {
+  src: string | null;
+  alt?: string;
+  sizes?: string;
+}) {
   const [failed, setFailed] = useState(false);
 
   if (!src || failed) {
@@ -20,7 +28,7 @@ export function LectureThumbnail({ src, alt = "" }: { src: string | null; alt?: 
       src={src}
       alt={alt}
       fill
-      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+      sizes={sizes}
       className="object-cover"
       onError={() => setFailed(true)}
     />

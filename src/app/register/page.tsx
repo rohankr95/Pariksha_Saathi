@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
+import { BlockSelect } from "@/components/account/block-select";
 import { useLocale } from "@/lib/i18n/locale-provider";
 import { registerStudent, type RegisterState } from "./actions";
 
@@ -60,7 +61,7 @@ export default function RegisterPage() {
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="block">{t("auth.block")}</Label>
-              <Input id="block" name="block" required placeholder="सूरजपुर" />
+              <BlockSelect required />
             </div>
           </div>
           <div className="space-y-1.5">

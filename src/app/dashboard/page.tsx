@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Flame, Star, PlayCircle, Lightbulb, Target, Award, BookOpen } from "lucide-react";
+import { Flame, Star, PlayCircle, Lightbulb, Target, Award, BookOpen, UserRound } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { BadgeList } from "@/components/dashboard/badge-list";
@@ -45,10 +46,20 @@ export default async function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
-      <h1 className="font-sans text-2xl font-bold text-foreground">
-        {t("dashboard.greeting", { name: session.user.displayName || session.user.name?.split(" ")[0] || "" })}
-      </h1>
-      <p className="mt-1 text-sm text-muted-foreground">{t("dashboard.subtitle")}</p>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="font-sans text-2xl font-bold text-foreground">
+            {t("dashboard.greeting", { name: session.user.displayName || session.user.name?.split(" ")[0] || "" })}
+          </h1>
+          <p className="mt-1 text-sm text-muted-foreground">{t("dashboard.subtitle")}</p>
+        </div>
+        <Button asChild variant="outline" size="sm">
+          <Link href="/account/profile">
+            <UserRound className="h-4 w-4" aria-hidden="true" />
+            {t("account.profile.menuLink")}
+          </Link>
+        </Button>
+      </div>
 
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {cards.map((card) => {
