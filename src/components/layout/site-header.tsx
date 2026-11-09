@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Menu, X, Search, LogOut, KeyRound } from "lucide-react";
+import { Menu, X, Search, LogOut, KeyRound, UserRound } from "lucide-react";
 import type { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -85,9 +85,9 @@ export function SiteHeader({ session }: { session: Session | null }) {
               >
                 {session.user.displayName || session.user.name}
               </Link>
-              <Button asChild variant="ghost" size="sm" aria-label={t("account.menuLink")}>
-                <Link href="/account/security">
-                  <KeyRound className="h-4 w-4" aria-hidden="true" />
+              <Button asChild variant="ghost" size="sm" aria-label={t("account.profile.menuLink")} title={t("account.profile.menuLink")}>
+                <Link href="/account/profile">
+                  <UserRound className="h-4 w-4" aria-hidden="true" />
                 </Link>
               </Button>
               <Button variant="outline" size="sm" onClick={() => signOut({ callbackUrl: "/" })}>
@@ -149,6 +149,12 @@ export function SiteHeader({ session }: { session: Session | null }) {
                 >
                   {session.user.displayName || session.user.name}
                 </Link>
+                <Button asChild variant="outline" onClick={() => setOpen(false)}>
+                  <Link href="/account/profile">
+                    <UserRound className="h-4 w-4" aria-hidden="true" />
+                    {t("account.profile.menuLink")}
+                  </Link>
+                </Button>
                 <Button asChild variant="outline" onClick={() => setOpen(false)}>
                   <Link href="/account/security">
                     <KeyRound className="h-4 w-4" aria-hidden="true" />

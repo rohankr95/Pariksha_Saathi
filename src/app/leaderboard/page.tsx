@@ -9,7 +9,7 @@ import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { LeaderboardVisibilityToggle } from "@/components/leaderboard/visibility-toggle";
-import { getT } from "@/lib/i18n/server";
+import { getT, getServerLocale } from "@/lib/i18n/server";
 import type { ClassLevel, LeaderboardPeriod } from "@prisma/client";
 
 export const metadata = { title: "शीर्ष प्रदर्शन | परीक्षा साथी" };
@@ -31,6 +31,7 @@ export default async function LeaderboardPage({
     block: sp.block,
   };
   const t = await getT();
+  const locale = await getServerLocale();
   const PERIOD_LABEL: Record<LeaderboardPeriod, string> = {
     WEEKLY: t("leaderboard.period.WEEKLY"),
     MONTHLY: t("leaderboard.period.MONTHLY"),
@@ -100,8 +101,8 @@ export default async function LeaderboardPage({
         <Select name="block" defaultValue={filters.block ?? ""} className="max-w-[160px]">
           <option value="">{t("leaderboard.public.allBlocks")}</option>
           {blocks.map((b) => (
-            <option key={b} value={b}>
-              {b}
+            <option key={b.value} value={b.value}>
+              {locale === "en" ? b.en : b.value}
             </option>
           ))}
         </Select>

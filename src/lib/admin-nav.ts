@@ -18,6 +18,7 @@ import {
   GraduationCap,
   BarChart3,
   Layers,
+  UsersRound,
   type LucideIcon,
 } from "lucide-react";
 
@@ -46,6 +47,7 @@ export const ADMIN_NAV: AdminNavItem[] = [
   { slug: "class-requests", href: "/admin/class-requests", titleHi: "कक्षा अनुरोध", titleEn: "Class Requests", icon: HandHelping, phase: "Phase 5", roles: ["TEACHER", "SUPER_ADMIN"] },
   { slug: "doubt-classes", href: "/admin/doubt-classes", titleHi: "शंका समाधान", titleEn: "Doubt Classes", icon: MessageCircleQuestion, phase: "Phase 5", roles: ["TEACHER", "SUPER_ADMIN"] },
   { slug: "answer-copies", href: "/admin/answer-copies", titleHi: "उत्तरपुस्तिका जाँच", titleEn: "Answer Copy Checking", icon: FileCheck2, phase: "Phase 5", roles: ["TEACHER", "SUPER_ADMIN"] },
+  { slug: "students", href: "/admin/students", titleHi: "विद्यार्थी", titleEn: "Students", icon: UsersRound, phase: "Phase 7", roles: ["SUPER_ADMIN"] },
   { slug: "teachers", href: "/admin/teachers", titleHi: "शिक्षक प्रबंधन", titleEn: "Teacher Management", icon: Users, phase: "Phase 6", roles: ["SUPER_ADMIN"] },
   { slug: "announcements", href: "/admin/announcements", titleHi: "सूचना पट्ट", titleEn: "Announcements", icon: Megaphone, phase: "Phase 6", roles: ["TEACHER", "SUPER_ADMIN"] },
   { slug: "audit-log", href: "/admin/audit-log", titleHi: "ऑडिट लॉग", titleEn: "Audit Log", icon: ScrollText, phase: "Phase 6", roles: ["SUPER_ADMIN"] },

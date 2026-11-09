@@ -77,6 +77,8 @@
     "classLevel": "कक्षा",
     "school": "विद्यालय का नाम",
     "block": "विकासखंड",
+    "blockPlaceholder": "विकासखंड चुनें",
+    "blockInvalid": "कृपया सूची से अपना विकासखंड चुनें",
     "submit": "जमा करें",
     "loginCta": "लॉगिन",
     "registerCta": "पंजीकरण करें",

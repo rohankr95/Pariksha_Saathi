@@ -57,6 +57,9 @@
   --success: var(--ps-green-500);
   --muted-foreground: var(--ps-ink-500);
   --ring: var(--ps-indigo-500);
+  /* Categorical chart series (validated for colour-blind separation & 3:1 contrast per mode) */
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
 
   /* Radii / shadows / spacing scale used across cards & buttons */
   --radius-sm: 8px;
@@ -80,6 +83,8 @@
   --success: #34c98a;
   --muted-foreground: var(--ps-ink-300);
   --ring: #6f7bf0;
+  --series-1: #3987e5;
+  --series-2: #d95926;
   --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
   --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.4), 0 16px 32px rgba(0, 0, 0, 0.45);
 }
@@ -98,6 +103,8 @@
     --success: #34c98a;
     --muted-foreground: var(--ps-ink-300);
     --ring: #6f7bf0;
+    --series-1: #3987e5;
+    --series-2: #d95926;
     --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
     --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.4), 0 16px 32px rgba(0, 0, 0, 0.45);
   }
