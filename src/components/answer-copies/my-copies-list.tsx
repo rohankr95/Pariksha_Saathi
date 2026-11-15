@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { ANSWER_COPY_STATUS_COLOR } from "@/lib/answer-copy-status";
 import { getT, getServerLocale } from "@/lib/i18n/server";
 import type { AnswerCopyStatus } from "@prisma/client";
+import { resolveFileHref } from "@/lib/file-url";
 
 type Copy = {
   id: string;
@@ -52,7 +53,7 @@ export async function MyCopiesList({ copies }: { copies: Copy[] }) {
               </p>
               {c.remarks && <p className="text-xs text-muted-foreground">{c.remarks}</p>}
               {c.checkedFileUrl && (
-                <a href={c.checkedFileUrl} target="_blank" rel="noreferrer" className="text-xs font-medium text-primary hover:underline">
+                <a href={resolveFileHref(c.checkedFileUrl)} target="_blank" rel="noreferrer" className="text-xs font-medium text-primary hover:underline">
                   {t("answerCopies.myCopy.viewChecked")}
                 </a>
               )}

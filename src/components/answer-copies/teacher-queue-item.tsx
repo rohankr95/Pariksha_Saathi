@@ -10,6 +10,7 @@ import { ANSWER_COPY_STATUS_COLOR } from "@/lib/answer-copy-status";
 import { startEvaluation, submitEvaluation, type SubmitEvaluationState } from "@/app/answer-copies/actions";
 import { useLocale } from "@/lib/i18n/locale-provider";
 import type { AnswerCopyStatus } from "@prisma/client";
+import { resolveFileHref } from "@/lib/file-url";
 
 type Copy = {
   id: string;
@@ -39,7 +40,7 @@ export function TeacherQueueItem({ copy }: { copy: Copy }) {
           <p className="text-xs text-muted-foreground">
             {copy.student.name} · {t("answerCopies.teacherQueue.classLabel")} {copy.student.classLevel ?? "—"} · {copy.subject.nameHi}
           </p>
-          <a href={copy.fileUrl} target="_blank" rel="noreferrer" className="text-xs font-medium text-primary hover:underline">
+          <a href={resolveFileHref(copy.fileUrl)} target="_blank" rel="noreferrer" className="text-xs font-medium text-primary hover:underline">
             {t("answerCopies.teacherQueue.viewOriginal")}
           </a>
         </div>
@@ -86,7 +87,7 @@ export function TeacherQueueItem({ copy }: { copy: Copy }) {
               setFileName(name);
             }}
           />
-          <input type="hidden" name="checkedFileUrl" value={file?.path ?? ""} />
+          <input type="hidden" name="checkedFileUrl" value={file?.url ?? ""} />
 
           {state.error && <p className="text-xs text-[var(--color-section-examdates)]">{state.error}</p>}
 

@@ -110,7 +110,7 @@ export function SubmitCopyForm({
           }}
           required
         />
-        <input type="hidden" name="fileUrl" value={file?.path ?? ""} />
+        <input type="hidden" name="fileUrl" value={file?.url ?? ""} />
 
         {state.error && (
           <p role="alert" className="text-sm text-[var(--color-section-examdates)]">
