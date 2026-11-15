@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { usePathname } from "next/navigation";
-import { Menu, X, Search, LogOut, KeyRound, UserRound } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Menu, X, Search, LogOut, KeyRound, UserRound, ArrowLeft } from "lucide-react";
 import type { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -17,8 +17,10 @@ export function SiteHeader({ session }: { session: Session | null }) {
   const { t } = useLocale();
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   if (pathname.startsWith("/admin")) return null;
+  const showBack = pathname !== "/";
 
   const navLinks: { key: string; href: string }[] = [
     { key: "nav.lectures", href: "/lectures" },
@@ -42,6 +44,18 @@ export function SiteHeader({ session }: { session: Session | null }) {
 
       {/* Main header */}
       <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
+        {showBack && (
+          <button
+            type="button"
+            onClick={() => router.back()}
+            aria-label={t("common.back")}
+            title={t("common.back")}
+            className="flex shrink-0 items-center gap-1 rounded-[var(--radius-sm)] px-2 py-2 text-sm font-medium text-muted-foreground hover:bg-surface-muted hover:text-foreground"
+          >
+            <ArrowLeft className="h-5 w-5" />
+            <span className="hidden sm:inline">{t("common.back")}</span>
+          </button>
+        )}
         <Link href="/" className="flex items-center gap-3 shrink-0">
           <Emblem variant="full" className="h-12 w-auto sm:h-14" />
           <div className="leading-tight">

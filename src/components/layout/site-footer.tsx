@@ -4,14 +4,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLocale } from "@/lib/i18n/locale-provider";
 
+const MONTHS: Record<"hi" | "en", string[]> = {
+  en: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+  hi: ["जनवरी", "फ़रवरी", "मार्च", "अप्रैल", "मई", "जून", "जुलाई", "अगस्त", "सितंबर", "अक्टूबर", "नवंबर", "दिसंबर"],
+};
+
 export function SiteFooter() {
-  const { t } = useLocale();
+  const { t, locale } = useLocale();
   const pathname = usePathname();
   if (pathname.startsWith("/admin")) return null;
-  const lastUpdated = new Date().toLocaleDateString(
-    typeof document !== "undefined" && document.documentElement.lang === "en" ? "en-IN" : "hi-IN",
-    { day: "2-digit", month: "long", year: "numeric" }
-  );
+  // Deterministic from `locale` (server and client agree on it), so no
+  // Intl/locale hydration mismatch.
+  const now = new Date();
+  const lastUpdated = `${now.getDate()} ${MONTHS[locale][now.getMonth()]} ${now.getFullYear()}`;
 
   return (
     <footer className="mt-12 border-t border-border bg-surface-muted pb-20 pt-10 text-sm md:pb-10">

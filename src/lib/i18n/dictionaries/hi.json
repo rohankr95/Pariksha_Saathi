@@ -132,7 +132,8 @@
     "language": "English",
     "previous": "पिछला",
     "next": "अगला",
-    "slideLabel": "स्लाइड {n}"
+    "slideLabel": "स्लाइड {n}",
+    "back": "वापस"
   },
   "search": {
     "comingSoonDesc": "व्याख्यान, नोट्स और पुस्तकों में खोज आगामी चरण में जोड़ी जाएगी।"

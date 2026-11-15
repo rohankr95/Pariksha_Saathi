@@ -132,7 +132,8 @@
     "language": "हिंदी",
     "previous": "Previous",
     "next": "Next",
-    "slideLabel": "Slide {n}"
+    "slideLabel": "Slide {n}",
+    "back": "Back"
   },
   "search": {
     "comingSoonDesc": "Search across lectures, notes, and books will be added in an upcoming phase."

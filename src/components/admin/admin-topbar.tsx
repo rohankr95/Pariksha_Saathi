@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X, LogOut, UserRound } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Menu, X, LogOut, UserRound, ArrowLeft, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import type { Role } from "@prisma/client";
 import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
@@ -11,20 +12,53 @@ import { LanguageToggle } from "@/components/layout/language-toggle";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { useLocale } from "@/lib/i18n/locale-provider";
 
-export function AdminTopbar({ name, role }: { name: string; role: Role }) {
+export function AdminTopbar({
+  name,
+  role,
+  sidebarCollapsed,
+  onToggleSidebar,
+}: {
+  name: string;
+  role: Role;
+  sidebarCollapsed?: boolean;
+  onToggleSidebar?: () => void;
+}) {
   const [open, setOpen] = useState(false);
   const { t } = useLocale();
+  const router = useRouter();
 
   return (
-    <div className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-surface px-4 py-3">
-      <button
-        onClick={() => setOpen(true)}
-        aria-label="Open admin menu"
-        className="rounded-[var(--radius-sm)] p-2 hover:bg-surface-muted lg:hidden"
-      >
-        <Menu className="h-5 w-5" />
-      </button>
-      <span className="text-sm font-semibold">{name}</span>
+    <div className="sticky top-0 z-30 flex items-center justify-between gap-2 border-b border-border bg-surface px-4 py-3">
+      <div className="flex min-w-0 items-center gap-1.5">
+        <button
+          onClick={() => setOpen(true)}
+          aria-label={t("admin.openMenu")}
+          className="rounded-[var(--radius-sm)] p-2 hover:bg-surface-muted lg:hidden"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
+        {onToggleSidebar && (
+          <button
+            onClick={onToggleSidebar}
+            aria-label={sidebarCollapsed ? t("admin.showSidebar") : t("admin.hideSidebar")}
+            aria-pressed={sidebarCollapsed}
+            title={sidebarCollapsed ? t("admin.showSidebar") : t("admin.hideSidebar")}
+            className="hidden rounded-[var(--radius-sm)] p-2 text-muted-foreground hover:bg-surface-muted hover:text-foreground lg:inline-flex"
+          >
+            {sidebarCollapsed ? <PanelLeftOpen className="h-5 w-5" /> : <PanelLeftClose className="h-5 w-5" />}
+          </button>
+        )}
+        <button
+          onClick={() => router.back()}
+          aria-label={t("common.back")}
+          title={t("common.back")}
+          className="flex items-center gap-1 rounded-[var(--radius-sm)] px-2 py-2 text-sm font-medium text-muted-foreground hover:bg-surface-muted hover:text-foreground"
+        >
+          <ArrowLeft className="h-4.5 w-4.5" />
+          <span className="hidden sm:inline">{t("common.back")}</span>
+        </button>
+        <span className="truncate text-sm font-semibold">{name}</span>
+      </div>
       <div className="flex items-center gap-2">
         <div className="hidden sm:block">
           <LanguageToggle />

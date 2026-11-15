@@ -260,5 +260,8 @@
       "CONTENT": "Content request",
       "OTHER": "Other"
     }
-  }
+  },
+  "openMenu": "Open menu",
+  "showSidebar": "Show sidebar",
+  "hideSidebar": "Hide sidebar"
 }
