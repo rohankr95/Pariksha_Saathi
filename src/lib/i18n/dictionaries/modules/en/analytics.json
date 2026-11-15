@@ -131,5 +131,19 @@
   "colLectureViews": "Views on their lectures",
   "roleSuperAdmin": "Admin",
   "granularityLabel": "View by",
-  "rangeLabel": "Time range"
+  "rangeLabel": "Time range",
+  "trafficTitle": "Site traffic",
+  "trafficNote": "Site opens counted once per visitor per browser session — students, teachers, admins and signed-out guests alike.",
+  "visitorsToday": "Visitors today",
+  "opensToday": "Opens today",
+  "visitorsWeek": "Visitors this week",
+  "visitorsAllTime": "Total unique visitors",
+  "chartTrafficDaily": "Unique visitors per day",
+  "chartTrafficWeekly": "Unique visitors per week",
+  "visitorsLabel": "unique visitors",
+  "colGuests": "Guests",
+  "colAdmins": "Admins",
+  "colVisitors": "Unique visitors",
+  "colOpens": "Opens",
+  "trafficRoleNote": "\"Guests\" are visitors who are not logged in."
 }

@@ -131,5 +131,19 @@
   "colLectureViews": "उनके व्याख्यानों के दृश्य",
   "roleSuperAdmin": "एडमिन",
   "granularityLabel": "अवधि",
-  "rangeLabel": "समय सीमा"
+  "rangeLabel": "समय सीमा",
+  "trafficTitle": "साइट ट्रैफ़िक",
+  "trafficNote": "प्रत्येक विज़िटर के प्रति ब्राउज़र सत्र में एक बार गिना गया साइट ओपन — विद्यार्थी, शिक्षक, एडमिन और बिना लॉगिन अतिथि सभी।",
+  "visitorsToday": "आज के विज़िटर",
+  "opensToday": "आज ओपन",
+  "visitorsWeek": "इस सप्ताह के विज़िटर",
+  "visitorsAllTime": "कुल अद्वितीय विज़िटर",
+  "chartTrafficDaily": "प्रतिदिन अद्वितीय विज़िटर",
+  "chartTrafficWeekly": "प्रति सप्ताह अद्वितीय विज़िटर",
+  "visitorsLabel": "अद्वितीय विज़िटर",
+  "colGuests": "अतिथि",
+  "colAdmins": "एडमिन",
+  "colVisitors": "अद्वितीय विज़िटर",
+  "colOpens": "ओपन",
+  "trafficRoleNote": "\"अतिथि\" वे विज़िटर हैं जो लॉगिन नहीं हैं।"
 }

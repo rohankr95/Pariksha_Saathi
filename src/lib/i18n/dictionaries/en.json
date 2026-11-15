@@ -54,18 +54,54 @@
     }
   },
   "sections": {
-    "lectures": { "title": "Lectures", "desc": "Subject-wise video lessons for Class 10 & 12" },
-    "notes": { "title": "Notes", "desc": "Chapter-wise downloadable notes" },
-    "books": { "title": "Books", "desc": "NCERT and reference book library" },
-    "stories": { "title": "Motivational Stories", "desc": "Stories of IAS officers, toppers and local achievers" },
-    "examDates": { "title": "Exam Dates", "desc": "Important dates for board & entrance exams" },
-    "career": { "title": "Career Roadmap", "desc": "Chart your career path" },
-    "classRequest": { "title": "Class Request", "desc": "Request a class on any topic" },
-    "doubtClass": { "title": "Doubt Class", "desc": "Talk directly to a teacher" },
-    "olympiad": { "title": "Olympiad", "desc": "National & state-level olympiad info" },
-    "quiz": { "title": "Quiz", "desc": "Practice and test your preparation" },
-    "leaderboard": { "title": "Leaderboard", "desc": "Top students of the district" },
-    "answerCopies": { "title": "Answer Copy Checking", "desc": "Get your answer sheet evaluated" }
+    "lectures": {
+      "title": "Lectures",
+      "desc": "Subject-wise video lessons for Class 10 & 12"
+    },
+    "notes": {
+      "title": "Notes",
+      "desc": "Chapter-wise downloadable notes"
+    },
+    "books": {
+      "title": "Books",
+      "desc": "NCERT and reference book library"
+    },
+    "stories": {
+      "title": "Motivational Stories",
+      "desc": "Stories of IAS officers, toppers and local achievers"
+    },
+    "examDates": {
+      "title": "Exam Dates",
+      "desc": "Important dates for board & entrance exams"
+    },
+    "career": {
+      "title": "Career Roadmap",
+      "desc": "Chart your career path"
+    },
+    "classRequest": {
+      "title": "Class Request",
+      "desc": "Request a class on any topic"
+    },
+    "doubtClass": {
+      "title": "Doubt Class",
+      "desc": "Talk directly to a teacher"
+    },
+    "olympiad": {
+      "title": "Olympiad",
+      "desc": "National & state-level olympiad info"
+    },
+    "quiz": {
+      "title": "Quiz",
+      "desc": "Practice and test your preparation"
+    },
+    "leaderboard": {
+      "title": "Leaderboard",
+      "desc": "Top students of the district"
+    },
+    "answerCopies": {
+      "title": "Answer Copy Checking",
+      "desc": "Get your answer sheet evaluated"
+    }
   },
   "auth": {
     "loginTitle": "Login",
@@ -126,6 +162,7 @@
     "accessibility": "Accessibility Statement",
     "disclaimer": "Disclaimer",
     "privacy": "Privacy Policy",
-    "copyright": "© District Administration, Surajpur. All rights reserved."
+    "copyright": "© District Administration, Surajpur. All rights reserved.",
+    "feedback": "Feedback & Suggestions"
   }
 }

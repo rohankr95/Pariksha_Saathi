@@ -33,7 +33,9 @@ import enToppers from "./dictionaries/modules/en/toppers.json";
 import hiAnalytics from "./dictionaries/modules/hi/analytics.json";
 import enAnalytics from "./dictionaries/modules/en/analytics.json";
 import hiAccount from "./dictionaries/modules/hi/account.json";
+import hiFeedback from "./dictionaries/modules/hi/feedback.json";
 import enAccount from "./dictionaries/modules/en/account.json";
+import enFeedback from "./dictionaries/modules/en/feedback.json";
 
 export type Locale = "hi" | "en";
 export const LOCALE_COOKIE = "ps_locale";
@@ -62,6 +64,7 @@ const hi = {
   toppers: hiToppers,
   analytics: hiAnalytics,
   account: hiAccount,
+  feedback: hiFeedback,
 };
 const en = {
   ...enCore,
@@ -82,6 +85,7 @@ const en = {
   toppers: enToppers,
   analytics: enAnalytics,
   account: enAccount,
+  feedback: enFeedback,
 };
 
 export const dictionaries = { hi, en } as const;

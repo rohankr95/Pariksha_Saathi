@@ -231,5 +231,34 @@
       "weakPassword": "Password must be at least 8 characters.",
       "mismatch": "Password and confirmation don't match."
     }
+  },
+  "feedback": {
+    "title": "Feedback",
+    "subtitle": "Suggestions and reports submitted through the portal.",
+    "filterAll": "All",
+    "filterNew": "New",
+    "filterRead": "Read",
+    "filterResolved": "Resolved",
+    "empty": "No feedback here yet.",
+    "from": "From",
+    "anonymous": "Anonymous",
+    "guest": "Guest",
+    "noEmail": "No email provided",
+    "markRead": "Mark read",
+    "markResolved": "Mark resolved",
+    "reopen": "Reopen",
+    "delete": "Delete",
+    "deleteConfirm": "Delete this feedback permanently?",
+    "status": {
+      "NEW": "New",
+      "READ": "Read",
+      "RESOLVED": "Resolved"
+    },
+    "categories": {
+      "SUGGESTION": "Suggestion",
+      "PROBLEM": "Problem",
+      "CONTENT": "Content request",
+      "OTHER": "Other"
+    }
   }
 }
