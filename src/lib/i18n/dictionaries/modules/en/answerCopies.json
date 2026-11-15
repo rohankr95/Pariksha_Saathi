@@ -1,5 +1,7 @@
 {
-  "meta": { "title": "Answer Copy Checking | Pariksha Saathi" },
+  "meta": {
+    "title": "Answer Copy Checking | Pariksha Saathi"
+  },
   "page": {
     "title": "Answer Copy Checking",
     "subtitle": "Get your answer sheet evaluated by a teacher",
@@ -62,7 +64,30 @@
     "noPending": "No pending answer copies.",
     "pendingCount": "{count} pending",
     "recentActivityHeading": "Recent Activity",
-    "emptyRecent": "No answer copies submitted yet."
+    "emptyRecent": "No answer copies submitted yet.",
+    "fullListHeading": "All Requests",
+    "fullListNote": "Every answer-copy request across all teachers.",
+    "search": "Search by paper, student or teacher",
+    "allStatuses": "All statuses",
+    "allTeachers": "All teachers",
+    "statusPending": "Pending (all open)",
+    "filter": "Filter",
+    "total": "{count} requests",
+    "statTotal": "Total requests",
+    "statPending": "Pending",
+    "statChecked": "Checked",
+    "colPaper": "Paper",
+    "colStudent": "Student",
+    "colTeacher": "Teacher",
+    "colSubject": "Subject",
+    "colClass": "Class",
+    "colStatus": "Status",
+    "colSubmitted": "Submitted",
+    "colMarks": "Marks",
+    "colFiles": "Files",
+    "original": "Original",
+    "checked": "Checked",
+    "empty": "No requests match these filters."
   },
   "errors": {
     "studentOnly": "Only students can submit answer copies",

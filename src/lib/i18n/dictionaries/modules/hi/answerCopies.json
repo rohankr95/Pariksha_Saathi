@@ -1,5 +1,7 @@
 {
-  "meta": { "title": "उत्तरपुस्तिका जाँच | परीक्षा साथी" },
+  "meta": {
+    "title": "उत्तरपुस्तिका जाँच | परीक्षा साथी"
+  },
   "page": {
     "title": "उत्तरपुस्तिका जाँच",
     "subtitle": "अपनी उत्तरपुस्तिका शिक्षक से जँचवाएँ",
@@ -62,7 +64,30 @@
     "noPending": "कोई लंबित उत्तरपुस्तिका नहीं है।",
     "pendingCount": "{count} लंबित",
     "recentActivityHeading": "हाल की गतिविधि",
-    "emptyRecent": "अभी कोई उत्तरपुस्तिका जमा नहीं हुई है।"
+    "emptyRecent": "अभी कोई उत्तरपुस्तिका जमा नहीं हुई है।",
+    "fullListHeading": "सभी अनुरोध",
+    "fullListNote": "सभी शिक्षकों के पास आए उत्तरपुस्तिका जाँच के सभी अनुरोध।",
+    "search": "पेपर, विद्यार्थी या शिक्षक से खोजें",
+    "allStatuses": "सभी स्थितियाँ",
+    "allTeachers": "सभी शिक्षक",
+    "statusPending": "लंबित (सभी खुले)",
+    "filter": "फ़िल्टर",
+    "total": "{count} अनुरोध",
+    "statTotal": "कुल अनुरोध",
+    "statPending": "लंबित",
+    "statChecked": "जाँचे गए",
+    "colPaper": "पेपर",
+    "colStudent": "विद्यार्थी",
+    "colTeacher": "शिक्षक",
+    "colSubject": "विषय",
+    "colClass": "कक्षा",
+    "colStatus": "स्थिति",
+    "colSubmitted": "जमा तिथि",
+    "colMarks": "अंक",
+    "colFiles": "फ़ाइलें",
+    "original": "मूल",
+    "checked": "जाँची गई",
+    "empty": "इन फ़िल्टर से कोई अनुरोध नहीं मिला।"
   },
   "errors": {
     "studentOnly": "केवल विद्यार्थी उत्तरपुस्तिका जमा कर सकते हैं",

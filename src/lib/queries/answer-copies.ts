@@ -1,3 +1,4 @@
+import type { AnswerCopyStatus, Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
 export function getSubjectTeachers(subjectId: string) {
@@ -39,17 +40,79 @@ export function getTeacherCheckedCopies(teacherId: string) {
   });
 }
 
+const PENDING_STATUSES = ["SUBMITTED", "ASSIGNED", "UNDER_EVALUATION"] as const;
+
+/** Teachers who have at least one answer copy assigned — for the Super Admin filter dropdown. */
+export async function getAnswerCopyTeachers() {
+  const groups = await prisma.answerCopy.groupBy({ by: ["teacherId"] });
+  const ids = groups.map((g) => g.teacherId);
+  if (ids.length === 0) return [];
+  const teachers = await prisma.user.findMany({
+    where: { id: { in: ids } },
+    select: { id: true, name: true },
+    orderBy: { name: "asc" },
+  });
+  return teachers;
+}
+
+export async function getAnswerCopyStatusCounts() {
+  const groups = await prisma.answerCopy.groupBy({ by: ["status"], _count: { _all: true } });
+  const byStatus = new Map(groups.map((g) => [g.status, g._count._all]));
+  const total = groups.reduce((sum, g) => sum + g._count._all, 0);
+  const pending = PENDING_STATUSES.reduce((sum, s) => sum + (byStatus.get(s) ?? 0), 0);
+  return { total, pending, checked: (byStatus.get("CHECKED") ?? 0) + (byStatus.get("RETURNED") ?? 0) };
+}
+
+/** Every answer-copy request for Super Admin, filterable by status / teacher / search and paged. */
+export async function getAdminAnswerCopies(params: {
+  status?: AnswerCopyStatus | "PENDING";
+  teacherId?: string;
+  q?: string;
+  page: number;
+  pageSize?: number;
+}) {
+  const pageSize = params.pageSize ?? 20;
+  const where: Prisma.AnswerCopyWhereInput = {
+    ...(params.status === "PENDING"
+      ? { status: { in: [...PENDING_STATUSES] } }
+      : params.status
+        ? { status: params.status }
+        : {}),
+    ...(params.teacherId ? { teacherId: params.teacherId } : {}),
+    ...(params.q
+      ? {
+          OR: [
+            { paperName: { contains: params.q, mode: "insensitive" } },
+            { student: { name: { contains: params.q, mode: "insensitive" } } },
+            { teacher: { name: { contains: params.q, mode: "insensitive" } } },
+          ],
+        }
+      : {}),
+  };
+
+  const [items, total] = await Promise.all([
+    prisma.answerCopy.findMany({
+      where,
+      include: {
+        student: { select: { name: true, classLevel: true } },
+        teacher: { select: { name: true } },
+        subject: { select: { nameHi: true, nameEn: true } },
+      },
+      orderBy: { submittedAt: "desc" },
+      skip: (params.page - 1) * pageSize,
+      take: pageSize,
+    }),
+    prisma.answerCopy.count({ where }),
+  ]);
+  return { items, total, totalPages: Math.max(1, Math.ceil(total / pageSize)) };
+}
+
 export async function getAdminAnswerCopyOverview() {
-  const [pendingByTeacher, recent, avgTurnaround] = await Promise.all([
+  const [pendingByTeacher, avgTurnaround] = await Promise.all([
     prisma.answerCopy.groupBy({
       by: ["teacherId"],
-      where: { status: { in: ["SUBMITTED", "ASSIGNED", "UNDER_EVALUATION"] } },
+      where: { status: { in: [...PENDING_STATUSES] } },
       _count: { _all: true },
-    }),
-    prisma.answerCopy.findMany({
-      include: { student: { select: { name: true } }, teacher: { select: { name: true } }, subject: { select: { nameHi: true } } },
-      orderBy: { submittedAt: "desc" },
-      take: 30,
     }),
     prisma.answerCopy.findMany({
       where: { status: { in: ["CHECKED", "RETURNED"] }, checkedAt: { not: null } },
@@ -73,5 +136,5 @@ export async function getAdminAnswerCopyOverview() {
     ? avgTurnaround.reduce((sum, c) => sum + (c.checkedAt!.getTime() - c.submittedAt.getTime()) / 3600000, 0) / avgTurnaround.length
     : null;
 
-  return { pending, recent, turnaroundHours };
+  return { pending, turnaroundHours };
 }
