@@ -8,6 +8,7 @@ import { AdminPagination } from "@/components/admin/pagination";
 import { ANSWER_COPY_STATUS_COLOR } from "@/lib/answer-copy-status";
 import { CLASS_LEVEL_LABEL } from "@/lib/queries/curriculum";
 import { getAdminAnswerCopies, getAnswerCopyTeachers } from "@/lib/queries/answer-copies";
+import { resolveFileHref } from "@/lib/file-url";
 import { getT, getServerLocale } from "@/lib/i18n/server";
 
 const STATUSES: AnswerCopyStatus[] = ["SUBMITTED", "ASSIGNED", "UNDER_EVALUATION", "CHECKED", "RETURNED"];
@@ -114,7 +115,7 @@ export async function AdminAnswerCopyList({ sp }: { sp: Record<string, string | 
                   <td className="whitespace-nowrap p-3">
                     <div className="flex items-center gap-2">
                       <a
-                        href={c.fileUrl}
+                        href={resolveFileHref(c.fileUrl)}
                         target="_blank"
                         rel="noreferrer"
                         className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
@@ -123,7 +124,7 @@ export async function AdminAnswerCopyList({ sp }: { sp: Record<string, string | 
                       </a>
                       {c.checkedFileUrl && (
                         <a
-                          href={c.checkedFileUrl}
+                          href={resolveFileHref(c.checkedFileUrl)}
                           target="_blank"
                           rel="noreferrer"
                           className="inline-flex items-center gap-1 text-xs font-medium text-success hover:underline"
