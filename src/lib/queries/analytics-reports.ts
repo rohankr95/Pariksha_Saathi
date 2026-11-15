@@ -426,3 +426,90 @@ export async function getContributors(): Promise<ContributorRow[]> {
     lastUpload: r.lastUpload,
   }));
 }
+
+// ---------------------------------------------------------------- site traffic
+
+function istDayKey(offsetDays = 0): string {
+  const d = new Date(Date.now() + 330 * 60 * 1000 - offsetDays * 86400000);
+  return d.toISOString().slice(0, 10);
+}
+
+function istMondayKey(): string {
+  const d = new Date(Date.now() + 330 * 60 * 1000);
+  const dow = d.getUTCDay();
+  d.setUTCDate(d.getUTCDate() - (dow === 0 ? 6 : dow - 1));
+  return d.toISOString().slice(0, 10);
+}
+
+export type TrafficSummary = {
+  todayVisitors: number;
+  todayOpens: number;
+  weekVisitors: number;
+  totalVisitorsAllTime: number;
+};
+
+export async function getTrafficSummary(): Promise<TrafficSummary> {
+  const today = istDayKey(0);
+  const monday = istMondayKey();
+  const [todayAgg, weekAgg, allTime] = await Promise.all([
+    prisma.$queryRawUnsafe<{ visitors: bigint; opens: bigint }[]>(
+      `SELECT COUNT(DISTINCT "visitorKey") AS visitors, COALESCE(SUM(visits), 0) AS opens FROM "SiteVisit" WHERE day = $1`,
+      today
+    ),
+    prisma.$queryRawUnsafe<{ visitors: bigint }[]>(
+      `SELECT COUNT(DISTINCT "visitorKey") AS visitors FROM "SiteVisit" WHERE day >= $1`,
+      monday
+    ),
+    prisma.$queryRawUnsafe<{ visitors: bigint }[]>(`SELECT COUNT(DISTINCT "visitorKey") AS visitors FROM "SiteVisit"`),
+  ]);
+  return {
+    todayVisitors: n(todayAgg[0]?.visitors),
+    todayOpens: n(todayAgg[0]?.opens),
+    weekVisitors: n(weekAgg[0]?.visitors),
+    totalVisitorsAllTime: n(allTime[0]?.visitors),
+  };
+}
+
+export type TrafficRow = {
+  date: string;
+  students: number;
+  teachers: number;
+  admins: number;
+  guests: number;
+  visitors: number;
+  opens: number;
+};
+
+/** Daily/weekly unique visitors split by role, plus total opens, oldest first. */
+export async function getTrafficBreakdown(g: Granularity, periods: number): Promise<TrafficRow[]> {
+  // SiteVisit.day is already an IST "YYYY-MM-DD" string, so filter and bucket
+  // on it directly — no timezone conversion needed.
+  const { keys } = bucketWindow(g, periods);
+  const startKey = keys[0];
+  const bucket = g === "week" ? `to_char(date_trunc('week', day::date), 'YYYY-MM-DD')` : `day`;
+
+  const rows = await prisma.$queryRawUnsafe<{ key: string; role: string; visitors: bigint; opens: bigint }[]>(
+    `
+    SELECT ${bucket} AS key, role, COUNT(DISTINCT "visitorKey") AS visitors, COALESCE(SUM(visits), 0) AS opens
+    FROM "SiteVisit"
+    WHERE day >= $1
+    GROUP BY 1, role
+  `,
+    startKey
+  );
+
+  const byKey = new Map<string, TrafficRow>();
+  for (const key of keys) byKey.set(key, { date: key, students: 0, teachers: 0, admins: 0, guests: 0, visitors: 0, opens: 0 });
+  for (const r of rows) {
+    const row = byKey.get(r.key);
+    if (!row) continue;
+    const v = n(r.visitors);
+    if (r.role === "STUDENT") row.students += v;
+    else if (r.role === "TEACHER") row.teachers += v;
+    else if (r.role === "SUPER_ADMIN") row.admins += v;
+    else row.guests += v;
+    row.visitors += v;
+    row.opens += n(r.opens);
+  }
+  return keys.map((k) => byKey.get(k)!);
+}

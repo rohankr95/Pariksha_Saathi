@@ -705,3 +705,48 @@ model AuditLog {
   @@index([action])
   @@index([createdAt])
 }
+
+// ─────────────────────────────────────────────────────────────────────────
+// Site traffic + feedback (Phase 8)
+// ─────────────────────────────────────────────────────────────────────────
+
+// One row per unique visitor per India-day. `visitorKey` is the user id for a
+// logged-in visitor, or a random per-browser id for an anonymous one; `visits`
+// counts how many times that visitor opened the site that day. Lets the report
+// show daily unique visitors by role and total daily opens without a per-hit log.
+model SiteVisit {
+  id         String   @id @default(cuid())
+  day        String // "YYYY-MM-DD" in Asia/Kolkata
+  visitorKey String
+  role       String // STUDENT | TEACHER | SUPER_ADMIN | GUEST
+  visits     Int      @default(1)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([day, visitorKey])
+  @@index([day])
+  @@index([role])
+}
+
+enum FeedbackStatus {
+  NEW
+  READ
+  RESOLVED
+}
+
+// Public feedback / suggestions. Submittable without logging in; only a Super
+// Admin can read them. userId is set when the sender happened to be logged in.
+model Feedback {
+  id        String         @id @default(cuid())
+  name      String?
+  email     String?
+  category  String?
+  message   String
+  status    FeedbackStatus @default(NEW)
+  userId    String?
+  userRole  String?
+  createdAt DateTime       @default(now())
+
+  @@index([status])
+  @@index([createdAt])
+}

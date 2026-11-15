@@ -11,7 +11,7 @@ function pct(part: number, whole: number) {
   return whole > 0 ? `${Math.round((part / whole) * 100)}%` : "—";
 }
 
-export async function StudentsTab({ t, locale }: { t: T; locale: "hi" | "en" }) {
+export async function StudentsTab({ t, locale, isAdmin }: { t: T; locale: "hi" | "en"; isAdmin: boolean }) {
   const [{ rows, totals }, classSummary, schools] = await Promise.all([
     getBlockClassReport(),
     getClassSummary(),
@@ -38,10 +38,15 @@ export async function StudentsTab({ t, locale }: { t: T; locale: "hi" | "en" }) 
           <p className="mt-3 flex items-start gap-2 text-xs text-muted-foreground">
             <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[var(--color-section-leaderboard)]" aria-hidden="true" />
             <span>
-              {t("analytics.otherBlockHint", { count: other.total })}{" "}
-              <Link href="/admin/students" className="font-medium text-primary hover:underline">
-                {t("admin.students.cleanup.title")} →
-              </Link>
+              {t("analytics.otherBlockHint", { count: other.total })}
+              {isAdmin && (
+                <>
+                  {" "}
+                  <Link href="/admin/students" className="font-medium text-primary hover:underline">
+                    {t("admin.students.cleanup.title")} →
+                  </Link>
+                </>
+              )}
             </span>
           </p>
         )}

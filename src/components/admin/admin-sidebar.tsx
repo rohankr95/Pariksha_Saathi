@@ -8,7 +8,15 @@ import { cn } from "@/lib/utils";
 import { Emblem } from "@/components/layout/emblem";
 import { useLocale } from "@/lib/i18n/locale-provider";
 
-export function AdminSidebar({ role, className }: { role: Role; className?: string }) {
+export function AdminSidebar({
+  role,
+  className,
+  onNavigate,
+}: {
+  role: Role;
+  className?: string;
+  onNavigate?: () => void;
+}) {
   const pathname = usePathname();
   const { locale, t } = useLocale();
   const items = ADMIN_NAV.filter((item) => item.roles.includes(role as "TEACHER" | "SUPER_ADMIN"));
@@ -26,6 +34,7 @@ export function AdminSidebar({ role, className }: { role: Role; className?: stri
           <Link
             key={item.slug}
             href={item.href}
+            onClick={onNavigate}
             aria-current={active ? "page" : undefined}
             className={cn(
               "flex items-center gap-2.5 rounded-[var(--radius-md)] px-3 py-2.5 text-sm font-medium transition-colors",

@@ -49,6 +49,11 @@ export function SiteFooter() {
                 {t("footer.disclaimer")}
               </Link>
             </li>
+            <li>
+              <Link href="/feedback" className="hover:text-foreground">
+                {t("footer.feedback")}
+              </Link>
+            </li>
           </ul>
         </div>
 

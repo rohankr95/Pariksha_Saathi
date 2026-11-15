@@ -11,6 +11,7 @@ import { LOCALE_COOKIE, DEFAULT_LOCALE, type Locale } from "@/lib/i18n";
 import { ThemeProvider } from "@/components/theme-provider";
 import { RegisterServiceWorker } from "@/components/pwa/register-sw";
 import { InstallPrompt } from "@/components/pwa/install-prompt";
+import { TrafficBeacon } from "@/components/traffic-beacon";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -77,6 +78,7 @@ export default async function RootLayout({
             <BottomNav />
             <InstallPrompt />
             <RegisterServiceWorker />
+            <TrafficBeacon />
           </LocaleProvider>
         </ThemeProvider>
       </body>

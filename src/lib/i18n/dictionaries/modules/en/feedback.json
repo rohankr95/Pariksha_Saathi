@@ -1,0 +1,29 @@
+{
+  "meta": { "title": "Feedback & Suggestions | Pariksha Saathi" },
+  "public": {
+    "title": "Feedback & Suggestions",
+    "subtitle": "Tell us what's working and what could be better. You don't need to log in.",
+    "name": "Your name (optional)",
+    "email": "Email (optional)",
+    "emailHint": "Add it only if you'd like us to be able to follow up.",
+    "category": "Type",
+    "message": "Your feedback",
+    "messagePlaceholder": "Share a suggestion, report a problem, or tell us what you'd like to see.",
+    "submit": "Send feedback",
+    "submitting": "Sending...",
+    "success": "Thank you! Your feedback has been sent to the district team.",
+    "sendAnother": "Send another",
+    "categories": {
+      "SUGGESTION": "Suggestion",
+      "PROBLEM": "Report a problem",
+      "CONTENT": "Content request",
+      "OTHER": "Other"
+    },
+    "errors": {
+      "tooShort": "Please write at least a few words.",
+      "tooLong": "Feedback is too long (max 2000 characters).",
+      "email": "Please enter a valid email, or leave it blank.",
+      "generic": "Something went wrong. Please try again."
+    }
+  }
+}

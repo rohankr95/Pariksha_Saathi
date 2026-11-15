@@ -14,7 +14,8 @@ export default async function AdminAnalyticsPage({
 }: {
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
-  await requireRole(["SUPER_ADMIN"]);
+  const session = await requireRole(["TEACHER", "SUPER_ADMIN"]);
+  const isAdmin = session.user.role === "SUPER_ADMIN";
   const t = await getT();
   const locale = await getServerLocale();
   const params = parseReportParams(await searchParams);
@@ -49,7 +50,7 @@ export default async function AdminAnalyticsPage({
       </nav>
 
       {params.tab === "overview" && <OverviewTab t={t} params={params} />}
-      {params.tab === "students" && <StudentsTab t={t} locale={locale} />}
+      {params.tab === "students" && <StudentsTab t={t} locale={locale} isAdmin={isAdmin} />}
       {params.tab === "activity" && <ActivityTab t={t} params={params} locale={locale} />}
       {params.tab === "videos" && <VideosTab t={t} params={params} locale={locale} />}
       {params.tab === "uploads" && <UploadsTab t={t} params={params} />}

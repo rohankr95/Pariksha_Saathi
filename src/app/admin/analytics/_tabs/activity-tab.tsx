@@ -1,10 +1,12 @@
+import { Eye, Globe, MousePointerClick, Users } from "lucide-react";
 import { TrendLineChart } from "@/components/admin/analytics/trend-line-chart";
 import { TrendBarChart } from "@/components/admin/analytics/trend-bar-chart";
+import { StatTile } from "@/components/admin/analytics/stat-tile";
 import { formatPeriod } from "@/components/admin/analytics/format-date";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { BLOCKS } from "@/lib/blocks";
-import { getActivityBreakdown } from "@/lib/queries/analytics-reports";
+import { getActivityBreakdown, getTrafficBreakdown, getTrafficSummary } from "@/lib/queries/analytics-reports";
 import { DataTable, SectionTitle, SegmentLinks, Td } from "./controls";
 import { RANGE_PRESETS, reportHref, type ReportParams } from "./params";
 
@@ -35,7 +37,11 @@ export function PeriodControls({ t, params }: { t: T; params: ReportParams }) {
 
 export async function ActivityTab({ t, params, locale }: { t: T; params: ReportParams; locale: "hi" | "en" }) {
   const weekly = params.g === "week";
-  const rows = await getActivityBreakdown(params.g, params.n, params.block);
+  const [rows, traffic, trafficSummary] = await Promise.all([
+    getActivityBreakdown(params.g, params.n, params.block),
+    getTrafficBreakdown(params.g, params.n),
+    getTrafficSummary(),
+  ]);
 
   return (
     <>
@@ -59,6 +65,50 @@ export async function ActivityTab({ t, params, locale }: { t: T; params: ReportP
         </form>
       </div>
 
+      {/* Site traffic */}
+      <SectionTitle title={t("analytics.trafficTitle")} note={t("analytics.trafficNote")} />
+      <div className="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <StatTile label={t("analytics.visitorsToday")} value={trafficSummary.todayVisitors} icon={Eye} color="--color-section-doubtclass" />
+        <StatTile label={t("analytics.opensToday")} value={trafficSummary.todayOpens} icon={MousePointerClick} color="--color-section-doubtclass" />
+        <StatTile label={t("analytics.visitorsWeek")} value={trafficSummary.weekVisitors} icon={Users} color="--success" />
+        <StatTile label={t("analytics.visitorsAllTime")} value={trafficSummary.totalVisitorsAllTime} icon={Globe} color="--color-section-career" />
+      </div>
+      <TrendLineChart
+        data={traffic.map((r) => ({ date: r.date, count: r.visitors }))}
+        color="var(--color-section-doubtclass)"
+        caption={weekly ? t("analytics.chartTrafficWeekly") : t("analytics.chartTrafficDaily")}
+        valueLabel={t("analytics.visitorsLabel")}
+        weekly={weekly}
+        wide
+      />
+      <div className="mt-4">
+        <DataTable
+          head={[
+            weekly ? t("analytics.colWeek") : t("analytics.colDay"),
+            t("analytics.colStudents"),
+            t("analytics.colTeacher"),
+            t("analytics.colAdmins"),
+            t("analytics.colGuests"),
+            t("analytics.colVisitors"),
+            t("analytics.colOpens"),
+          ]}
+        >
+          {[...traffic].reverse().map((r) => (
+            <tr key={r.date}>
+              <Td className="whitespace-nowrap font-medium">{formatPeriod(r.date, weekly)}</Td>
+              <Td num>{r.students}</Td>
+              <Td num>{r.teachers}</Td>
+              <Td num>{r.admins}</Td>
+              <Td num>{r.guests}</Td>
+              <Td num className="font-semibold">{r.visitors}</Td>
+              <Td num className="text-muted-foreground">{r.opens}</Td>
+            </tr>
+          ))}
+        </DataTable>
+        <p className="mt-1.5 text-xs text-muted-foreground">{t("analytics.trafficRoleNote")}</p>
+      </div>
+
+      <div className="mt-8" />
       <SectionTitle title={t("analytics.activityTitle")} note={t("analytics.activityNote")} />
 
       <div className="grid gap-4 lg:grid-cols-2">
