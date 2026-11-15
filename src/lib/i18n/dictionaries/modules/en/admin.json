@@ -194,5 +194,42 @@
       "empty": "No students match these filters.",
       "inactive": "Inactive"
     }
+  },
+  "administrators": {
+    "title": "Administrators",
+    "subtitle": "{count} Super Admin accounts. Super Admins have full access to the portal.",
+    "searchPlaceholder": "Search by name or email",
+    "addLabel": "Add Super Admin",
+    "empty": "No administrators found.",
+    "newTitle": "Add a Super Admin",
+    "you": "You",
+    "colName": "Name",
+    "colContact": "Contact",
+    "colCreated": "Created",
+    "colStatus": "Status",
+    "colActions": "Actions",
+    "active": "Active",
+    "inactive": "Inactive",
+    "selfHint": "This is you",
+    "resetPassword": "Reset password",
+    "resetConfirm": "Reset this administrator's password and email them a new temporary one?",
+    "form": {
+      "notice": "A Super Admin can manage every part of the portal, including other administrators. Only create accounts for people you fully trust.",
+      "name": "Full name",
+      "email": "Email",
+      "emailHint": "They will log in with this email. It must not already be in use.",
+      "mobile": "Mobile number (optional)",
+      "password": "Password",
+      "passwordHint": "At least 8 characters. Share it securely; they should change it after first login.",
+      "confirmPassword": "Confirm password",
+      "saving": "Creating...",
+      "add": "Create Super Admin"
+    },
+    "errors": {
+      "invalid": "Invalid information",
+      "emailTaken": "This email is already used by another account.",
+      "weakPassword": "Password must be at least 8 characters.",
+      "mismatch": "Password and confirmation don't match."
+    }
   }
 }
