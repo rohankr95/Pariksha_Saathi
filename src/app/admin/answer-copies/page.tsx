@@ -1,17 +1,23 @@
-import { FileCheck2 } from "lucide-react";
+import { FileCheck2, Clock, Files } from "lucide-react";
 import { requireRole } from "@/lib/require-role";
 import {
   getTeacherAnswerCopyQueue,
   getTeacherCheckedCopies,
   getAdminAnswerCopyOverview,
+  getAnswerCopyStatusCounts,
 } from "@/lib/queries/answer-copies";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { TeacherQueueItem } from "@/components/answer-copies/teacher-queue-item";
-import { ANSWER_COPY_STATUS_COLOR } from "@/lib/answer-copy-status";
+import { StatTile, StatGroup } from "@/components/admin/analytics/stat-tile";
 import { getT } from "@/lib/i18n/server";
+import { AdminAnswerCopyList } from "./admin-list";
 
-export default async function AdminAnswerCopiesPage() {
+export default async function AdminAnswerCopiesPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | undefined>>;
+}) {
   const t = await getT();
   const session = await requireRole(["TEACHER", "SUPER_ADMIN"]);
 
@@ -60,7 +66,11 @@ export default async function AdminAnswerCopiesPage() {
     );
   }
 
-  const { pending, recent, turnaroundHours } = await getAdminAnswerCopyOverview();
+  const sp = await searchParams;
+  const [{ pending, turnaroundHours }, counts] = await Promise.all([
+    getAdminAnswerCopyOverview(),
+    getAnswerCopyStatusCounts(),
+  ]);
 
   return (
     <div>
@@ -70,6 +80,13 @@ export default async function AdminAnswerCopiesPage() {
           {t("answerCopies.admin.avgTurnaround", { value: turnaroundHours !== null ? `${turnaroundHours.toFixed(1)}h` : "—" })}
         </p>
       </div>
+
+      <StatGroup title={t("answerCopies.admin.overviewTitle")}>
+        <StatTile label={t("answerCopies.admin.statTotal")} value={counts.total} icon={Files} color="--color-section-answercopies" />
+        <StatTile label={t("answerCopies.admin.statPending")} value={counts.pending} icon={Clock} color="--color-section-examdates" />
+        <StatTile label={t("answerCopies.admin.statChecked")} value={counts.checked} icon={FileCheck2} color="--success" />
+      </StatGroup>
+      <div className="mt-8" />
 
       <h2 className="mb-3 font-sans text-lg font-semibold text-foreground">{t("answerCopies.admin.byTeacherHeading")}</h2>
       {pending.length === 0 ? (
@@ -87,32 +104,7 @@ export default async function AdminAnswerCopiesPage() {
         </div>
       )}
 
-      <h2 className="mb-3 font-sans text-lg font-semibold text-foreground">{t("answerCopies.admin.recentActivityHeading")}</h2>
-      {recent.length === 0 ? (
-        <EmptyState icon={FileCheck2} title={t("answerCopies.admin.emptyRecent")} />
-      ) : (
-        <div className="space-y-2">
-          {recent.map((c) => (
-            <Card key={c.id} className="flex flex-wrap items-center justify-between gap-2 p-3">
-              <div className="text-sm">
-                <p className="font-medium text-foreground">{c.paperName}</p>
-                <p className="text-xs text-muted-foreground">
-                  {c.student.name} → {c.teacher.name} · {c.subject.nameHi}
-                </p>
-              </div>
-              <span
-                className="rounded-full px-2.5 py-0.5 text-xs font-semibold"
-                style={{
-                  backgroundColor: `color-mix(in srgb, var(${ANSWER_COPY_STATUS_COLOR[c.status]}) 15%, transparent)`,
-                  color: `var(${ANSWER_COPY_STATUS_COLOR[c.status]})`,
-                }}
-              >
-                {t(`answerCopies.status.${c.status}`)}
-              </span>
-            </Card>
-          ))}
-        </div>
-      )}
+      <AdminAnswerCopyList sp={sp} />
     </div>
   );
 }
