@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ClassLevel } from "@prisma/client";
-import { Eye, Users, PlayCircle, CheckCircle2, Download, Clapperboard } from "lucide-react";
+import { Eye, Users, PlayCircle, CheckCircle2, Download, Clapperboard, UserX } from "lucide-react";
 import { StatTile, StatGroup } from "@/components/admin/analytics/stat-tile";
 import { TrendBarChart } from "@/components/admin/analytics/trend-bar-chart";
 import { LectureThumbnail } from "@/components/lectures/thumbnail";
@@ -47,7 +47,7 @@ export async function VideosTab({ t, params, locale }: { t: T; params: ReportPar
         <StatTile label={t("analytics.publishedLectures")} value={totals.publishedLectures} icon={Clapperboard} color="--color-section-lectures" />
         <StatTile label={t("analytics.lectureViews")} value={totals.views} sublabel={t("analytics.lectureViewsSub")} icon={Eye} color="--color-section-lectures" />
         <StatTile label={t("analytics.uniqueViewers")} value={totals.uniqueViewers} sublabel={t("analytics.uniqueViewersSub")} icon={Users} color="--success" />
-        <StatTile label={t("analytics.watchHours")} value={totals.watchHours.toFixed(1)} sublabel={t("analytics.watchHoursSublabel")} icon={PlayCircle} color="--color-section-lectures" />
+        <StatTile label={t("analytics.studentWatchHours")} value={totals.watchHours.toFixed(1)} sublabel={t("analytics.studentWatchHoursSub")} icon={PlayCircle} color="--color-section-lectures" />
         <StatTile
           label={t("analytics.completionRate")}
           value={totals.completionRate === null ? "—" : `${Math.round(totals.completionRate)}%`}
@@ -56,6 +56,8 @@ export async function VideosTab({ t, params, locale }: { t: T; params: ReportPar
           color="--success"
         />
         <StatTile label={t("analytics.noteDownloads")} value={totals.noteDownloads} icon={Download} color="--color-section-notes" />
+        <StatTile label={t("analytics.guestWatchHours")} value={totals.guestWatchHours.toFixed(1)} sublabel={t("analytics.guestWatchHoursSub")} icon={UserX} color="--color-section-career" />
+        <StatTile label={t("analytics.guestViewers")} value={totals.guestViewers} sublabel={t("analytics.guestViewersSub")} icon={UserX} color="--color-section-career" />
       </StatGroup>
 
       <section className="mt-8">

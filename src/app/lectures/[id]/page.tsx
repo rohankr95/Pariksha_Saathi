@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ExternalLink, Clock, Eye, User } from "lucide-react";
+import { ExternalLink, Clock, Eye, User, PlayCircle } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { getLectureById, getRelatedLectures, getWatchedLectureIds } from "@/lib/queries/lectures";
 import { youtubeNoCookieEmbedUrl, youtubeWatchUrl } from "@/lib/youtube";
@@ -32,7 +32,7 @@ export default async function LectureDetailPage({
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
       <ViewTracker lectureId={lecture.id} />
-      {embedUrl && session?.user?.role === "STUDENT" && (
+      {embedUrl && (session?.user?.role === "STUDENT" || !session?.user) && (
         <WatchTimeTracker lectureId={lecture.id} iframeId={`lecture-player-${lecture.id}`} />
       )}
       <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
@@ -55,17 +55,24 @@ export default async function LectureDetailPage({
             )}
           </div>
 
-          <div className="mt-3 flex flex-wrap items-center gap-2">
+          {session?.user?.role === "STUDENT" && (
+            <p className="mt-3 flex items-center gap-1.5 rounded-[var(--radius-md)] bg-primary/10 px-3 py-2 text-sm font-medium text-primary">
+              <PlayCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
+              {t("lectures.public.detail.watchHereHint")}
+            </p>
+          )}
+
+          <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
+            <ReportBrokenLinkButton lectureId={lecture.id} />
+            <span aria-hidden="true">·</span>
             <a
               href={youtubeWatchUrl(lecture.youtubeUrl)}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+              className="inline-flex items-center gap-1 hover:text-foreground hover:underline"
             >
-              <ExternalLink className="h-4 w-4" /> {t("lectures.public.detail.openOnYoutube")}
+              <ExternalLink className="h-3.5 w-3.5" /> {t("lectures.public.detail.openOnYoutube")}
             </a>
-            <span className="text-muted-foreground">·</span>
-            <ReportBrokenLinkButton lectureId={lecture.id} />
           </div>
 
           <h1 className="mt-4 font-sans text-2xl font-bold text-foreground">{lecture.title}</h1>

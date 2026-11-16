@@ -16,7 +16,8 @@
       "views": "{count} views",
       "durationMinutes": "{count} min",
       "playlistLabel": "Playlist: {title}",
-      "relatedTitle": "Related Lectures"
+      "relatedTitle": "Related Lectures",
+      "watchHereHint": "You're watching on Pariksha Saathi — this counts toward your learning progress."
     }
   },
   "language": {

@@ -201,7 +201,7 @@ export async function getTopSchools(limit = 10): Promise<SchoolRow[]> {
 // ---------------------------------------------------------------- videos
 
 export async function getVideoTotals() {
-  const [lectures, views, watch, notes, quizAttempts] = await Promise.all([
+  const [lectures, views, watch, anon, notes, quizAttempts] = await Promise.all([
     prisma.lecture.count({ where: { deletedAt: null, isPublished: true } }),
     prisma.lecture.aggregate({ where: { deletedAt: null }, _sum: { views: true } }),
     prisma.$queryRawUnsafe<{ viewers: bigint; secs: bigint | null; completions: bigint; pairs: bigint }[]>(`
@@ -209,10 +209,15 @@ export async function getVideoTotals() {
              COUNT(*) FILTER (WHERE watched) AS completions, COUNT(*) AS pairs
       FROM "LectureWatchProgress"
     `),
+    prisma.$queryRawUnsafe<{ viewers: bigint; secs: bigint | null }[]>(`
+      SELECT COUNT(DISTINCT "visitorKey") AS viewers, SUM("watchedSeconds") AS secs
+      FROM "AnonLectureWatch"
+    `),
     prisma.note.aggregate({ where: { deletedAt: null }, _sum: { downloads: true } }),
     prisma.quizAttempt.count(),
   ]);
   const w = watch[0];
+  const a = anon[0];
   return {
     publishedLectures: lectures,
     views: views._sum.views ?? 0,
@@ -220,6 +225,8 @@ export async function getVideoTotals() {
     watchHours: n(w?.secs) / 3600,
     completions: n(w?.completions),
     completionRate: n(w?.pairs) > 0 ? (n(w?.completions) / n(w?.pairs)) * 100 : null,
+    guestViewers: n(a?.viewers),
+    guestWatchHours: n(a?.secs) / 3600,
     noteDownloads: notes._sum.downloads ?? 0,
     quizAttempts,
   };

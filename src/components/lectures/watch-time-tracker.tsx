@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { getVisitorId } from "@/lib/visitor-id";
 
 // Minimal shape of the bits of the YouTube IFrame Player API this component
 // actually uses — the full type-def lives in an untyped third-party package
@@ -52,7 +53,9 @@ function loadYoutubeApi(): Promise<YTNamespace> {
 function sendPing(lectureId: string, deltaSeconds: number, useBeacon: boolean) {
   if (deltaSeconds <= 0) return;
   const url = `/api/lectures/${lectureId}/watch-ping`;
-  const payload = JSON.stringify({ deltaSeconds });
+  // visitorKey is used by the server only when the viewer isn't logged in, to
+  // record guest watch time separately; a signed-in session ignores it.
+  const payload = JSON.stringify({ deltaSeconds, visitorKey: getVisitorId() });
   if (useBeacon && navigator.sendBeacon) {
     navigator.sendBeacon(url, new Blob([payload], { type: "application/json" }));
   } else {

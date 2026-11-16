@@ -145,5 +145,11 @@
   "colAdmins": "एडमिन",
   "colVisitors": "अद्वितीय विज़िटर",
   "colOpens": "ओपन",
-  "trafficRoleNote": "\"अतिथि\" वे विज़िटर हैं जो लॉगिन नहीं हैं।"
+  "trafficRoleNote": "\"अतिथि\" वे विज़िटर हैं जो लॉगिन नहीं हैं।",
+  "studentWatchHours": "विद्यार्थी देखने के घंटे",
+  "studentWatchHoursSub": "केवल लॉगिन विद्यार्थियों द्वारा ऐप में देखा गया",
+  "guestWatchHours": "अतिथि देखने के घंटे",
+  "guestWatchHoursSub": "बिना लॉगिन विज़िटर द्वारा ऐप में देखा गया",
+  "guestViewers": "अतिथि दर्शक",
+  "guestViewersSub": "व्याख्यान देखने वाले अलग-अलग बिना लॉगिन विज़िटर"
 }

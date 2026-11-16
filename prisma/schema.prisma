@@ -750,3 +750,18 @@ model Feedback {
   @@index([status])
   @@index([createdAt])
 }
+
+// Accumulated playback seconds for a NOT-logged-in viewer, keyed by the same
+// random browser id used for guest traffic (no personal data). Kept separate
+// from LectureWatchProgress so guest watch time never mixes into logged-in
+// student watch hours in the report.
+model AnonLectureWatch {
+  id             String   @id @default(cuid())
+  lectureId      String
+  visitorKey     String
+  watchedSeconds Int      @default(0)
+  updatedAt      DateTime @updatedAt
+
+  @@unique([lectureId, visitorKey])
+  @@index([lectureId])
+}

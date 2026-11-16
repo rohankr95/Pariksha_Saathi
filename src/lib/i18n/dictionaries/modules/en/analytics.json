@@ -145,5 +145,11 @@
   "colAdmins": "Admins",
   "colVisitors": "Unique visitors",
   "colOpens": "Opens",
-  "trafficRoleNote": "\"Guests\" are visitors who are not logged in."
+  "trafficRoleNote": "\"Guests\" are visitors who are not logged in.",
+  "studentWatchHours": "Student watch hours",
+  "studentWatchHoursSub": "In-app playback by logged-in students only",
+  "guestWatchHours": "Guest watch hours",
+  "guestWatchHoursSub": "In-app playback by visitors who are not logged in",
+  "guestViewers": "Guest viewers",
+  "guestViewersSub": "Distinct not-logged-in visitors who watched a lecture"
 }

@@ -16,7 +16,8 @@
       "views": "{count} बार देखा गया",
       "durationMinutes": "{count} मिनट",
       "playlistLabel": "प्लेलिस्ट: {title}",
-      "relatedTitle": "संबंधित व्याख्यान"
+      "relatedTitle": "संबंधित व्याख्यान",
+      "watchHereHint": "आप परीक्षा साथी पर देख रहे हैं — यह आपकी सीखने की प्रगति में गिना जाता है।"
     }
   },
   "language": {

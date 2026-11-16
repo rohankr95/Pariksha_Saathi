@@ -10,12 +10,9 @@ const MAX_DELTA_SECONDS = 30;
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await auth();
-  if (!session?.user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   const { id: lectureId } = await params;
   const body = await req.json().catch(() => null);
+
   const deltaSeconds = Math.floor(Number(body?.deltaSeconds));
   if (!Number.isFinite(deltaSeconds) || deltaSeconds <= 0) {
     return NextResponse.json({ error: "Invalid deltaSeconds" }, { status: 400 });
@@ -28,6 +25,26 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   });
   if (!lecture) {
     return NextResponse.json({ error: "Lecture not found" }, { status: 404 });
+  }
+
+  // Not logged in → record as a GUEST watch, keyed by the random browser id.
+  if (!session?.user) {
+    const visitorKey = typeof body?.visitorKey === "string" ? body.visitorKey : "";
+    if (!/^[A-Za-z0-9_-]{8,64}$/.test(visitorKey)) {
+      return NextResponse.json({ ok: true });
+    }
+    await prisma.anonLectureWatch.upsert({
+      where: { lectureId_visitorKey: { lectureId, visitorKey } },
+      create: { lectureId, visitorKey, watchedSeconds: clampedDelta },
+      update: { watchedSeconds: { increment: clampedDelta } },
+    });
+    return NextResponse.json({ ok: true });
+  }
+
+  // Only a student's own viewing counts toward student watch hours; teachers
+  // and admins previewing a lecture are not recorded.
+  if (session.user.role !== "STUDENT") {
+    return NextResponse.json({ ok: true });
   }
 
   const progress = await prisma.lectureWatchProgress.upsert({
