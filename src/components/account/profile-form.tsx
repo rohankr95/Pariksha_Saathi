@@ -12,7 +12,7 @@ import { updateProfile, type UpdateProfileState } from "@/app/account/actions";
 export type ProfileFormData = {
   isStudent: boolean;
   name: string;
-  email: string;
+  email: string | null;
   mobile: string | null;
   classLevel: string | null;
   school: string | null;
@@ -38,7 +38,7 @@ export function ProfileForm({ initial }: { initial: ProfileFormData }) {
         </div>
         <div className="space-y-1.5">
           <Label htmlFor="email">{t("account.profile.email")}</Label>
-          <Input id="email" name="email" type="email" defaultValue={v.email} required autoComplete="email" />
+          <Input id="email" name="email" type="email" defaultValue={v.email ?? ""} autoComplete="email" />
           <p className="text-xs text-muted-foreground">{t("account.profile.emailHint")}</p>
         </div>
         <div className="space-y-1.5">

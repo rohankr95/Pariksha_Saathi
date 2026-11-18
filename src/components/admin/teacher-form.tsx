@@ -19,7 +19,7 @@ export function TeacherForm({
   action,
 }: {
   subjects: Subject[];
-  initial?: { name: string; email: string; mobile: string | null; subjectIds: string[] };
+  initial?: { name: string; email: string | null; mobile: string | null; subjectIds: string[] };
   action: (prev: TeacherFormState, formData: FormData) => Promise<TeacherFormState>;
 }) {
   const [state, formAction, pending] = useActionState(action, initialState);

@@ -119,9 +119,9 @@ async function notifyBooking(
     summary: `शंका समाधान: ${topic}`,
     description: `विद्यार्थी: ${student.name}\nशिक्षक: ${teacher.name}\nविषय: ${topic}`,
     location,
-    organizerEmail: teacher.email,
+    organizerEmail: teacher.email ?? "",
     organizerName: teacher.name,
-    attendeeEmails: [student.email, teacher.email],
+    attendeeEmails: [student.email, teacher.email].filter((e): e is string => Boolean(e)),
   });
 
   const commonDetails = `<p><strong>दिनांक/समय (IST):</strong> ${when}</p>

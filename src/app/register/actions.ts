@@ -8,7 +8,12 @@ import { getT } from "@/lib/i18n/server";
 
 const registerSchema = z.object({
   name: z.string().min(2).max(100),
-  email: z.string().email(),
+  // Optional — many students don't have an email. Mobile is the identifier
+  // everyone has, so it stays required; email is used only if provided.
+  email: z
+    .string()
+    .trim()
+    .refine((v) => v === "" || z.string().email().safeParse(v).success, "अमान्य ईमेल"),
   password: z.string().min(6).max(100),
   mobile: z.string().regex(/^[6-9]\d{9}$/, "अमान्य मोबाइल नंबर"),
   classLevel: z.enum(["CLASS_9", "CLASS_10", "CLASS_11", "CLASS_12"]),
@@ -38,9 +43,12 @@ export async function registerStudent(
     return { error: issue?.message ?? "अमान्य जानकारी" };
   }
 
-  const { name, email, password, mobile, classLevel, school, block } = parsed.data;
+  const { name, password, mobile, classLevel, school, block } = parsed.data;
+  const email = parsed.data.email === "" ? null : parsed.data.email;
 
-  const existing = await prisma.user.findFirst({ where: { OR: [{ email }, { mobile }] } });
+  const existing = await prisma.user.findFirst({
+    where: { OR: [...(email ? [{ email }] : []), { mobile }] },
+  });
   if (existing) {
     return { error: "इस ईमेल या मोबाइल नंबर से पहले से खाता मौजूद है" };
   }

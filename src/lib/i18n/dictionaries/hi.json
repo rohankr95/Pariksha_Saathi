@@ -120,7 +120,10 @@
     "registerCta": "पंजीकरण करें",
     "noAccount": "खाता नहीं है?",
     "haveAccount": "पहले से खाता है?",
-    "invalidCredentials": "ईमेल या पासवर्ड गलत है"
+    "invalidCredentials": "ईमेल या पासवर्ड गलत है",
+    "identifier": "ईमेल या मोबाइल नंबर",
+    "emailOptional": "ईमेल (वैकल्पिक)",
+    "mobileRegisterHint": "आप इसी नंबर से लॉगिन करेंगे।"
   },
   "common": {
     "notice": "सूचना",

@@ -14,7 +14,7 @@ export default function LoginPage() {
   const { t } = useLocale();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
     const res = await signIn("credentials", {
-      email,
+      identifier,
       password,
       redirect: false,
     });
@@ -46,14 +46,15 @@ export default function LoginPage() {
         </h1>
         <form onSubmit={onSubmit} className="mt-6 space-y-4" noValidate>
           <div className="space-y-1.5">
-            <Label htmlFor="email">{t("auth.email")}</Label>
+            <Label htmlFor="identifier">{t("auth.identifier")}</Label>
             <Input
-              id="email"
-              type="email"
-              autoComplete="email"
+              id="identifier"
+              type="text"
+              autoComplete="username"
+              autoCapitalize="none"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
             />
           </div>
           <div className="space-y-1.5">

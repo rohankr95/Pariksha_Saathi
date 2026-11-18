@@ -35,15 +35,14 @@ export default function RegisterPage() {
             <Label htmlFor="name">{t("auth.name")}</Label>
             <Input id="name" name="name" required minLength={2} />
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1.5">
-              <Label htmlFor="email">{t("auth.email")}</Label>
-              <Input id="email" name="email" type="email" required />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="mobile">{t("auth.mobile")}</Label>
-              <Input id="mobile" name="mobile" type="tel" required pattern="[6-9][0-9]{9}" maxLength={10} />
-            </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="mobile">{t("auth.mobile")}</Label>
+            <Input id="mobile" name="mobile" type="tel" inputMode="numeric" required pattern="[6-9][0-9]{9}" maxLength={10} />
+            <p className="text-xs text-muted-foreground">{t("auth.mobileRegisterHint")}</p>
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="email">{t("auth.emailOptional")}</Label>
+            <Input id="email" name="email" type="email" autoComplete="email" />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="password">{t("auth.password")}</Label>

@@ -22,8 +22,8 @@
     "sectionAccount": "Account details",
     "sectionStudent": "School details",
     "name": "Full name",
-    "email": "Email",
-    "emailHint": "You log in with this email. If you change it, use the new email next time.",
+    "email": "Email (optional)",
+    "emailHint": "Optional — add it only if you have one. You can also log in with your mobile number.",
     "mobile": "Mobile number",
     "mobileOptional": "Mobile number (optional)",
     "classLevel": "Class",
@@ -54,7 +54,8 @@
       "displayName": "Leaderboard name can be at most 40 characters.",
       "emailTaken": "Another account already uses this email.",
       "mobileTaken": "Another account already uses this mobile number.",
-      "generic": "Something went wrong. Please try again."
+      "generic": "Something went wrong. Please try again.",
+      "needContact": "Please keep at least an email or a mobile number so you can log in."
     },
     "blockMissing": "Your block is not saved yet. Please choose your block below and save."
   }

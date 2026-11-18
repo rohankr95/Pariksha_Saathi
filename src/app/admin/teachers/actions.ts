@@ -68,7 +68,7 @@ export async function createTeacher(_prev: TeacherFormState, formData: FormData)
      <p>कृपया लॉगिन कर अपना पासवर्ड बदल लें।</p>`,
     `आपका शिक्षक खाता बन गया है — ईमेल: ${teacher.email}, अस्थायी पासवर्ड: ${tempPassword}`
   );
-  await sendEmail({ to: teacher.email, subject: "परीक्षा साथी: शिक्षक खाता बना", html, text });
+  if (teacher.email) await sendEmail({ to: teacher.email, subject: "परीक्षा साथी: शिक्षक खाता बना", html, text });
 
   revalidatePath("/admin/teachers");
   redirect("/admin/teachers");
@@ -131,7 +131,7 @@ export async function resetTeacherPassword(id: string) {
      <p>कृपया लॉगिन कर इसे तुरंत बदल लें।</p>`,
     `आपका नया अस्थायी पासवर्ड: ${tempPassword}`
   );
-  await sendEmail({ to: teacher.email, subject: "परीक्षा साथी: पासवर्ड रीसेट", html, text });
+  if (teacher.email) await sendEmail({ to: teacher.email, subject: "परीक्षा साथी: पासवर्ड रीसेट", html, text });
 
   revalidatePath("/admin/teachers");
 }

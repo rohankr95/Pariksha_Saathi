@@ -70,7 +70,7 @@ export async function GET(req: NextRequest) {
 }
 
 async function notifyBoth(
-  b: { topic: string; student: { name: string; email: string }; teacher: { name: string; email: string } },
+  b: { topic: string; student: { name: string; email: string | null }; teacher: { name: string; email: string | null } },
   when: string,
   location: string,
   label: string

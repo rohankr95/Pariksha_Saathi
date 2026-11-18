@@ -55,7 +55,10 @@ const MOBILE_RE = /^[6-9]\d{9}$/;
 
 const profileSchema = z.object({
   name: z.string().trim().min(2, "name").max(100, "name"),
-  email: z.string().trim().email("email"),
+  email: z
+    .string()
+    .trim()
+    .refine((v) => v === "" || z.string().email().safeParse(v).success, "email"),
   mobile: z
     .string()
     .trim()
@@ -108,18 +111,24 @@ export async function updateProfile(_prev: UpdateProfileState, formData: FormDat
     return { error: t(`account.profile.errors.${field}`), values: raw };
   }
   const base = parsed.data;
+  const email = base.email === "" ? null : base.email;
   const mobile = base.mobile === "" ? null : base.mobile;
+
+  // Never let someone leave themselves with no way to log in.
+  if (!email && !mobile) {
+    return { error: t("account.profile.errors.needContact"), values: raw };
+  }
 
   const clash = await prisma.user.findFirst({
     where: {
       id: { not: session.user.id },
-      OR: [{ email: base.email }, ...(mobile ? [{ mobile }] : [])],
+      OR: [...(email ? [{ email }] : []), ...(mobile ? [{ mobile }] : [])],
     },
     select: { email: true },
   });
   if (clash) {
     return {
-      error: t(clash.email === base.email ? "account.profile.errors.emailTaken" : "account.profile.errors.mobileTaken"),
+      error: t(clash.email === email ? "account.profile.errors.emailTaken" : "account.profile.errors.mobileTaken"),
       values: raw,
     };
   }
@@ -129,7 +138,7 @@ export async function updateProfile(_prev: UpdateProfileState, formData: FormDat
     where: { id: session.user.id },
     data: {
       name: base.name,
-      email: base.email,
+      email,
       mobile,
       ...(student && {
         classLevel: student.classLevel,

@@ -120,7 +120,10 @@
     "registerCta": "Register",
     "noAccount": "Don't have an account?",
     "haveAccount": "Already have an account?",
-    "invalidCredentials": "Incorrect email or password"
+    "invalidCredentials": "Incorrect email or password",
+    "identifier": "Email or mobile number",
+    "emailOptional": "Email (optional)",
+    "mobileRegisterHint": "You'll use this number to log in."
   },
   "common": {
     "notice": "Notice",

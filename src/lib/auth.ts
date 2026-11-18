@@ -5,8 +5,9 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { authConfig } from "@/lib/auth.config";
 
+// `identifier` is either an email or a 10-digit mobile number.
 const credentialsSchema = z.object({
-  email: z.string().email(),
+  identifier: z.string().trim().min(1),
   password: z.string().min(6),
 });
 
@@ -39,15 +40,20 @@ export const { handlers, auth, signIn, signOut, unstable_update } = NextAuth({
     Credentials({
       name: "credentials",
       credentials: {
-        email: { label: "Email", type: "email" },
+        identifier: { label: "Email or mobile", type: "text" },
         password: { label: "Password", type: "password" },
       },
       async authorize(rawCredentials) {
         const parsed = credentialsSchema.safeParse(rawCredentials);
         if (!parsed.success) return null;
-        const { email, password } = parsed.data;
+        const { identifier, password } = parsed.data;
 
-        const user = await prisma.user.findUnique({ where: { email } });
+        // Match either the email or the mobile number. Both are unique and a
+        // mobile (digits) can never collide with an email, so this finds at
+        // most one account.
+        const user = await prisma.user.findFirst({
+          where: { OR: [{ email: identifier }, { mobile: identifier }] },
+        });
         if (!user || !user.isActive) return null;
 
         const passwordMatches = await bcrypt.compare(password, user.passwordHash);

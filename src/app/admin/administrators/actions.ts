@@ -86,7 +86,7 @@ export async function createAdmin(_prev: AdminFormState, formData: FormData): Pr
      <p>कृपया आपको दिया गया पासवर्ड उपयोग कर लॉगिन करें और उसे तुरंत बदल लें।</p>`,
     `आपका सुपर एडमिन खाता बन गया है — ईमेल: ${admin.email}. कृपया लॉगिन कर पासवर्ड बदल लें।`
   );
-  await sendEmail({ to: admin.email, subject: "परीक्षा साथी: सुपर एडमिन खाता बना", html, text });
+  if (admin.email) await sendEmail({ to: admin.email, subject: "परीक्षा साथी: सुपर एडमिन खाता बना", html, text });
 
   revalidatePath("/admin/administrators");
   redirect("/admin/administrators");
@@ -140,7 +140,7 @@ export async function resetAdminPassword(id: string) {
      <p>कृपया लॉगिन कर इसे तुरंत बदल लें।</p>`,
     `आपका नया अस्थायी पासवर्ड: ${tempPassword}`
   );
-  await sendEmail({ to: admin.email, subject: "परीक्षा साथी: पासवर्ड रीसेट", html, text });
+  if (admin.email) await sendEmail({ to: admin.email, subject: "परीक्षा साथी: पासवर्ड रीसेट", html, text });
 
   revalidatePath("/admin/administrators");
 }
