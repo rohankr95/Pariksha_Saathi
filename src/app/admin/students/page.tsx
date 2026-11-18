@@ -12,6 +12,7 @@ import { ConfirmSubmitButton } from "@/components/admin/confirm-submit-button";
 import { BLOCKS, blockLabel, isBlockValue } from "@/lib/blocks";
 import { CLASS_LEVEL_LABEL } from "@/lib/queries/curriculum";
 import { EMPTY_BLOCK, getAdminStudents, getBlockCleanupSummary } from "@/lib/queries/admin-students";
+import { ResetStudentPasswordButton } from "@/components/admin/reset-student-password-button";
 import { applySuggestedBlocks, inferBlocksFromSchool, mapBlockValue } from "./actions";
 
 const CLASS_LEVELS: ClassLevel[] = ["CLASS_9", "CLASS_10", "CLASS_11", "CLASS_12"];
@@ -227,6 +228,7 @@ export default async function AdminStudentsPage({
                   <th className="p-3">{t("admin.students.list.colSchool")}</th>
                   <th className="p-3">{t("admin.students.list.colContact")}</th>
                   <th className="p-3">{t("admin.students.list.colRegistered")}</th>
+                  <th className="p-3 text-right">{t("admin.students.list.colActions")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -256,6 +258,9 @@ export default async function AdminStudentsPage({
                       <div className="max-w-[200px] truncate">{s.email}</div>
                     </td>
                     <td className="whitespace-nowrap p-3 text-xs text-muted-foreground">{formatDate(s.createdAt)}</td>
+                    <td className="p-3 text-right">
+                      <ResetStudentPasswordButton studentId={s.id} studentName={s.name} />
+                    </td>
                   </tr>
                 ))}
               </tbody>

@@ -192,7 +192,21 @@
       "colContact": "Contact",
       "colRegistered": "Registered",
       "empty": "No students match these filters.",
-      "inactive": "Inactive"
+      "inactive": "Inactive",
+      "colActions": "Actions"
+    },
+    "reset": {
+      "action": "Reset password",
+      "confirm": "Reset the password for {name}? A new temporary password will be created.",
+      "title": "New temporary password",
+      "forStudent": "For {name}",
+      "copy": "Copy",
+      "copied": "Copied",
+      "emailedNote": "Also emailed to the student.",
+      "noEmailNote": "This student has no email — note this password and give it to them directly.",
+      "instruction": "Ask them to log in and change it under My Profile → Change Password.",
+      "close": "Close",
+      "error": "Could not reset the password. Please try again."
     }
   },
   "administrators": {
