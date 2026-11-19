@@ -8,7 +8,8 @@
       "description": "फ़िल्टर बदलकर पुनः प्रयास करें, या जल्द ही नए व्याख्यान जोड़े जाएँगे।"
     },
     "card": {
-      "watchedBadge": "देखा गया ✓"
+      "watchedBadge": "देखा गया ✓",
+      "latestBadge": "नवीनतम"
     },
     "detail": {
       "videoUnavailable": "वीडियो लोड नहीं हो सका",

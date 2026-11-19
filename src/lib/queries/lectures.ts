@@ -32,7 +32,8 @@ export async function getLectures(filters: LectureFilters) {
     prisma.lecture.findMany({
       where,
       include: { subject: true, chapter: true, createdBy: { select: { name: true } } },
-      orderBy: [{ displayOrder: "asc" }, { createdAt: "desc" }],
+      // Newest upload first; id as a stable tiebreaker for same-second uploads.
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
       skip: (page - 1) * PAGE_SIZE,
       take: PAGE_SIZE,
     }),
@@ -40,6 +41,16 @@ export async function getLectures(filters: LectureFilters) {
   ]);
 
   return { items, total, page, totalPages: Math.max(1, Math.ceil(total / PAGE_SIZE)) };
+}
+
+/** Id of the single most recently uploaded published lecture (for the "Latest" badge). */
+export async function getLatestLectureId(): Promise<string | null> {
+  const latest = await prisma.lecture.findFirst({
+    where: { isPublished: true, deletedAt: null },
+    orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+    select: { id: true },
+  });
+  return latest?.id ?? null;
 }
 
 export async function getLectureById(id: string) {

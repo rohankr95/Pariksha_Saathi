@@ -1,6 +1,6 @@
 import { PlayCircle } from "lucide-react";
 import { auth } from "@/lib/auth";
-import { getLectures } from "@/lib/queries/lectures";
+import { getLectures, getLatestLectureId } from "@/lib/queries/lectures";
 import { getSubjects, getChapters } from "@/lib/queries/curriculum";
 import { getWatchedLectureIds } from "@/lib/queries/lectures";
 import { ContentFilterBar } from "@/components/shared/content-filter-bar";
@@ -32,11 +32,12 @@ export default async function LecturesPage({
     page: sp.page ? Number(sp.page) : 1,
   };
 
-  const [{ items, page, totalPages }, subjects, chapters, watchedIds] = await Promise.all([
+  const [{ items, page, totalPages }, subjects, chapters, watchedIds, latestId] = await Promise.all([
     getLectures(filters),
     getSubjects(filters.classLevel),
     getChapters(filters.subjectId),
     session?.user ? getWatchedLectureIds(session.user.id) : Promise.resolve(new Set<string>()),
+    getLatestLectureId(),
   ]);
 
   return (
@@ -64,7 +65,7 @@ export default async function LecturesPage({
         <>
           <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {items.map((lecture) => (
-              <LectureCard key={lecture.id} lecture={lecture} watched={watchedIds.has(lecture.id)} />
+              <LectureCard key={lecture.id} lecture={lecture} watched={watchedIds.has(lecture.id)} isLatest={lecture.id === latestId} />
             ))}
           </div>
           <AdminPagination page={page} totalPages={totalPages} basePath="/lectures" searchParams={sp} />

@@ -8,7 +8,8 @@
       "description": "Try changing the filters, or new lectures will be added soon."
     },
     "card": {
-      "watchedBadge": "Watched ✓"
+      "watchedBadge": "Watched ✓",
+      "latestBadge": "Latest"
     },
     "detail": {
       "videoUnavailable": "Video could not be loaded",

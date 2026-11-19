@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { PlayCircle, Eye } from "lucide-react";
+import { PlayCircle, Eye, Sparkles } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { LectureThumbnail } from "@/components/lectures/thumbnail";
@@ -23,7 +23,15 @@ function formatDuration(sec: number | null) {
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
-export async function LectureCard({ lecture, watched }: { lecture: LectureCardData; watched?: boolean }) {
+export async function LectureCard({
+  lecture,
+  watched,
+  isLatest,
+}: {
+  lecture: LectureCardData;
+  watched?: boolean;
+  isLatest?: boolean;
+}) {
   const t = await getT();
   return (
     <Link href={`/lectures/${lecture.id}`}>
@@ -38,11 +46,19 @@ export async function LectureCard({ lecture, watched }: { lecture: LectureCardDa
               {formatDuration(lecture.durationSec)}
             </span>
           )}
-          {watched && (
-            <span className="absolute left-1.5 top-1.5 rounded-full bg-success px-2 py-0.5 text-[10px] font-semibold text-white">
-              {t("lectures.public.card.watchedBadge")}
-            </span>
-          )}
+          <div className="absolute left-1.5 top-1.5 flex flex-col items-start gap-1">
+            {isLatest && (
+              <span className="flex items-center gap-1 rounded-full bg-primary px-2 py-0.5 text-[10px] font-semibold text-primary-foreground shadow">
+                <Sparkles className="h-2.5 w-2.5" aria-hidden="true" />
+                {t("lectures.public.card.latestBadge")}
+              </span>
+            )}
+            {watched && (
+              <span className="rounded-full bg-success px-2 py-0.5 text-[10px] font-semibold text-white">
+                {t("lectures.public.card.watchedBadge")}
+              </span>
+            )}
+          </div>
         </div>
         <div className="p-3.5">
           <p className="line-clamp-2 text-sm font-semibold leading-snug text-foreground">
